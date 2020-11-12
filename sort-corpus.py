@@ -77,21 +77,7 @@ class TweetCorpus:
 				#print("BENT is found")
 			else:
 				continue
-	
-			# Detect the language of this tweet
-			#try:
-			#	language = detect(tweet_text)
-			## I've deduced from testing that if language detecting fails, there is no actual language to be found
-			## in the tweet (consists only of smiley faces etc.), so we can safely reject this tweet
-			#except:
-			#	continue
-#	
-			## Sometimes, the library returns 'Afrikaans' for Dutch tweets
-			## I don't think we have any Afrikaans data here, so I accept both languages
-			## If the language of the tweet is not Dutch, reject this tweet
-			#if not language in ["nl", "af"]:
-			#	continue
-	
+				
 			# If by chance there are no latlong values for this tweet, we have to reject the tweet
 			# because we cannot be sure where it comes from
 			if not "lat" in tweet.attrib or not "lng" in tweet.attrib:
