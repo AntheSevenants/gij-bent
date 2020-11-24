@@ -17,16 +17,17 @@ class CsvWriter:
 		self.output_filename = "corpus/{}.csv".format(os.path.basename(filename).replace(".xml", ""))
 
 		with open(self.output_filename, "w", encoding='utf8') as csv_file:
-			csv_file.write("tweet_text;dialect;is_reply;polarity;construction_type\n")
+			csv_file.write("tweet_text;username;dialect;is_reply;polarity;construction_type\n")
 
 		print("CSV header written")
 
-	def write_tweet(self, tweet_text, dialect, is_reply, polarity, construction_type):
+	def write_tweet(self, tweet_text, username, dialect, is_reply, polarity, construction_type):
 		# As per the CSV spec, you need to escape " as ""
 		tweet_text = tweet_text.replace("\"", "\"\"")
 
 		with open(self.output_filename, "a", encoding='utf8') as csv_file:
-			csv_file.write("\"{}\";{};{};{};{}\n".format(tweet_text,
+			csv_file.write("\"{}\";{};{};{};{};{}\n".format(tweet_text,
+													   username,
 													   dialect,
 													   is_reply,
 													   polarity,
@@ -59,6 +60,8 @@ class TweetCorpus:
 			if type(tweet_text) != str:
 				print("Broken tweet")
 				continue
+
+			username = tweet.attrib["user"]
 	
 			# Remove URLs from tweet (we aren't interested in them)
 			tweet_text = re.sub(r'https?:\/\/.*\b', '', tweet_text).strip()
@@ -116,7 +119,7 @@ class TweetCorpus:
 			# Sentiment analysis
 			polarity = sentiment(tweet_text)[0]
 	
-			csv_writer.write_tweet(tweet_text, dialect, is_reply, polarity, construction_type)
+			csv_writer.write_tweet(tweet_text, username, dialect, is_reply, polarity, construction_type)
 
 # Get all the corpus files
 tweet_files = os.listdir("tweets")
