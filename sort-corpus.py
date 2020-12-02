@@ -126,13 +126,22 @@ class TweetCorpus:
 			else:
 				continue
 
-			# If by chance there are no latlong values for this tweet, we have to reject the tweet
-			# because we cannot be sure where it comes from
+			# If by chance there are no latlong values for this tweet, we have to find the coordinates ourselves
+			# because we need the coordinates to find the dialect region
 			if not "lat" in tweet.attrib or not "lng" in tweet.attrib:
-				continue
-		
-			lat = float(tweet.attrib["lat"])
-			lng = float(tweet.attrib["lng"])
+				print("No latlong found, looking up coordinates")
+				location = geolocator.geocode(tweet.attrib["norm_loc"])
+
+				if location is None:
+					return
+
+				print("Coordinates found")
+				lat = float(location.latitude)
+				lng = float(location.longitude)
+			# If there are coordinates, we can just take them from the metadata of the tweet
+			else:
+				lat = float(tweet.attrib["lat"])
+				lng = float(tweet.attrib["lng"])
 
 			dialect = self.dialect_resolution.point_to_dialect(lat, lng)
 			print(dialect)
