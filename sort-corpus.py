@@ -19,29 +19,30 @@ geolocator = Nominatim(user_agent="Anthe Sevenants corpus linguistics research (
 # https://stackoverflow.com/questions/20776205/point-in-polygon-with-geojson-in-python
 class DialectResolutionService:
 	def __init__(self, dialects_file, filter_name):
+		# Load dialect regions from json
 		with open(dialects_file) as file:
 			geo_json = json.load(file)
 
 		self.dialects = {}
 
+		# Initialise each dialect region in memory
 		for feature in geo_json["features"]:
 			dialect = feature["properties"][filter_name]
 			self.dialects[dialect] = shape(feature['geometry'])
-
-		print(self.dialects)
 
 	def point_to_dialect(self, lat, lng):
 		lat = float(lat)
 		lng = float(lng)
 
-		print(lat, lng)
+		# Go over each dialect region and check whether the point falls within the region
 		for dialect in self.dialects:
 			geo_point = Point(lng, lat)
 
 			if self.dialects[dialect].contains(geo_point):
 				return dialect
 
-		# If the dialect wasn't anywhere in our dialect region, something must have gone wrong so we return False
+		# If the dialect wasn't anywhere in our dialect region, the point is probably somewhere in Wallonia
+		# So we return False
 		return False
 
 class CsvWriter:
@@ -126,7 +127,7 @@ class TweetCorpus:
 			else:
 				continue
 
-			# If by chance there are no latlong values for this tweet, we have to find the coordinates ourselves
+			# If there are no latlong values for this tweet, we have to find the coordinates ourselves
 			# because we need the coordinates to find the dialect region
 			if not "lat" in tweet.attrib or not "lng" in tweet.attrib:
 				print("No latlong found, looking up coordinates")
