@@ -151,7 +151,7 @@ class TweetCorpus:
 
 			distance_from_north_antwerp = Point(lng, lat).distance(Point(4.780751, 51.321583))
 			print(distance_from_north_antwerp)
-			distance_from_north_antwerp = math.log(distance_from_north_antwerp * 100)
+			#distance_from_north_antwerp = math.log(distance_from_north_antwerp * 100)
 		
 			# All Twitter replies start with @
 			is_reply = tweet_text[0] == "@"
