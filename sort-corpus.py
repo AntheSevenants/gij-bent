@@ -120,7 +120,7 @@ class TweetCorpus:
 				construction_type = "zijt"
 				csv_writer = self.csv_writer_zijt
 				#print("ZIJT is found")
-			elif re.search(r'ben', tweet_text, re.IGNORECASE) is not None:
+			elif re.search(r'\bben[td]', tweet_text, re.IGNORECASE) is not None:
 				construction_type = "bent"
 				csv_writer = self.csv_writer_bent
 				#print("BENT is found")
