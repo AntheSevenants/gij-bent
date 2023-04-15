@@ -4,6 +4,7 @@ import re
 import math
 
 from glob import glob
+from tqdm.auto import tqdm
 
 from lxml import etree, html
 from geopy.geocoders import Nominatim
@@ -53,7 +54,7 @@ class CsvWriter:
 		with open(self.output_filename, "w", encoding='utf8') as csv_file:
 			csv_file.write("tweet_text;username;dialect;is_reply;distance_from_north_antwerp;construction_type\n")
 
-		print("CSV header written")
+		#print("CSV header written")
 
 	def write_tweet(self, tweet_text, username, dialect, is_reply, distance_from_north_antwerp, construction_type):
 		# As per the CSV spec, you need to escape " as ""
@@ -67,11 +68,11 @@ class CsvWriter:
 													   distance_from_north_antwerp,
 													   construction_type))
 
-		print("Tweet written to file")
+		#print("Tweet written to file")
 
 class TweetCorpus:
 	def __init__(self, filename, csv_writer_zijt, csv_writer_bent, dialect_resolution):
-		print("Initialising corpus: {}".format(filename))
+		#print("Initialising corpus: {}".format(filename))
 		parser = etree.HTMLParser(encoding="utf-8")
 		root = html.parse(filename, parser=parser)
 		# Find all tweet nodes
@@ -83,7 +84,7 @@ class TweetCorpus:
 		self.dialect_resolution = dialect_resolution
 
 	def convert_tweets(self):
-		for tweet in self.tweets:
+		for tweet in tqdm(self.tweets, leave=False):
 			# We can check whether this tweet comes from Belgium by using the normalised location attribute
 			# Reject if tweet does not come from Belgium (sorry Dutchies)
 			if not "Belgium" in tweet.attrib["norm_loc"]:
@@ -94,7 +95,7 @@ class TweetCorpus:
 
 			# Some parts of the corpus are broken so we have to find out whether the tweet is "legal" or not
 			if type(tweet_text) != str:
-				print("Broken tweet")
+				#print("Broken tweet")
 				continue
 
 			username = tweet.attrib["user"]
@@ -130,13 +131,13 @@ class TweetCorpus:
 			# If there are no latlong values for this tweet, we have to find the coordinates ourselves
 			# because we need the coordinates to find the dialect region
 			if not "lat" in tweet.attrib or not "lng" in tweet.attrib:
-				print("No latlong found, looking up coordinates")
+				#print("No latlong found, looking up coordinates")
 				location = geolocator.geocode(tweet.attrib["norm_loc"])
 
 				if location is None:
 					return
 
-				print("Coordinates found")
+				#print("Coordinates found")
 				lat = float(location.latitude)
 				lng = float(location.longitude)
 			# If there are coordinates, we can just take them from the metadata of the tweet
@@ -145,14 +146,14 @@ class TweetCorpus:
 				lng = float(tweet.attrib["lng"])
 
 			dialect = self.dialect_resolution.point_to_dialect(lat, lng)
-			print(dialect)
+			#print(dialect)
 			if not dialect:
 				continue
 
 			# https://gis.stackexchange.com/a/80905
 			angle1, angle2, distance = geod.inv(lng, lat, antwerp_point.x, antwerp_point.y)
 			distance_from_north_antwerp = round(distance / 1000, 2)
-			print(distance_from_north_antwerp)
+			#print(distance_from_north_antwerp)
 			#distance_from_north_antwerp = math.log(distance_from_north_antwerp * 100)
 		
 			# All Twitter replies start with @
@@ -173,5 +174,5 @@ dialect_resolution = DialectResolutionService("dialects.json", "dialect")
 csv_writer_zijt = CsvWriter("corpus_zijt")
 csv_write_bent = CsvWriter("corpus_bent")
 
-for tweet_file in tweet_files:
+for tweet_file in tqdm(tweet_files):
 	TweetCorpus(tweet_file, csv_writer_zijt, csv_write_bent, dialect_resolution).convert_tweets()
