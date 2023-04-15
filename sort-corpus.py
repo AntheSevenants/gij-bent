@@ -4,8 +4,6 @@ import re
 import math
 
 from lxml import etree, html
-from io import StringIO, BytesIO
-from langdetect import detect
 from geopy.geocoders import Nominatim
 
 import json
