@@ -149,6 +149,7 @@ class TweetCorpus:
 			if not dialect:
 				continue
 
+			# https://gis.stackexchange.com/a/80905
 			angle1, angle2, distance = geod.inv(lng, lat, antwerp_point.x, antwerp_point.y)
 			distance_from_north_antwerp = round(distance / 1000, 2)
 			print(distance_from_north_antwerp)
