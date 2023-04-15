@@ -5,7 +5,6 @@ import math
 
 from lxml import etree, html
 from io import StringIO, BytesIO
-from pattern.nl import sentiment
 from langdetect import detect
 from geopy.geocoders import Nominatim
 
@@ -50,20 +49,19 @@ class CsvWriter:
 		self.output_filename = "corpus/{}.csv".format(os.path.basename(filename).replace(".xml", ""))
 
 		with open(self.output_filename, "w", encoding='utf8') as csv_file:
-			csv_file.write("tweet_text;username;dialect;is_reply;polarity;distance_from_north_antwerp;construction_type\n")
+			csv_file.write("tweet_text;username;dialect;is_reply;distance_from_north_antwerp;construction_type\n")
 
 		print("CSV header written")
 
-	def write_tweet(self, tweet_text, username, dialect, is_reply, polarity, distance_from_north_antwerp, construction_type):
+	def write_tweet(self, tweet_text, username, dialect, is_reply, distance_from_north_antwerp, construction_type):
 		# As per the CSV spec, you need to escape " as ""
 		tweet_text = tweet_text.replace("\"", "\"\"")
 
 		with open(self.output_filename, "a", encoding='utf8') as csv_file:
-			csv_file.write("\"{}\";{};{};{};{};{};{}\n".format(tweet_text,
+			csv_file.write("\"{}\";{};{};{};{};{}\n".format(tweet_text,
 													   username,
 													   dialect,
 													   is_reply,
-													   polarity,
 													   distance_from_north_antwerp,
 													   construction_type))
 
@@ -156,10 +154,7 @@ class TweetCorpus:
 			# All Twitter replies start with @
 			is_reply = tweet_text[0] == "@"
 	
-			# Sentiment analysis
-			polarity = math.fabs(sum(sentiment(tweet_text)) / 2)
-	
-			csv_writer.write_tweet(tweet_text, username, dialect, is_reply, polarity, distance_from_north_antwerp, construction_type)
+			csv_writer.write_tweet(tweet_text, username, dialect, is_reply, distance_from_north_antwerp, construction_type)
 
 # Get all the corpus files
 tweet_files = os.listdir("tweets")
