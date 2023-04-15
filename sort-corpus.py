@@ -3,6 +3,8 @@ import shutil
 import re
 import math
 
+from glob import glob
+
 from lxml import etree, html
 from geopy.geocoders import Nominatim
 
@@ -155,7 +157,7 @@ class TweetCorpus:
 			csv_writer.write_tweet(tweet_text, username, dialect, is_reply, distance_from_north_antwerp, construction_type)
 
 # Get all the corpus files
-tweet_files = os.listdir("tweets")
+tweet_files = glob("tweets/*.xml")
 
 # Reset the corpus directory
 if os.path.exists(CORPUS_DIRECTORY):
@@ -168,4 +170,4 @@ csv_writer_zijt = CsvWriter("corpus_zijt")
 csv_write_bent = CsvWriter("corpus_bent")
 
 for tweet_file in tweet_files:
-	TweetCorpus("tweets/" + tweet_file, csv_writer_zijt, csv_write_bent, dialect_resolution).convert_tweets()
+	TweetCorpus(tweet_file, csv_writer_zijt, csv_write_bent, dialect_resolution).convert_tweets()
