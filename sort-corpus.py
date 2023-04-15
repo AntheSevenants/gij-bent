@@ -7,13 +7,15 @@ from glob import glob
 
 from lxml import etree, html
 from geopy.geocoders import Nominatim
-
+import pyproj
 import json
 from shapely.geometry import shape, Point
 
 CORPUS_DIRECTORY = "corpus"
 
 geolocator = Nominatim(user_agent="Anthe Sevenants corpus linguistics research (anthe.sevenants@student.kuleuven.be)")
+geod = pyproj.Geod(ellps='WGS84') # used to compute Antwerp distance
+antwerp_point = Point(4.780751, 51.321583)
 
 # https://stackoverflow.com/questions/20776205/point-in-polygon-with-geojson-in-python
 class DialectResolutionService:
@@ -147,7 +149,8 @@ class TweetCorpus:
 			if not dialect:
 				continue
 
-			distance_from_north_antwerp = Point(lng, lat).distance(Point(4.780751, 51.321583))
+			angle1, angle2, distance = geod.inv(lng, lat, antwerp_point.x, antwerp_point.y)
+			distance_from_north_antwerp = round(distance / 1000, 2)
 			print(distance_from_north_antwerp)
 			#distance_from_north_antwerp = math.log(distance_from_north_antwerp * 100)
 		
