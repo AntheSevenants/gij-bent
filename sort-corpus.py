@@ -12,6 +12,8 @@ import pyproj
 import json
 from shapely.geometry import shape, Point
 
+import time
+
 CORPUS_DIRECTORY = "corpus"
 
 geolocator = Nominatim(user_agent="Anthe Sevenants corpus linguistics research (anthe.sevenants@student.kuleuven.be)")
@@ -117,7 +119,7 @@ class TweetCorpus:
 			# Here we find out whether the construction is "ge bent" or "ge zijt" (will be reviewed by a human later)
 			# We assign the correct csv writer object as well
 			# If nothing is found, we reject the tweet altogether
-			if re.search(r'(zi*j+|zy+|z[eéè]t?)', tweet_text, re.IGNORECASE) is not None:
+			if re.search(r'\b(zi*j+|zy+|z[eéè][td]?)', tweet_text, re.IGNORECASE) is not None:
 				construction_type = "zijt"
 				csv_writer = self.csv_writer_zijt
 				#print("ZIJT is found")
@@ -132,7 +134,16 @@ class TweetCorpus:
 			# because we need the coordinates to find the dialect region
 			if not "lat" in tweet.attrib or not "lng" in tweet.attrib:
 				#print("No latlong found, looking up coordinates")
-				location = geolocator.geocode(tweet.attrib["norm_loc"])
+
+				tries = 0
+				while tries < 10:
+					try:
+						location = geolocator.geocode(tweet.attrib["norm_loc"])
+						break
+					except:
+						print("Geocoder exception - waiting 5s")
+						tries += 1
+						time.sleep(5)
 
 				if location is None:
 					return
