@@ -160,4 +160,6 @@ cython_debug/
 #.idea/
 
 corpus/*
+corpus_original/*
 tweets/*.xml
+corpus_shared.csv
