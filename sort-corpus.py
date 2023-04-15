@@ -105,7 +105,7 @@ class TweetCorpus:
 				continue
 	
 			# If we cannot find the pronominal "ge" or "gij" in the tweet, we have to discard it
-			if re.search(r'\b(ge*|gij*|gy*)\b', tweet_text, re.IGNORECASE) is None:
+			if re.search(r'\b(ge*|gi*j*|gy*)\b', tweet_text, re.IGNORECASE) is None:
 				continue
 	
 			#print("GE is found!")
