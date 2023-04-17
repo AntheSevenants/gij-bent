@@ -137,7 +137,7 @@ class TweetCorpus:
 			# Here we find out whether the construction is "ge bent" or "ge zijt" (will be reviewed by a human later)
 			# We assign the correct csv writer object as well
 			# If nothing is found, we reject the tweet altogether
-			if re.search(r'\bzi*[ejyéè]+[td]+[e]*\b', tweet_text, re.IGNORECASE) is not None:
+			if re.search(r'\b(zi*[jy]+[td]+[e]*|z[eèt]+[td]+)\b', tweet_text, re.IGNORECASE) is not None:
 				construction_type = "zijt"
 				csv_writer = self.csv_writer_zijt
 				#print("ZIJT is found")
