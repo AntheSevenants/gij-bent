@@ -121,6 +121,11 @@ class TweetCorpus:
 			# If a tweet consisted of only links, tweet length will be zero (and we will have to reject the tweet)
 			if len(tweet_text) == 0:
 				continue
+
+			if len(tweet_text) >= 2:
+				# No RT's
+				if tweet_text[:2] == "RT":
+					continue
 	
 			# If we cannot find the pronominal "ge" or "gij" in the tweet, we have to discard it
 			if re.search(r'\b(ge*|gi*j*|gy*)\b', tweet_text, re.IGNORECASE) is None:
