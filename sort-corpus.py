@@ -1,20 +1,17 @@
 import os
 import shutil
 import re
-import math
 import csv
+import time
+import json
+import pyproj
+import pandas as pd
 
 from glob import glob
 from tqdm.auto import tqdm
-
 from lxml import etree, html
 from geopy.geocoders import Nominatim
-import pyproj
-import json
-import pandas as pd
 from shapely.geometry import shape, Point
-
-import time
 
 CORPUS_DIRECTORY = "corpus"
 
