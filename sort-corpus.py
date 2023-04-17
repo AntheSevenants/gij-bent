@@ -114,6 +114,9 @@ class TweetCorpus:
 	
 			# Remove URLs from tweet (we aren't interested in them)
 			tweet_text = re.sub(r'https?:\/\/.*\b', '', tweet_text).strip()
+
+			# Remove newlines
+			tweet_text = tweet_text.replace("\n", "")
 	
 			# If a tweet consisted of only links, tweet length will be zero (and we will have to reject the tweet)
 			if len(tweet_text) == 0:
