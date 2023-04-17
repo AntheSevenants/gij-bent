@@ -106,7 +106,7 @@ class TweetCorpus:
 				#print("Broken tweet")
 				continue
 
-			tweet_id = None
+			tweet_id = "no-id"
 			if "id" in tweet.attrib:
 				tweet_id = tweet.attrib["id"]
 
