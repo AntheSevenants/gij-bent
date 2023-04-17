@@ -76,6 +76,9 @@ class CsvWriter:
 
 	def write_csv(self):
 		df = pd.DataFrame(self.records)
+		# Remove duplicates immediately
+		df = df.drop_duplicates(subset=["tweet_text", "username"])
+		# Write to file
 		df.to_csv(self.output_filename, index=None, quoting=csv.QUOTE_MINIMAL, sep="\t")
 
 class TweetCorpus:
