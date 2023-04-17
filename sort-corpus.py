@@ -159,7 +159,7 @@ class TweetCorpus:
 						location = geolocator.geocode(tweet.attrib["norm_loc"])
 						break
 					except:
-						print("Geocoder exception - waiting 5s")
+						#print("Geocoder exception - waiting 5s")
 						tries += 1
 						time.sleep(5)
 
