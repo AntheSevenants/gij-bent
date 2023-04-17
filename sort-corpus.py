@@ -76,7 +76,7 @@ class CsvWriter:
 
 	def write_csv(self):
 		df = pd.DataFrame(self.records)
-		df.to_csv(self.output_filename, index=None, quoting=csv.QUOTE_NONNUMERIC, sep=";")
+		df.to_csv(self.output_filename, index=None, quoting=csv.QUOTE_MINIMAL, sep="\t")
 
 class TweetCorpus:
 	def __init__(self, filename, csv_writer_zijt, csv_writer_bent, dialect_resolution):
