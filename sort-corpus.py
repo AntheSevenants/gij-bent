@@ -2,6 +2,7 @@ import os
 import shutil
 import re
 import math
+import csv
 
 from glob import glob
 from tqdm.auto import tqdm
@@ -10,6 +11,7 @@ from lxml import etree, html
 from geopy.geocoders import Nominatim
 import pyproj
 import json
+import pandas as pd
 from shapely.geometry import shape, Point
 
 import time
@@ -53,24 +55,28 @@ class CsvWriter:
 	def __init__(self, filename):
 		self.output_filename = "corpus/{}.csv".format(os.path.basename(filename).replace(".xml", ""))
 
-		with open(self.output_filename, "w", encoding='utf8') as csv_file:
-			csv_file.write("tweet_text;username;dialect;is_reply;distance_from_north_antwerp;construction_type\n")
+		self.records = []
 
-		#print("CSV header written")
+	def write_tweet(self, tweet_id, tweet_text, username, dialect, is_reply, lat, long, distance_from_north_antwerp, construction_type):
+		record = {
+			"tweet_id": tweet_id,
+			"tweet_text": tweet_text,
+			"username": username,
+			"dialect": dialect,
+			"is_reply": is_reply,
+			"lat": lat,
+			"long": long,
+			"distance_from_north_antwerp": distance_from_north_antwerp,
+			"construction_type": construction_type
+		}
 
-	def write_tweet(self, tweet_text, username, dialect, is_reply, distance_from_north_antwerp, construction_type):
-		# As per the CSV spec, you need to escape " as ""
-		tweet_text = tweet_text.replace("\"", "\"\"")
-
-		with open(self.output_filename, "a", encoding='utf8') as csv_file:
-			csv_file.write("\"{}\";{};{};{};{};{}\n".format(tweet_text,
-													   username,
-													   dialect,
-													   is_reply,
-													   distance_from_north_antwerp,
-													   construction_type))
+		self.records.append(record)
 
 		#print("Tweet written to file")
+
+	def write_csv(self):
+		df = pd.DataFrame(self.records)
+		df.to_csv(self.output_filename, index=None, quoting=csv.QUOTE_NONNUMERIC, sep=";")
 
 class TweetCorpus:
 	def __init__(self, filename, csv_writer_zijt, csv_writer_bent, dialect_resolution):
@@ -99,6 +105,10 @@ class TweetCorpus:
 			if type(tweet_text) != str:
 				#print("Broken tweet")
 				continue
+
+			tweet_id = None
+			if "id" in tweet.attrib:
+				tweet_id = tweet.attrib["id"]
 
 			username = tweet.attrib["user"]
 	
@@ -170,7 +180,7 @@ class TweetCorpus:
 			# All Twitter replies start with @
 			is_reply = tweet_text[0] == "@"
 	
-			csv_writer.write_tweet(tweet_text, username, dialect, is_reply, distance_from_north_antwerp, construction_type)
+			csv_writer.write_tweet(tweet_id, tweet_text, username, dialect, is_reply, lat, lng, distance_from_north_antwerp, construction_type)
 
 # Get all the corpus files
 tweet_files = glob("tweets/*.xml")
@@ -187,3 +197,6 @@ csv_write_bent = CsvWriter("corpus_bent")
 
 for tweet_file in tqdm(tweet_files):
 	TweetCorpus(tweet_file, csv_writer_zijt, csv_write_bent, dialect_resolution).convert_tweets()
+
+csv_writer_zijt.write_csv()
+csv_write_bent.write_csv()
