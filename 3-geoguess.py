@@ -31,5 +31,6 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
                      "dialect": dialect,
                      "distance_from_antwerp": distance_from_antwerp})
 
+
 geo_df = pd.DataFrame(new_rows)
-geo_df.write_csv(args.output_tsv, index=False, sep="\t")
+geo_df.to_csv(args.output_tsv, index=False, sep="\t")
