@@ -1,9 +1,6 @@
 import argparse
 import pandas as pd
 
-import argparse
-import pandas as pd
-
 parser = argparse.ArgumentParser(
     description='geoguess - provide latlong and dialect area information for each tweet')
 parser.add_argument('working_tsv', type=str,
@@ -23,8 +20,12 @@ df_geo = pd.read_csv(args.geo_tsv, sep="\t")
 # so I provide new names for them before merging
 df_geo = df_geo.rename(columns={"lat": "norm_lat", "long": "norm_long"})
 
-# Inner join
-df_tweets_geo = pd.merge(df_tweets, df_geo, on="id")
+# Remove duplicates
+df_tweets = df_tweets.drop_duplicates(["id", "user_id"])
+df_geo = df_geo.drop_duplicates(["id", "user_id"])
+
+# join
+df_tweets_geo = pd.merge(df_tweets, df_geo, on=["id", "user_id"], how="left")
 
 # Output
 df_tweets_geo.to_csv(args.output_tsv, index=False, sep="\t")
