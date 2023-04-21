@@ -26,6 +26,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     distance_from_antwerp = helpers.geolocator.distance_from_antwerp(lat, long)
 
     new_rows.append({"id": row["id"],
+                     "user_id": row["user_id"],
                      "lat": lat,
                      "long": long,
                      "dialect": dialect,
