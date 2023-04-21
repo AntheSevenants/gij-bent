@@ -27,5 +27,8 @@ df_geo = df_geo.drop_duplicates(["id", "user_id"])
 # join
 df_tweets_geo = pd.merge(df_tweets, df_geo, on=["id", "user_id"], how="left")
 
+# Remove tweets where dialect is False
+df_tweets_geo = df_tweets_geo.loc[df_tweets_geo["dialect"] != "False"]
+
 # Output
 df_tweets_geo.to_csv(args.output_tsv, index=False, sep="\t")
