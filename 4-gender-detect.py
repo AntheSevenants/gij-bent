@@ -50,6 +50,6 @@ with concurrent.futures.ProcessPoolExecutor() as executor:
         genders.append(gender)
 
 # Create a data frame from the results
-gender_df = pd.DataFrame({"user_display_name": display_names,
+gender_df = pd.DataFrame({"user_display_name": user_display_names,
                           "gender": genders})
 gender_df.to_csv(args.output_tsv, index=False, sep="\t")
