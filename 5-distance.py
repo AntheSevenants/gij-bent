@@ -45,12 +45,11 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     tokens = _
 
     predicate_index = None
-    subject_index = None
+    subject_indices = []
     for idx, token in enumerate(tokens):
         # how do people WRITE these characters
-        token = re.sub(r"\u00e9", "e", token)
+        token = re.sub(r"(\u00e9|\u00e8)", "e", token)
         token = re.sub(r"\u00ed", "i", token)
-        token = re.sub(r"\u00e8", "e", token)
 
         # Remove non-alpha characters
         token = re.sub(r"[^a-zà-üÀ-Ü]", "", token, flags=re.IGNORECASE)
@@ -58,14 +57,14 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
             predicate_index = idx
 
         if re.match(f"(ge|gij|gy)", token):
-            subject_index = idx
+            subject_indices.append(idx)
 
     # If no predicate found at the end, value will remain None
     if predicate_index is None:
         pass
 
     # If no subject found at the end, value will remain None
-    if subject_index is None:
+    if len(subject_indices) == 0:
         not_found.append(tokens)
 
 with open("error.json", "wt") as writer:
