@@ -74,24 +74,32 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     if predicate_index - 1 in subject_indices:
         context = "main"
         distance = 1
+        subject_index = predicate_index - 1
     elif predicate_index + 1 in subject_indices:
         context = "inversion"
         distance = 1
+        subject_index = predicate_index + 1
     else:
         context = "other"
         # We find the subject closest to the predicate
         distances = list(map(lambda x: predicate_index - x, subject_indices))
         distances = list(filter(lambda x: x > 0, distances))
 
+        subject_index = None
+
         try:
             distance = min(distances)
+            subject_index = predicate_index - distance
         except:
             not_found.append([subject_indices, predicate_index, row["content"]])
 
     new_rows.append({"id": row["id"],
                      "user_id": row["user_id"],
                      "context": context,
-                     "distance": distance})
+                     "distance": distance,
+                     "subject_index": subject_index,
+                     "predicate_index": predicate_index,
+                     "tokens": " ".join(tokens)})
 
 distance_df = pd.DataFrame(new_rows)
 distance_df.to_csv(args.output_tsv, index=False, sep="\t")
