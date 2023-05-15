@@ -54,6 +54,8 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
                 parts = [ "als", "ge" ]
             elif re.match(f"\\bdage\\b", token,flags=re.IGNORECASE):
                 parts = [ "da", "ge" ]
+            elif re.match(f"\\bdaje\\b", token,flags=re.IGNORECASE):
+                parts = [ "da", "je" ]
             elif re.match(f"\\bomdage\\b", token,flags=re.IGNORECASE):
                 parts = [ "omda", "ge" ]
             elif re.match(f"\\bofdage\\b", token,flags=re.IGNORECASE):
@@ -86,7 +88,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
         if re.match(f".*({'|'.join(needles)}).*", token):
             predicate_index = idx
 
-        if re.match(f"\\b(ge|gi*j*|gy|g|gie)\\b", token, flags=re.IGNORECASE):
+        if re.match(f"\\b(ge|gi+j*|gy|g|gie|u|ji+j*)\\b", token, flags=re.IGNORECASE):
             subject_indices.append(idx)
 
     # If no predicate found at the end, value will remain None
@@ -132,6 +134,14 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
             subject_index = predicate_index - distance
         except:
             not_found.append([subject_indices, predicate_index, row["content"]])
+
+    # Reset contexts with wrong subjects
+    if subject_index is not None:
+        subject_form = tokens[subject_index]
+        if not re.match(f"\\b(ge|gi+j*|gy|g|gie)\\b", subject_form, flags=re.IGNORECASE):
+            subject_index = None
+            context = None
+            distance = None
 
     new_rows.append({"id": row["id"],
                      "user_id": row["user_id"],
