@@ -111,6 +111,14 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
         context = "inversion"
         distance = 1
         subject_index = predicate_index + 1
+    elif " ".join(tokens[predicate_index:predicate_index+4]) == "bent en blijft gij":
+        context = "inversion"
+        distance = 3
+        subject_index = predicate_index + 3
+    elif " ".join(tokens[predicate_index:predicate_index+3]) == "zijt alleen gij":
+        context = "inversion"
+        distance = 2
+        subject_index = predicate_index + 2
     else:
         context = "other"
         # We find the subject closest to the predicate
