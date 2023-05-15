@@ -25,8 +25,19 @@ nltk.download('punkt')
 not_found = []
 
 for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
+    tweet = row["content"]
+
+    # Apply some substitutions
+    tweet = re.sub(r"\bhe zijt\b", "ge zijt", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\bals gelaten\b", "als ge later", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\bdjeezes\\ud83e\\udd2agij\b", "djeezes \ud83e \udd2a gij", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\bdij zijt\b", "gij gij", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\bals he een\b", "als ge een", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\bwie zijt hij\b", "wie zijt gij", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\bdjeezes\ud83e\udd2agij\b", "bdjeezes \ud83e \udd2a gij", tweet, flags=re.IGNORECASE)
+
     # Tokenise
-    tokens = nltk.word_tokenize(row["content"].lower(), language='dutch')
+    tokens = nltk.word_tokenize(tweet.lower(), language='dutch')
 
     if (row["construction_type"] == "bent"):
         needles = ["bent", "bende"]
@@ -38,6 +49,25 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     for token in tokens:
         if len(token) >= 2:
             parts = token.split(".")
+
+            if re.match(f"\\balsge\\b", token,flags=re.IGNORECASE):
+                parts = [ "als", "ge" ]
+            elif re.match(f"\\bdage\\b", token,flags=re.IGNORECASE):
+                parts = [ "da", "ge" ]
+            elif re.match(f"\\bomdage\\b", token,flags=re.IGNORECASE):
+                parts = [ "omda", "ge" ]
+            elif re.match(f"\\bofdage\\b", token,flags=re.IGNORECASE):
+                parts = [ "of", "da", "ge" ]
+            elif re.match(f"\\bdagij\\b", token,flags=re.IGNORECASE):
+                parts = [ "da", "gij" ]
+            elif re.match(f"\\balsde\\b", token,flags=re.IGNORECASE):
+                parts = [ "als", "ge" ]
+            elif re.match(f"\\bgijzelf\\b", token,flags=re.IGNORECASE):
+                parts = [ "gij", "zelf" ]
+            elif re.match(f"\\bdadde\\b", token,flags=re.IGNORECASE):
+                parts = [ "dat", "ge" ]
+            elif re.match(f"\\bwadagy\\b", token,flags=re.IGNORECASE):
+                parts = [ "wa", "da", "gy" ]
         else:
             parts = [token]
 
@@ -56,7 +86,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
         if re.match(f".*({'|'.join(needles)}).*", token):
             predicate_index = idx
 
-        if re.match(f".*(ge|gij|gy|\\wg\\w).*", token):
+        if re.match(f"\\b(ge|gi*j*|gy|g|gie)\\b", token, flags=re.IGNORECASE):
             subject_indices.append(idx)
 
     # If no predicate found at the end, value will remain None
@@ -75,6 +105,8 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
         context = "main"
         distance = 1
         subject_index = predicate_index - 1
+    # TODO: "en blijft" in inversion "bent en blijft gij"
+    # TODO: "zijt alleen gij" in inversion
     elif predicate_index + 1 in subject_indices:
         context = "inversion"
         distance = 1
