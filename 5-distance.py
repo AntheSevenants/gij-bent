@@ -3,6 +3,7 @@ import pandas as pd
 import nltk
 import json
 import re
+import html
 
 from tqdm.auto import tqdm
 
@@ -35,7 +36,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     if row["id"] in skip_list:
         continue
 
-    tweet = row["content"]
+    tweet = html.unescape(row["content"])
 
     # Apply some substitutions
     tweet = re.sub(r"\bof maakt het juridisch geen verschil of aan\b", "of maakt het juridisch geen verschil of ge aan", tweet, flags=re.IGNORECASE)
