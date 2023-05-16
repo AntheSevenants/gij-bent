@@ -18,7 +18,7 @@ parser.add_argument('working_tsv', type=str,
                     help='The TSV which contains all current tweets')
 parser.add_argument('--skip_list', type=str, default="",
                     help='The list of manually scrapped tweets')
-parser.add_argument('--output_tsv', type=str, default="distance.tsv",
+parser.add_argument('--output_tsv', type=str, default="correction.tsv",
                     help='The TSV to output the correction information to')
 
 args = parser.parse_args()
