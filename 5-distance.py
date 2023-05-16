@@ -38,6 +38,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     tweet = row["content"]
 
     # Apply some substitutions
+    tweet = re.sub(r"\bof maakt het juridisch geen verschil of aan\b", "of maakt het juridisch geen verschil of ge aan", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bhe zijt\b", "ge zijt", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bals gelaten\b", "als ge later", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bdjeezes\\ud83e\\udd2agij\b", "djeezes \ud83e \udd2a gij", tweet, flags=re.IGNORECASE)
@@ -45,7 +46,8 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     tweet = re.sub(r"\bals he een\b", "als ge een", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bwie zijt hij\b", "wie zijt gij", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bdjeezes\ud83e\udd2agij\b", "bdjeezes \ud83e \udd2a gij", tweet, flags=re.IGNORECASE)
-    tweet = re.sub(r"([!.,;]+)", "+", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"([!.,;]+)", r"\1", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\b\+\b", " + ", tweet, flags=re.IGNORECASE)
 
     # Tokenise
     tokens = nltk.word_tokenize(tweet.lower(), language='dutch')
