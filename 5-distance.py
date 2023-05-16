@@ -10,6 +10,8 @@ parser = argparse.ArgumentParser(
     description='distance - compute distance between \"gij\" and predicate')
 parser.add_argument('working_tsv', type=str,
                     help='The TSV which contains all current tweets')
+parser.add_argument('--skip_list', type=str, default="",
+                    help='The list of manually scrapped tweets')
 parser.add_argument('--output_tsv', type=str, default="distance.tsv",
                     help='The TSV to output the distance information to')
 
@@ -19,12 +21,20 @@ df = pd.read_csv(args.working_tsv, sep="\t")
 
 new_rows = []
 
+skip_list = []
+if args.skip_list != "":
+    with open(args.skip_list, "rt") as reader:
+        skip_list = json.loads(reader.read())
+
 print("Downloading Dutch tokeniser")
 nltk.download('punkt')
 
 not_found = []
 
 for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
+    if row["id"] in skip_list:
+        continue
+
     tweet = row["content"]
 
     # Apply some substitutions
@@ -35,6 +45,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     tweet = re.sub(r"\bals he een\b", "als ge een", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bwie zijt hij\b", "wie zijt gij", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bdjeezes\ud83e\udd2agij\b", "bdjeezes \ud83e \udd2a gij", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"([!.,;]+)", "+", tweet, flags=re.IGNORECASE)
 
     # Tokenise
     tokens = nltk.word_tokenize(tweet.lower(), language='dutch')
@@ -52,10 +63,12 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
 
             if re.match(f"\\balsge\\b", token,flags=re.IGNORECASE):
                 parts = [ "als", "ge" ]
-            elif re.match(f"\\bdage\\b", token,flags=re.IGNORECASE):
+            elif re.match(f"\\bd?age\\b", token,flags=re.IGNORECASE):
                 parts = [ "da", "ge" ]
-            elif re.match(f"\\bdaje\\b", token,flags=re.IGNORECASE):
+            elif re.match(f"\\bdaje?\\b", token,flags=re.IGNORECASE):
                 parts = [ "da", "je" ]
+            elif re.match(f"\\bal?s?je\\b", token,flags=re.IGNORECASE):
+                parts = [ "as", "je" ]
             elif re.match(f"\\bomdage\\b", token,flags=re.IGNORECASE):
                 parts = [ "omda", "ge" ]
             elif re.match(f"\\bofdage\\b", token,flags=re.IGNORECASE):
@@ -66,7 +79,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
                 parts = [ "als", "ge" ]
             elif re.match(f"\\bgijzelf\\b", token,flags=re.IGNORECASE):
                 parts = [ "gij", "zelf" ]
-            elif re.match(f"\\bdadde\\b", token,flags=re.IGNORECASE):
+            elif re.match(f"\\bdad+e\\b", token,flags=re.IGNORECASE):
                 parts = [ "dat", "ge" ]
             elif re.match(f"\\bwadagy\\b", token,flags=re.IGNORECASE):
                 parts = [ "wa", "da", "gy" ]
@@ -85,10 +98,11 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
 
         # Remove non-alpha characters
         token = re.sub(r"[^a-zà-üÀ-Ü]", "", token, flags=re.IGNORECASE)
-        if re.match(f".*({'|'.join(needles)}).*", token):
-            predicate_index = idx
+        if re.match(f"^({'|'.join(needles)})$", token):
+            if predicate_index is None:
+                predicate_index = idx
 
-        if re.match(f"\\b(ge|gi+j*|gy|g|gie|u|ji+j*)\\b", token, flags=re.IGNORECASE):
+        if re.match(f"\\b(ge|gi*j*|gy|g|gie|gelle|gin|gulder|u|ji+j*|je)\\b", token, flags=re.IGNORECASE):
             subject_indices.append(idx)
 
     # If no predicate found at the end, value will remain None
@@ -121,6 +135,9 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
         context = "inversion"
         distance = 2
         subject_index = predicate_index + 2
+    # Order of if statement guarantees no fronted inversion is possible
+    elif predicate_index == 0:
+        subject_index = None
     else:
         context = "other"
         # We find the subject closest to the predicate
@@ -138,7 +155,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     # Reset contexts with wrong subjects
     if subject_index is not None:
         subject_form = tokens[subject_index]
-        if not re.match(f"\\b(ge|gi+j*|gy|g|gie)\\b", subject_form, flags=re.IGNORECASE):
+        if not re.match(f"\\b(ge|gi+j*|gy|g|gie|gelle|gin|gulder)\\b", subject_form, flags=re.IGNORECASE):
             subject_index = None
             context = None
             distance = None
