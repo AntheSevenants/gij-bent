@@ -125,8 +125,6 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
         context = "main"
         distance = 1
         subject_index = predicate_index - 1
-    # TODO: "en blijft" in inversion "bent en blijft gij"
-    # TODO: "zijt alleen gij" in inversion
     elif predicate_index + 1 in subject_indices:
         context = "inversion"
         distance = 1
