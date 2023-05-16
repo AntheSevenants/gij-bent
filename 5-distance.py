@@ -46,6 +46,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     tweet = re.sub(r"\bals he een\b", "als ge een", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bwie zijt hij\b", "wie zijt gij", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\bals e jarig\b", "als ge jarig", tweet, flags=re.IGNORECASE)
+    tweet = re.sub(r"\bhahaha gu bent\b", "hahaha ge bent", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"([!.,;?])+", r"\1", tweet, flags=re.IGNORECASE)
     tweet = re.sub(r"\b\+\b", " + ", tweet, flags=re.IGNORECASE)
 
@@ -104,7 +105,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
             if predicate_index is None:
                 predicate_index = idx
 
-        if re.match(f"\\b(ge|gi*j*|gy|g|gie|gelle|gin|gulder|u|ji+j*|je)\\b", token, flags=re.IGNORECASE):
+        if re.match(f"\\b(ge|gi*j*|gy|g|gie|gelle|gulle|gin|gulder|u|ji+j*|je)\\b", token, flags=re.IGNORECASE):
             subject_indices.append(idx)
 
     # If no predicate found at the end, value will remain None
