@@ -7,14 +7,19 @@ import html
 
 from tqdm.auto import tqdm
 
+# I originally intended to compute the distance between subject and predicate, but it didn't make much sense
+# The linguistic contexts just weren't comparable across distances -- and -- it felt like a big hack, not elegant at all
+# However, it did help me figure out which were not applicable attestations, so I leave the script in
+# You can look at the distance metric I attempted, should it be of any interest to you
+
 parser = argparse.ArgumentParser(
-    description='distance - compute distance between \"gij\" and predicate')
+    description='correct - check whether subjects and predicates actually make sense')
 parser.add_argument('working_tsv', type=str,
                     help='The TSV which contains all current tweets')
 parser.add_argument('--skip_list', type=str, default="",
                     help='The list of manually scrapped tweets')
 parser.add_argument('--output_tsv', type=str, default="distance.tsv",
-                    help='The TSV to output the distance information to')
+                    help='The TSV to output the correction information to')
 
 args = parser.parse_args()
 
@@ -164,11 +169,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
 
     new_rows.append({"id": row["id"],
                      "user_id": row["user_id"],
-                     "context": context,
-                     "distance": distance,
-                     "subject_index": subject_index,
-                     "predicate_index": predicate_index,
-                     "tokens": " ".join(tokens)})
+                     "context": context})
 
 distance_df = pd.DataFrame(new_rows)
 distance_df.to_csv(args.output_tsv, index=False, sep="\t")
