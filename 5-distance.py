@@ -157,7 +157,7 @@ for index, row in tqdm(df.iterrows(), total=len(df), desc="Tweets processed"):
     # Reset contexts with wrong subjects
     if subject_index is not None:
         subject_form = tokens[subject_index]
-        if not re.match(f"\\b(ge|gi+j*|gy|g|gie|gelle|gin|gulder)\\b", subject_form, flags=re.IGNORECASE):
+        if not re.match(f"\\b(ge|gi+j*|gy|g|gie|gin)\\b", subject_form, flags=re.IGNORECASE):
             subject_index = None
             context = None
             distance = None
