@@ -168,3 +168,7 @@ analysis/*
 
 *.tsv
 *.sh
+
+.Rproj.user
+
+paper/*_files
