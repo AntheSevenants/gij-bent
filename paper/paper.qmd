@@ -1,0 +1,34 @@
+---
+title: |
+    | *'Zijt gij dat of bent gij dat?'*
+    | Een alternantiestudie van de tweede persoon enkelvoud van *zijn* in Vlaamse tussentaal
+author:
+  - name: Anthe Sevenants
+    email: anthe.sevenants@kuleuven.be
+    orcid: 0000-0002-5055-770X
+    affiliations:
+      - name: KU Leuven
+format: 
+   html:
+      df-print: kable
+include-in-header:
+  - text: |
+      <style>
+      h1 {
+        text-align: center;
+      }
+      </style>
+editor: visual
+title-block-banner: true
+bibliography: references.bib
+toc: true
+toc-depth: 4
+toc-location: left
+tbl-cap-location: bottom
+fig-cap-location: bottom
+number-sections: true
+reference-location: margin
+csl: chicago-author-date.csl
+execute:
+  echo: false
+---
