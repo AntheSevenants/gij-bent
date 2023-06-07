@@ -172,3 +172,4 @@ analysis/*
 .Rproj.user
 
 paper/*_files
+paper/*.html
