@@ -13,6 +13,8 @@ parser.add_argument('correction_tsv', type=str,
                     help='The TSV which contains all correction information')
 parser.add_argument('polarity_tsv', type=str,
                     help='The TSV which contains polarity information')
+parser.add_argument('emotion_tsv', type=str,
+                    help='The TSV which contains emotion information')
 parser.add_argument('--output_tsv', type=str, default="tweets_geo.tsv",
                     help='The TSV to output the merged files to')
 
@@ -24,6 +26,7 @@ df_geo = pd.read_csv(args.geo_tsv, sep="\t")
 df_gender = pd.read_csv(args.gender_tsv, sep="\t")
 df_correction = pd.read_csv(args.correction_tsv, sep="\t")
 df_polarity = pd.read_csv(args.polarity_tsv, sep="\t")
+df_emotion = pd.read_csv(args.emotion_tsv, sep="\t")
 
 # "lat" and "long" also exist in the Twitter data
 # so I provide new names for them before merging
@@ -40,6 +43,8 @@ df_tweets_geo = pd.merge(df_tweets, df_geo, on=["id", "user_id"], how="left")
 df_tweets_geo = pd.merge(df_tweets_geo, df_correction, on=["id", "user_id"], how="left")
 # join (polarity)
 df_tweets_geo = pd.merge(df_tweets_geo, df_polarity, on=["id"], how="left")
+# join (emotion)
+df_tweets_geo = pd.merge(df_tweets_geo, df_emotion, on=["id"], how="left")
 
 # Remove tweets where dialect is False
 df_tweets_geo = df_tweets_geo.loc[df_tweets_geo["dialect"] != "False"]
