@@ -31,4 +31,798 @@ reference-location: margin
 csl: chicago-author-date.csl
 execute:
   echo: false
+lang: nl
 ---
+
+```{r load-dataset}
+source("../analysis/gij-bent2.R")
+
+# Keep the full dataframe for when it is necessary
+df_full <- df
+
+df <- df %>% one_user_one_tweet()
+
+# Remove non-gendered tweets
+df <- df[df$gender != "",]
+
+# Remove tweets without an associated context
+df <- df[!is.na(df$context),]
+```
+
+```{r initialisation}
+#| output: false
+library(magrittr)
+library(scales)
+library(broom)
+library(emmeans)
+
+formatn <- function(number) {
+    format(round(as.numeric(number), 1), nsmall=0, big.mark=".")
+}
+
+formatd <- function(number, nsmall=2) {
+    format(round(number, nsmall), nsmall=nsmall, decimal.mark=",")
+}
+
+formatp <- function(number) {
+    label_percent()(number)
+}
+```
+
+## Literatuurstudie en hypotheses
+
+### De oorsprong van tussentaal
+
+Wie luistert naar informele communicatie in Vlaanderen, zal meestal geen
+dialect, geen standaardtaal, maar wel 'tussentaal' horen spreken, een
+typisch Vlaamse omgangstaal [@de_caluwe_tussentaal_2009, 8].
+Het ontstaan van deze variëteit zou het gevolg zijn van de bewogen standaardtaalgeschiedenis
+in Vlaanderen. Tot ver in de 20^ste^ eeuw zag het Vlaamse taallandschap
+er namelijk uit als een diglossie: het Nederlands in Vlaanderen bestond
+uit de lokale dialecten en een noordelijke, in feite 'uitheemse'
+standaardtaal die weerwerk moest bieden tegen het Frans, dat toen nog de
+dominante cultuurtaal was in Vlaanderen [@van_hoof_hyperstandaardisering_2012]. De
+twee 'poten' van het Nederlands in Vlaanderen stonden vooralsnog op
+zichzelf: dialect werd gesproken, standaardtaal werd geschreven. Een
+gerichte standaardiseringspolitiek waarbij kosten noch moeite werden
+gespaard moest daar verandering in brengen: met televisie- en
+radioprogramma's, didactische uitgaven, taalrubrieken in kranten en
+taalverenigingen werd getracht elke Vlaming de standaardtaal bij te
+brengen. Ook gesproken moest de standaardtaal de standaard worden voor
+alle niet-lokale communicatie  [@van_hoof_hyperstandaardisering_2012, 106].
+
+Als we vandaag kijken naar de taalsituatie in Vlaanderen, heeft de
+standaardiseringspolitiek niet opgebracht wat ervan verwacht werd. Het
+is niet de standaardtaal die de dominante gesproken omgangstaal geworden
+is, maar dus wel 'tussentaal'. @taeldeman_zich_2008 [29-30] poneert een
+tweeledige oorzaak voor de opkomst van deze variëteit. Allereerst zou de
+standaardiseringspolitiek een afkeer veroorzaakt hebben tegenover
+dialect, waardoor Vlamingen massaal hun dialect de rug toe keerden. Het
+exogene karakter van het noordelijke Standaardnederlands [het 'zondagspak', @geeraerts_een_2000] en de slechte beheersing van de
+standaardvariëteit zorgden er echter voor dat het dialectverlies niet
+leidde tot een massale vlucht in de standaardtaal. In het vacuüm van een
+informele omgangstaal voltrok zich tussentaal, een informele omgangstaal
+die geen dialect en geen standaardtaal is en zo voldeed aan de noden van
+Vlamingen. Het Vlaamse taallandschap werd daarmee een diaglossie, een
+continuüm tussen de dialecten en de standaardtaal[^wvl]. Intussen is
+tussentaal dé de facto omgangstaal in Vlaanderen geworden, en dat zelfs
+in een groeiend aantal domeinen, zoals bijvoorbeeld op school [@delarue_contrasterende_2014].
+
+[^wvl]: In West-Vlaanderen staat dialect nog beduidend sterk, waardoor
+    geponeerd wordt dat de taalsituatie nog steeds een diglossie
+    voorstelt [@de_caluwe_tussentaal_2009, 20].
+
+### Tussentaalkenmerken
+
+Nu tussentaal steeds dominanter wordt, willen taalkundigen deze
+variëteit van het Nederlands zo goed mogelijk in kaart brengen en
+beschrijven. @willemyns_verkavelingsbrabants_2005 [33] 
+waarschuwt echter dat het "vreselijk
+gecompliceerd is het onderzoekings-object \[(tussentaal)\] af te bakenen
+en te definiëren". Die complexiteit vindt zijn oorzaak in de meervoudige
+opbouw van de variëteit, waarvoor @taeldeman_zich_2008 [27] drie
+'ingrediënten' onderscheidt: standaardtalige elementen, dia- of
+regiolectische elementen, en nieuwe, typisch tussentalige elementen. Een
+gevolg van deze interne volatiliteit is dat tussentaal afhankelijk van
+de regio en de formele context anders kan klinken [@de_caluwe_tussentaal_2009, 19-20], en dus niet als zijnde 'monolithisch' kan worden onderzocht.
+Zoals blijkt uit de driedelige indeling bestaan er desondanks wel een
+aantal 'algemene' tussentalige elementen die vrijwel altijd in de
+variëteit te horen zijn [@taeldeman_zich_2008; @ghyselen_verticale_2016]:
+
+-   diminutiefsuffix *-ke\
+    een koek**ske***
+-   flexie in adnominale woorden\
+    *de**n** Aldi*
+-   *gij* als persoonlijk voornaamwoord in de 2^de^ persoon enkelvoud\
+    *Werkt **gij** vandaag?*
+-   expletieve complementeerder *dat\
+    Ik weet niet wie **dat** de moeder van Sonja is.*
+-   futuraal *gaan* in plaats van *zullen*\
+    *Het **gaat** stuiven morgen!*
+
+Traditioneel worden tussentaalkenmerken vooral aan de Brabantse
+dialectregio toegeschreven [@de_caluwe_tussentaal_2009, 8]. Dat is niet
+verwonderlijk, aangezien de Brabantse regio vooropging in het proces van
+dialectverlies, als eerste nood had aan een niet-dialectale omgangstaal
+[@willemyns_verkavelingsbrabants_2005, 30] 
+en dus een voortrekkersrol speelde in de opkomst
+van tussentaal. De elementen uit @taeldeman_zich_2008 betreffen echter
+vooral zogenaamde 'tertiaire' dialectkenmerken [@taeldeman_zich_2008, 40],
+dialectkenmerken die (1) in een heel groot gebied in Vlaanderen
+voorkomen (2) nauwelijks opvallen als dialect (3) moeilijk te
+onderdrukken zijn. Typisch *Brabantse* kenmerken kennen juist géén
+algemeen tussentalige verspreiding. Ook @ghyselen_verticale_2016 [303] kwam tot
+een gelijkaardige conclusie (eigen nadruk):
+
+> De weinige voorbeelden die we vonden van horizontale nivellering
+> \[...\] wijzen erop dat **Brabantse expansie op dit moment een beperkte
+> rol speelt in het Vlaamse dialectlandschap.**
+
+### *Gij bent*
+
+#### De alternantie *gij bent* en *gij zijt*
+
+De multidimensionaliteit van tussentaal vinden we ook terug in
+bijzondere talige constructies. Zo vinden we in de tussentaal naast het
+historisch traditionele *gij zijt* ook een andere vervoeging van 'zijn'
+met het *gij*-pronomen: *gij bent*. *Gij bent* is een opvallende
+constructie omdat ze het typisch Vlaamse *gij*-pronomen koppelt aan het
+standaardtalige *bent*. De vervoeging *bent* komt in de standaardtaal
+voor met het voor Vlamingen exogeen aanvoelende *jij*-pronomen in *jij
+bent*.
+
+De mogelijkheid tot een alternantie tussen *gij zijt* en *gij bent* valt
+terug te voeren op drie ontwikkelingen in het Nederlands. De eerste
+ontwikkeling valt al te situeren in het Germaans. In het Germaans
+smelten de paradigmata van drie werkwoorden uit het Proto-Indo-Europees
+samen tot één werkwoord ('suppletie'). *\*h~1~ĕs* ('zijn') ,*\*bhĕŭ*
+('groeien', 'worden') en *\*wĕs* ('verblijven') worden samen het 'verbum
+substantivum' *zijn* [@van_bree_leerboek_2020, 81-83]. 
+Dit verklaart de wisselende
+vormen die we ook vandaag nog terugvinden in de vervoeging van *zijn* in
+het Nederlands: *\*h~1~ĕs* is geassocieerd met de *zijn*-vormen,
+*\*bhĕŭ* met de *ben*-vormen, en *\*wĕs* met de *waren*-vormen in de
+verleden tijd. *Zijt* en *bent* kennen dus hun oorsprong in
+verschillende Indo-Europese werkwoorden.
+
+De tweede ontwikkeling vinden we terug in het Middelnederlands. In de
+loop van de Middeleeuwen verdringt *ghi* namelijk *du* als persoonlijk
+voornaamwoord in de tweede persoon enkelvoud [@van_bree_geschiedenis_2004, 138-139; @van_bree_leerboek_2020, 247]. *Ghi* was oorspronkelijk de vorm van
+de tweede persoon *meervoud*, maar werd ook gebruikt als
+beleefdheidsvorm, te vergelijken met het Franse *vous*. Gaandeweg werd
+het 'normale' *du* steeds meer geassocieerd met laagsociale en vulgaire
+contexten, waardoor *ghi* de basisvorm werd en zo zijn
+beleefdheidsimplicaties verloor. Deze verschuiving had ook consequenties
+voor de vorm van *zijn* in de tweede persoon enkelvoud: *du bist* werd
+verdrongen door *ghi sijt*, dezelfde vorm als in de tweede persoon
+meervoud. Hetzelfde *gij zijt* vinden we vandaag nog steeds terug in de
+zuidelijke dialecten, en in tussentaal.
+
+De derde ontwikkeling betreft het ontstaan van de noordelijke vorm *jij
+bent*. De vorm *jij* is een Hollandse innovatie uit de
+Vroegnieuwnederlandse periode [@van_der_sijs_15_2021, 126]. Aangenomen wordt
+dat de vorm ontstond uit een enclitische context, bv. *hebdi*, 'hebt
+ghi', en zo via *heb ji* uiteindeljik uitgroeide tot *heb jij*, met
+*jij* als nieuw pronomen in de tweede persoon enkelvoud 
+[@van_bree_leerboek_2020, 243]. 
+De vorm *bent* ontstond dan weer uit analogie ('stam + t') met
+*ben* uit de eerste persoon enkelvoud [@van_bree_leerboek_2020, 82]. 
+In de Hollandse dialectgebieden komt *bent* voor met het nieuwe pronomen
+*jij*, maar dat is niet verplicht. Zo vinden we *bent* met *gij* nog
+steeds terug in Oost-Brabantse dialecten in Nederland als *gij bent*
+[@swanenberg_oost-brabants_2002, 50].
+
+#### *Gij bent* in Vlaanderen
+
+Hoewel *gij bent* dus voorkomt in Nederland bij de Oost-Brabantse
+dialecten, is de plaats van de constructie in Vlaanderen onduidelijk.
+Aangezien tussentaal zowel regionale als stilistische variatie kent 
+[@ghyselen_verticale_2016], 
+is het mogelijk dat *gij bent* zich op één van deze
+assen manifesteert.
+
+Wat regionale variatie betreft, is het weinig plausibel dat *gij bent*
+een algemeen-Vlaams dialectkenmerk is, waardoor het geen algemeen
+tussentalig kenmerk kan zijn. We zagen al dat een dialectkenmerk
+wijdverspreid moet zijn in Vlaanderen om als algemeen-tussentalig te
+kunnen gelden. Alleen in de beschrijving van de Brabantse dialecten door
+@ooms_vlaams-brabants_2005 [67] vinden we in een overzicht van de
+*zijn*-vervoeging in het Brabants zowel de constructies *gij zijt* als
+*gij bent* terug. In datzelfde overzicht komt ook de atypische
+meervoudsvorm *bennen* voor (bv. *zij bennen*). Volgens de auteurs komt
+die vorm "vooral in het noorden van de provincie Antwerpen" voor
+[@ooms_vlaams-brabants_2005, 67]. In een artikel voor *Brabants Erfgoed*
+noemde Miet Ooms de constructie *gij bent* specifiek een
+"Brabants-Noorder-Kempens eigenaardigheidje":
+
+> Ik rond hier af met een Brabants-Noorder-Kempens
+> eigenaardigheidje: de combinatie *gij bent* en, in inversie, *bent
+> gij* of *bende gij*. Na het voornaamwoord *gij* is *zijt* de te
+> verwachten vorm van het werkwoord *zijn*, maar in heel wat Brabantse
+> dialecten wordt hier *bent* gezegd. Dat gebeurt ook net over de grens,
+> bijvoorbeeld in Hoogstraten. Elders in Vlaanderen, waar *gij zijt* de
+> normale vorm is, wordt *gij bent* geïnterpreteerd als een verhaspeling
+> van het dialectisch-tussentalige *gij zijt* en het standaardtalige
+> *jij bent*. [@ooms_brabants_2022]
+
+Ooms schrijft deze opmerking vanuit een Nederlands perspectief. Met
+'Brabants' bedoelt ze dus Noord-Brabant. In Vlaanderen zou het gebruik
+van *gij bent* in dialect zich beperken tot plaatsen dicht bij de grens.
+
+Om het voorkomen van *gij bent* in de dialecten in Nederlandstalig
+België nader te bepalen, kunnen we gebruik maken van de dialectenquêtes
+die opgenomen zijn in DynaSAND [@barbiers_dynamische_2006]. Hoewel er geen
+vragen zijn in DynaSAND die expliciet peilen naar hoe *jij bent* in elk
+dialect wordt gerealiseerd, kunnen we wel gebruik maken van andere
+testzinnen waarin een vorm van *jij bent* voorkomt. We maken gebruik van
+de items *Jij bent ook een rare* *een(e)* en *Ze gelooft dat jij eerder
+thuis bent als \[sic\] ik* om de verspreiding van *gij bent* te toetsen.
+@fig-dynasand toont de resultaten voor de verschillende plaatsen waar
+enquêtes werden afgenomen.
+
+![Een overzicht van de realisatie van *zijn* in de tweede persoon enkelvoud in de Vlaamse en Nederlandse dialecten](dynasand.png){#fig-dynasand}
+
+Het valt op dat de verspreiding van *gij bent* in dialect erg beperkt
+is: alleen in Noord-Brabant is de vorm te vinden. Frappant is dat er ook
+datapunten zijn voor Kempische dialecten aan de grens met Nederlands, en
+dat die dialecten allemaal *gij zijt* lijken te gebruiken. Dat doet nog
+steeds geen afbreuk aan de bemerking van @ooms_brabants_2022: het
+dialectonderzoek in DynaSAND is niet exhaustief, dus het is mogelijk dat
+de *gij bent­*-dialecten simpelweg niet in de bevraagde sample zaten.
+Daarnaast is het mogelijk dat *gij bent* ook in de Noorderkempense
+dialecten in alternantie voorkomt met *gij zijt*, en in de
+dialectbevragingen gewoonweg nooit aan bod gekomen is. Dat *gij bent* op
+de dialectkaart onzichtbaar blijft in Vlaanderen, maakt het wel moeilijk
+om een potentiële regionale invloed op tussentaal in te schatten.
+
+Wat stilistische variatie betreft, dient zich een andere mogelijkheid
+aan. *Gij bent* kan namelijk ook in de tussentaal zelf ontstaan zijn. We
+zagen al dat de bestaansreden voor tussentaal voortkomt uit de drang om
+zich te uiten in een taal die *niet* standaardtaal en *niet* dialect is.
+Mogelijk is *gij bent* een constructie die in diezelfde context past:
+waar *gij zijt* nog duidelijk wortels heeft in dialect, is *gij bent*
+een minder dialectale constructie, die toch het exogene en
+standaardtalige *jij*-pronomen vermijdt. Het is natuurlijk ook mogelijk
+dat *bent* voor de tweede maal (zie hoger) naar analogie met *ben* uit
+de eerste persoon enkelvoud is ontstaan ('stam + t'). Ongeacht het
+precieze ontstaansproces blijft de vervoeging *bent* wel onmiskenbaar
+standaardtalig.
+
+### Hypotheses en verkenning {#sec-hypotheses}
+
+Ondanks de vele publicaties over tussentaal lijkt *gij bent* onder de
+radar van onderzoekers gebleven te zijn. Deze studie wenst die leemte in
+het onderzoek naar de nieuwe Vlaamse omgangstaal op te vullen met
+verschillende analyses. Allereerst bouwen we verder op de bevindingen
+uit de literatuur en worden de volgende hypotheses getest:
+
+1.  *gij bent* is steviger vertegenwoordigd in het oorspronkelijk
+    Brabantse dialectgebied dan in andere dialectgebieden.
+
+De eerste hypothese leunt op de geografische variatie in tussentaal en
+poneert dat *gij bent* meer vertegenwoordigd is in het dialectgebied
+waarin het Brabantse dialect gesproken wordt. Die hypothese komt voort
+uit de aanwezigheid van de constructie in de beschrijving van de
+Brabantse dialecten door @ooms_vlaams-brabants_2005 [zie hoger]. 
+@ooms_brabants_2022 typeert het gebruik van *gij bent* als een typisch
+Noorderkempische dialectale eigenaardigheid, maar in DynaSAND-materiaal
+[@barbiers_dynamische_2006] blijft de constructie onzichtbaar in heel
+Vlaanderen. We zetten onze spreekwoordelijke taalkundige netten hier dus
+erg breed uit en generaliseren het gebruik naar het volledige Brabantse
+dialectgebied.
+
+2.  *gij bent* is het stevigst verankerd in de Noorderkempen en komt
+    minder voor naarmate de afstand van die regio groter wordt
+
+De tweede hypothese poneert dat *gij bent* haar epicentrum kent in de
+Noorderkempen [@ooms_brabants_2022]. We gaan ervan uit dat het gebruik verder weg
+hiervandaan uitdeemstert, zoals volgens een "golfmodel" [@francois_trees_2014, 168-169].
+
+3.  *gij bent* is formeler dan *gij zijt.*
+
+Wat ook de (diachrone) oorsprong van de *gij bent*-constructie moge
+zijn, het is mogelijk dat de constructie door haar synchrone overlap met
+*bent* in de standaardtaal vandaag meelift op het prestige en de
+formaliteit die geassocieerd worden met de standaardtaal [@impe_vlamingen_2007]. 
+De derde hypothese poneert dus dat *gij bent* hoger
+staat op de formaliteitsschaal dan *gij zijt*, en daarom ook meer
+gebruikt wordt in formelere contexten waarin ook tussentaal gebruikt
+wordt.
+
+Aanvullend bekijken we exploratief of er ook tendensen zijn waar in de
+literatuur momenteel niets over bekend is, maar die het gebruik van *gij
+bent* mogelijk beïnvloeden. We controleren of er een diachroon effect is
+(bv. of het gebruik *gij bent* toeneemt in de tijd), en of er een verschil qua
+gender te vinden is. Daarnaast is het ook interessant om te bekijken
+hoe *gij bent* deel uitmaakt van iemands idiolect. Is er ruimte voor
+vrije variatie, of is het gebruik eerder binair in de zin dat slechts
+één van beide varianten consequent gebruikt wordt?
+
+## Methodologie
+
+### Dataverzameling
+
+Voor dit onderzoek werd gebruik gemaakt van posts van de
+microbloggingsite Twitter. De keuze voor data van een sociaal medium is
+om verschillende redenen opportuun. Allereerst hebben we voor dit
+onderzoek nood aan geschreven, informele taal. 
+@vandekerckhove_perception_2007 [255] bevestigen dat informele online schrijftaal
+aansluit bij informele spreektaal, waardoor ook tussentaalkenmerken
+doorsijpelen naar geschreven online communicatie. Ook de dialectische
+kenmerken van sprekers zijn terug te vinden in online gesprekken 
+[@de_decker_chattaal_2015, 209]. 
+Hoewel er weliswaar verschillen zijn tussen gesproken
+en geschreven informele taal, bijvoorbeeld de afkortingen die gangbaar
+zijn op sociale media, verwachten we hierdoor geen invloed op het
+gebruik van *gij bent*. Tegelijkertijd moeten we de kanttekening maken
+dat Twitter ook gebruikt wordt door bv. politici om -- in de
+standaardtaal -- politieke standpunten te verspreiden. Aangezien de
+vormen *gij zijt* en *gij bent* zich echter onlosmakelijk in de
+substandaardtalige sfeer bevinden, zullen onze attestaties niet uit dit
+twittergebruik putten. Ten slotte bieden Twitterdata ook de belangrijke
+geografische component, waardoor we iemands taalgebruik kunnen plaatsen
+binnen Vlaanderen.
+
+```{r}
+construction_distribution <- xtabs(~ construction_type, data=df)
+```
+
+We *scrapeten* alle Nederlandstalige tweets tussen 2012 en 2022 waarin
+*gij zijt* of *gij bent* voorkwamen. Aangezien Twitter geen reguliere
+expressies of dependency parsing [bv. @van_noord_at_2006] ondersteunt bij
+het zoeken, werd een zo uitgebreid mogelijke query gebruikt om zoveel
+mogelijk attestaties op te vragen.[^appendix-notice] 
+Dit leverde `r dim(df)[[1]] %>% formatn` tweets op: 
+`r construction_distribution[["zijt"]] %>% formatn`
+met *gij zijt*, 
+`r construction_distribution[["bent"]] %>% formatn` met *gij bent*. 
+Naast de tweets zelf werden ook
+zogenaamde metadata opgeslagen. Onder die metadata valt ook de locatie
+die gebruiker eventueel voor zijn profiel heeft opgegeven. Het gaat dus
+niet om de locatie die gerapporteerd wordt door het apparaat zelf. De
+locatie in het profiel van de gebruiker is ook niet per se de locatie
+van waar de gebruiker een tweet de wereld heeft ingestuurd. Iemand uit
+Zaventem (Vlaams-Brabant) kan bijvoorbeeld een tweet versturen vanuit
+Oostende (West-Vlaanderen), maar dat maakt zijn taalgebruik nog niet
+West-Vlaams. Door gebruik te maken van de locatie in het profiel van een
+gebruiker, vermijden we dergelijke interferentie.
+
+[^appendix-notice]: Voor de gebruikte query, zie Appendix.
+
+Een andere bron van mogelijke interferentie die *niet* vermeden kon
+worden kwam voort uit het diachrone aspect van het corpus. Aangezien de
+data werden opgehaald in april 2022, zijn de gerapporteerde locaties van
+de gebruikers die uit april 2022. Iemand die heel zijn leven in Hasselt
+(Limburg) gewoond (en getweet) heeft, daarna verhuisd is naar Leuven
+(Vlaams-Brabant) en zijn Twitterlocatie heeft aangepast, zal in het
+corpus als Leuvenaar worden beschouwd voor *al* zijn tweets, ook die van
+vroeger. Dit is onvermijdelijk, omdat Twitter geen locatiegeschiedenis
+bijhoudt.
+
+### Voorbereiden van de data {#sec-data-prepare}
+
+Voordat de opgehaalde tweets konden worden onderzocht op het gebruik van
+*gij bent*, moesten ze eerst worden gesorteerd, geanalyseerd en
+verwerkt. In deze sectie overlopen we alle handelingen die we
+verrichtten op het corpus.
+
+1.  Verwijderen van alle tweets uit Nederland
+
+In dit onderzoek wordt de *gij bent*-*gij zijt*-alternantie onderzocht
+vanuit een Vlaams perspectief. Het is dus vanzelfsprekend dat
+Nederlandse tweets uit het onderzoekscorpus werden geweerd. Dat gebeurde
+door te controleren of het land van de genormaliseerde locatie 'Belgium'
+was. Kwam een tweet uit Nederland, dan werd hij verworpen.
+
+2.  GPS-coördinaten voorzien voor alle tweets
+
+Om tweets te kunnen indelen volgens hun dialectregio werd gebruik
+gemaakt van de locatie die Twittergebruikers in hun profiel opgegeven
+hebben (bv. *Herentals*). We gebruikten die gerapporteerde locatie om
+GPS-coördinaten op te vragen met een *geolocator service*. Elke tweet
+werd zo voorzien van precieze GPS-coördinaten.
+
+3.  Dialectregio bepalen voor elke tweet
+
+Een van de hypotheses in dit onderzoek berust op een onderscheid in de
+dialectregio's in Nederlandstalig België. Daarom werd elke tweet van het
+corpus onderverdeeld bij haar corresponderende dialectregio op basis van
+de GPS-coördinaten bij die tweet. Het is echter niet mogelijk om de
+Vlaamse provinciegrenzen te gebruiken als dialectgrenzen. Zo reikt het
+Brabantse dialectgebied verder dan de grenzen van de provincie
+Vlaams-Brabant en Antwerpen [@ooms_vlaams-brabants_2005, 21]. Daarnaast
+lijkt er ook geen consensus te bestaan over waar de dialectgrenzen in
+Vlaanderen juist liggen. De westgrens van het Brabantse dialect volgens
+@ooms_vlaams-brabants_2005 [21] komt bijvoorbeeld niet volledig overeen
+met de oostgrens van het Oost-Vlaams volgens @taeldeman_oost-vlaams_2005 [19].
+Daarom werd gekozen voor de algemenere dialectkaart die te vinden is in
+de inleiding van de dialectvolumes van beide auteurs 
+[@ooms_vlaams-brabants_2005; @taeldeman_oost-vlaams_2005, 9]. 
+Die inleiding is van de hand van Nicoline van der Sijs.
+
+Een scan van de algemene dialectkaart werd gebruikt als basis voor een
+GeoJSON-kaart[^geojson], een kaart op basis van GPS-coördinaten. De scan werd
+doorschijnend over een topografische kaart van België geplaatst in de
+applicatie geojson.io [@noauthor_mapboxgeojsonio_2020] (zie @fig-geojson-map). Daarna
+werden de grenzen van de dialectgebieden overtrokken.[^transition] geojson.io
+maakt op de achtergrond een lijst van de coördinaten van de grenspunten
+van het overtrokken gebied, maar geeft ook een visuele weergave van dat
+gebied. Dat maakt het niet alleen eenvoudig om de kaart visueel aan te
+maken, maar ook om de coördinaten te controleren. Het resultaat is
+immers meteen zichtbaar. Door verschillen tussen de gedrukte en digitale
+referentiekaarten en vervormingen tijdens het scanproces zijn er
+mogelijk imperfecties.
+
+[^geojson]: GeoJSON is een digitaal formaat waarin geografische data, zoals
+    geografische gebieden, kunnen worden gerepresenteerd.
+
+[^transition]: Om de dialectgebieden niet verder te versplinteren werden de
+    overgangsgebieden genegeerd.
+
+![Een schermafbeelding van het ontwerp van de dialectkaart met
+GeoJSON](geojson-map.png){#fig-geojson-map}
+
+De digitale dialectkaart kon vervolgens worden gebruikt om tweets te
+situeren aan de hand van hun GPS-coördinaten. Het sorteerscript
+controleerde voor elk dialectgebied of een coördinaat erbinnen lag. Was
+dat het geval, dan werd de tweet toegewezen aan dat dialectgebied. Was
+er geen match, dan werd de tweet verworpen.
+
+4.  Afstand tot de Noorderkempen berekenen
+
+Een van de hypotheses in dit onderzoek hangt af van de afstand van de
+afzender van een tweet tot het Noorderkempisch gebied. Daarom werd voor
+elke tweet de afstand berekend tussen de gerapporteerde plaats van de
+tweet en de Noorderkempen. Voor de grenzen van dat gebied baseren we ons
+op een kaart van het Departement Omgeving van de Vlaamse Overheid voor
+de buitengebiedregio Noorderkempen [@departement_omgeving_ruimtelijke_2008, 45], getoond in @fig-noorderkempen:
+
+```{r noorderkempen-map-prepare}
+#| echo: false
+#| output: false
+
+library(sf) # geographic data
+library(ggplot2) # for plots
+library(ggthemes) # for map theme
+
+# == Flanders ==
+flanders <- st_read(dsn = "../analysis/regions/régions_08.shp")
+flanders <-
+  flanders[flanders$Nom == "Vlaams Gewest", ] # Wallonia bye
+flanders <- st_transform(flanders, 4326)
+
+# == Noorderkempen area ==
+noorderkempen <- st_read("../analysis/Noorderkempen/POLYGON.shp")
+noorderkempen <- st_transform(noorderkempen, 4326)
+
+diff <- st_intersection(noorderkempen, flanders)
+```
+
+```{r #fig-noorderkempen}
+#| fig-cap: Het Noorderkempisch gebied (in het rood) zoals gedefinieerd door het Departement Omgeving van de Vlaamse Overheid. De zwarte bol duidt ons ijkpunt aan voor de analyse.
+
+ggplot() +
+  geom_sf(data = flanders$geometry) +
+  theme_map() +
+  theme(legend.position = "none") +
+  geom_sf(
+    data = diff$geometry,
+    color = "#c16465",
+    linewidth = 0.5,
+    fill = "transparent"
+  ) +
+  geom_point(aes(y=51.351583, x=4.780751))
+```
+
+Er werd gekozen voor een punt in de Antwerpse gemeente Rijkevorsel als
+ijkpunt voor de analyse.[^coords] Dit punt ligt ongeveer even ver van de
+grens met Nederland als van het centrum van de provincie Antwerpen en
+ligt in het midden van het gebied dat door de Vlaamse Overheid als
+'Noorderkempen' wordt beschouwd. De afstand tussen de tweetplaats en het
+geselecteerde punt in Rijkevorsel werd berekend in kilometer.
+
+[^coords]: 51°19'17.7"N 4°46'50.7"E TODO update!!
+
+5.  Formaliteit bepalen van tweets
+
+De derde hypothese van dit onderzoek berust op een onderscheid tussen
+informele en minder informele taaluitingen. Hoewel Twitter ook gebruikt
+wordt voor formele aankondigingen en gesprekken, lijkt er geen
+formaliteitsverschil te bestaan voor tweets waarin *gij zijt* en *gij
+bent* voorkomen. Het is echter mogelijk om een eigenschap van Twitter te
+gebruiken om toch een registeronderscheid te maken in de tweets. Twitter
+laat gebruikers naast tweets *versturen* ook *antwoorden* op tweets.
+Antwoorden op Twitter kunnen uiteindelijk hele conversaties vormen (een
+zogenaamde *Twitter thread*). We kunnen tweets waarin anderen worden
+aangesproken (bv. "\@frankdeboosere welk weer wordt het vandaag?") als
+een vorm van een gesprek beschouwen. Dergelijke tweets zijn weliswaar
+ver verwijderd van wat we doorgaans als een gesprek zouden beschouwen,
+maar ze verschillen in se toch van 'gewone' tweets, die veeleer een
+soort openbare mededelingen zijn en daarom als formeler kunnen worden
+beschouwd. We beschouwen alle tweets waarin iemand wordt 'aangesproken'
+met een tag (@) (zie voorbeeld @fig-tweet-example) als een conversationele tweet.
+
+![Voorbeeld van een antwoord op een tweet op Twitter. In recente
+iteraties van Twitter wordt de tag niet meer weergeven (hier:
+\@Nicole_demoor). In vorige versies van Twitter was de tag deel van de
+tweet zelf.](tweet-example.png){#fig-tweet-example}
+
+6. Filteren van verkeerd ingedeelde attestaties
+
+Aangezien Twitter niet toelaat om met geavanceerde patronen te zoeken, werd ook een aantal ongeldige attestaties opgehaald. Met een script dat onderwerpen en predicaten aan elkaar probeert te linken, werden foutieve attestaties opgespoord en verwijderd.
+
+7. Genderinformatie bepalen.
+
+Twitter houdt geen gender bij voor haar gebruikers. Nochtans willen we exploratief ook kijken naar het verschil in gebruik van *gij bent* bij mannen en vrouwen. Om toch genderinformatie in de dataset te brengen, maakten we gebruik van *gender_from_name* [@sevenants_gender_name_2023], een Python-script dat het gender van iemand afleidt op basis van hun naam. Het script baseert zich op publieke data van de Belgische overheid over de frequentie van voornamen in België en zoekt de langste naam die met de Twitternaam kan worden gematcht. Attestaties die niet konden worden gematcht, werden verworpen. Als een naam voorkomt voor zowel mannen als vrouwen (bv. 'Pascal'), werd het gender waarvoor de naam het frequentst is toegewezen. Dit betekent dat het script nooit 100% correct kan zijn, maar het presteert wel zo goed als mogelijk vanwege het *maximum likelihood*-principe.
+
+Het script kan alleen maar mannelijk en vrouwelijk gender toewijzen, omdat dit de enige genders zijn waarvoor de Belgische overheid data publiceert. De toewijzing van genders is hier louter een instrument om inzicht te krijgen in een taalkundig fenomeen -- uiteraard is het in andere situaties niet de bedoeling om in plaats van iemand anders genders toe te wijzen aan personen.
+
+## Analyse en resultaten
+
+### Mixed-effects logistische regressieanalyse
+
+Allereerst bekeken we met een mixed-effects logistische regressieanalyse de invloed van vijf verschillende predictoren op het gebruik van *gij bent* en *gij zijt*. We overlopen deze predictoren hieronder en linken ze aan de verschillende hypotheses uit @sec-hypotheses. Door het grote aantal verschillende gebruikers en tweets per gebruiker was het voor het regressiemodel onmogelijk om de variatie onder gebruikers te schatten met een *random effects*-structuur. Om de multifactoriële controle te behouden, werd ervoor gekozen om voor elke gebruiker maar telkens één tweet op te nemen. 
+
+|predictor|mogelijke waarden|uitleg|hypothese|
+|---|---|---|---|
+|dialect|`r df$dialect %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|de dialectregio waartoe een tweet behoort|hogere kans op *gij bent* voor Brabantse dialectgebied (hypothese 1)|
+distance_from_antwerp|`r df$distance_from_antwerp %>% min %>% formatd` km - `r df$distance_from_antwerp %>% max %>% formatd` km|de afstand in km van de gerapporteerde gebruikerslocatie tot de in @sec-data-prepare gekozen locatie in de Noorderkempen|hoe dichter de gebruiker bij de Noorderkempen woont, hoe groter de kans op *gij bent* (hypothese 2)|
+|is_reply|`r df$is_reply %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|of een tweet in "dialoog" gaat met anderen (en dus informeler is)|*gij bent* komt vaker voor bij tweets die géén andere gebruikers aanspreken (hypothese 3)|
+|gender|`r df$gender %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|het geschatte gender van de gebruiker die de tweet postte|exploratief (geen hypothese)|
+|year|`r df$year %>% min` - `r df$year %>% max`|het jaar waarin een tweet werd gepost|exploratief (geen hypothese)|
+
+```{r table-fit}
+format_num_col <- function(p_value) {
+  if (p_value < 0.01) {
+    return("<0.01")
+  } else {
+    return(formatd(p_value, 4))
+  }
+}
+format_num_col <- Vectorize(format_num_col)
+
+format_table <- function(df) {
+  df <- df %>% tidy
+
+  df$sig <- ifelse(df$p.value <= 0.05, "*", "")
+  
+  df$estimate <- df$estimate %>% formatd(2)
+  df$std.error <- df$std.error %>% formatd(2)
+  df$statistic <- df$statistic %>% formatd(2)
+  df$p.value <- df$p.value %>% format_num_col()
+
+  colnames(df) <- c("predictor", "coëfficiënt", "standaardfout", "teststatistiek", "p-waarde", " ")
+
+  return(df)
+}
+```
+
+```{r fit-lm-model}
+#| output: false
+fit <-
+  glm(
+    construction_type ~ dialect + distance_from_antwerp + year +
+      gender + is_reply,
+    family = "binomial",
+    data = df
+  )
+```
+
+@tbl-regression-output toont de resultaten van de regressieanalyse. Die resultaten moeten worden geïnterpreteerd ten opzichte van de referentiesituatie die uitgedrukt wordt onder "Intercept". Die situatie betreft hier:
+
+* een attestatie uit het Brabantse taalgebied;
+* zonder gesprekskenmerken;
+* op afstand 0 van het punt in de Noorderkempen;
+* in het virtuele jaar 0;
+* van een mannelijke plaatser
+
+De regressieanalyse toont de verschillen wanneer één element verandert.
+
+```{r #tbl-regression-output}
+#| tbl-cap: "Output van de regressieanalyse" 
+fit %>% format_table()
+```
+
+#### Dialect en afstand {#sec-dialect-predictor}
+
+Er zijn significante verschillen in het gebruik van *gij bent* op basis van dialectgebied. Zo zien we dat het verschil in gebruik in het Brabantse dialectgebied significant verschilt van zowel het Limburgse, Oost-Vlaamse en West-Vlaamse dialectgebied. In de Limburgse en Oost-Vlaamse gebieden daalt de kans op *gij bent* tegenover het Brabantse gebied, wat de eerste hypothese lijkt te bevestigen. In het West-Vlaamse gebied, daarentegen, stijgt de kans op *gij bent* juist tegenover het Brabantse gebied, wat minstens eigenaardig te noemen is. We komen zo meteen op die eigenaardigheid terug.
+
+Uit de *estimated marginal means*-posthoc-testen, getoond in @tbl-posthoc-test, blijkt dat er geen significant verschil is tussen het gebruik van *gij bent* in het Limburgse en Oost-Vlaamse dialectgebied. Tussen andere paren zijn er wel significante verschillen. Op dit moment zien we dus drie verschillende gebieden: (1) het Brabantse dialectgebied, waar *gij bent* frequent wordt gebruikt (2) de Limburgse en Oost-Vlaamse dialectgebieden, waar *gij bent* minder frequent wordt gebruikt (3) het West-Vlaamse dialectgebied, waar volgens deze analyse nog een hoger gebruik van *gij bent* zou moeten zijn dan in het Brabantse gebied.
+
+```{r #tbl-posthoc-test}
+#| tbl-cap: "Output van de posthocanalyse" 
+posthoc <- emmeans(fit,
+                   pairwise ~ dialect,
+                   type="response",
+                   weights="proportional")
+posthoc_df <- posthoc$contrasts %>% tidy()
+posthoc_df$term <- NULL
+posthoc_df$df <- NULL
+posthoc_df$null <- NULL
+posthoc_df$null.value <- NULL
+posthoc_df$contrast <- gsub("[()]", "", posthoc_df$contrast)
+posthoc_df$contrast <- gsub("/", "↔", posthoc_df$contrast)
+
+posthoc_df$odds.ratio <- posthoc_df$odds.ratio %>% formatd()
+posthoc_df$std.error <- posthoc_df$std.error %>% formatd()
+posthoc_df$statistic <- posthoc_df$statistic %>% formatd()
+posthoc_df$adj.p.value <- posthoc_df$adj.p.value %>% format_num_col()
+
+colnames(posthoc_df) <- c("contrast", "odds ratio", "standaardfout", "teststatistiek", "p-waarde")
+
+posthoc_df
+```
+
+We zien in de regressietabel ook dat we een correctie moeten toepassen volgens afstand tot de Noorderkempen. Per km weg van de Noorderkempen, zien we dat de kans op *gij bent* afneemt. De regressiecoëfficiënten en posthocanalyse geven daarmee een vertekend beeld. De regressie vertrekt vanuit het idee de afstand tot het punt in de Noorderkempen '0' is. Voor een locatie in het West-Vlaamse gebied kan zoiets helemaal niet, alsook voor de andere niet-Brabantse dialectgebieden. Om een beter beeld te krijgen van de voorspelde kansen op *gij bent* in de verschillende dialectgebieden, corrigeren we die kansen volgens de gemiddelde afstand tot de Noorderkempen voor elk dialectgebied (zie @tbl-mean-dialect-distance).
+
+```{r #tbl-mean-dialect-distance}
+#| tbl-cap: "Overzicht van de gemiddelde afstand tot het punt in de Noorderkempen per dialectgebied" 
+mean_dialect_distances <- aggregate(df$distance_from_antwerp,
+                                    list(df$dialect), FUN = mean)
+colnames(mean_dialect_distances) <-
+  c("dialect", "mean_antwerp_distance")
+
+output_table <- mean_dialect_distances
+output_table$mean_antwerp_distance <- 
+    paste0(formatd(output_table$mean_antwerp_distance, 0), " km")
+colnames(output_table) <- c("dialectgebied", "gemiddelde afstand")
+output_table
+```
+
+@fig-dialect-predictions toont de voorspellingen voor het gebruik van *gij bent* per dialectgebied, gecorrigeerd voor afstand, en geeft een veel eenduidiger beeld. In het Brabantse dialectgebied wordt de kans op *gij bent* hoog ingeschat, terwijl de waarden voor het Limburgse, Oost-Vlaamse en West-Vlaamse gebied juist laag uitvallen. De West-Vlaamse anomalie in de regressieresultaten lijkt dus te wijten aan een conflict tussen de dialect- en afstandspredictoren. Om een beter beeld te krijgen van de geografische effecten van *gij bent* operationaliseren we die vespreiding in @sec-gam op een andere manier, maar voorlopig kunnen we hypothese 1 en 2 op basis van deze resultaten wel al bevestigen. 
+
+```{r fig-dialect-predictions}
+#| fig-cap: "Voorspelde kans op *gij bent* in de verschillende Vlaamse dialectgebieden, gecorrigeerd voor afstand"
+library(ggeffects) # effect plots
+
+predict_args <- paste(mean_dialect_distances$mean_antwerp_distance,
+                      collapse = ",")
+predict_args <-
+  paste(c("distance_from_antwerp[", predict_args, "]"),
+        collapse = "")
+
+predictions <-
+  ggpredict(fit, terms = c("dialect", predict_args)) %>%
+  as.data.frame()
+
+# I need to cast "group" back to double type for the join
+predictions$group <-
+  as.double(as.character(predictions$group)) %>% round()
+# Also round the original mean distances
+mean_dialect_distances$mean_antwerp_distance <-
+  mean_dialect_distances$mean_antwerp_distance %>% round()
+
+predictions <- merge(x = predictions,
+                     y = mean_dialect_distances,
+                     by.x = "group",
+                     by.y = "mean_antwerp_distance")
+
+# Keep only corresponding rows
+predictions <-
+  predictions[predictions[["x"]] == predictions[["dialect"]], ]
+
+predictions$label <-
+  (predictions$predicted * 100) %>%
+  round(2) %>%
+  as.character() %>%
+  paste("%", sep = "")
+
+ggplot(predictions) +
+  geom_errorbar(aes(x = x, ymin = conf.low, ymax = conf.high),
+                width = 0.1,
+                colour = "orange") +
+  geom_point(aes(x = x, y = predicted), colour = "black") +
+  geom_text(aes(x = x, y = predicted, label = label),
+            nudge_x = 0.25,
+            size = 4) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(y = "Kans op gij bent", x = "Dialectgebied")
+```
+
+#### Gesprekskenmerken
+
+De regressietabel toont dat wanneer een tweet aansprekingen aan andere gebruikers bevat, de kans op *gij bent* daalt. Dit effect is significant. Ervan uitgaand dat de aanwezigheid van een aanspreking de formaliteit van een tweet beïnvloedt, bevestigt dit effect hypothese 3 die poneert dat *gij bent* formeler is dan *gij zijt*.
+
+#### Gender
+
+Uit de resultaten van de regressieanalyse blijkt dat er een significant verschil is tussen tweets van gebruikers die een vrouwelijke naam en toegewezen kregen en tweets van gebruikers die een mannelijke naam toegewezen kregen. Wanneer een tweet van een toegewezen vrouw komt, stijgt de kans op het gebruik van *gij bent*. Hoewel enige voorzichtigheid geboden is omdat het hier niet gaat om feitelijke, maar wel automatisch toegewezen genders, lijkt dit te suggereren dat vrouwen meer geneigd zijn om de *bent*-vorm te gebruiken.
+
+#### Tijd
+
+De regressieanalyse toont een negatief effect van tijd op het gebruik van *gij bent*, maar dat effect is niet significant. Op basis van de tien jaar aan data die we verzamelden kunnen we dus niet zeggen dat er een bepaalde evolutie in de tijd verbonden is aan het gebruik van *gij bent*.
+
+### Idiolectanalyse
+
+In dit onderdeel van de analyse bekijken we het aandeel van *gij bent* in het idiolect van de plaatsers van de opgehaalde tweets. Door te kijken naar het gebruik van *gij zijt* of *gij bent* over verschillende tweets van dezelfde gebruikers, kunnen we inzicht krijgen in op de mate van variatie tussen beide vormen.
+
+Het is uiteraard niet betrouwbaar om uitspraken te doen over iemands 'idiolect' met betrekking tot *gij bent*, als die uitspraken slechts gebaseerd zijn op een handvol attestaties. Daarom analyseerden we alleen de tweets van gebruikers met minstens 10 tweets in ons corpus. Voor elke gebruiker werd een zogenoemde 'bent-ratio' berekend: het procentuele aandeel van *gij bent*-tweets, afgezet tegen het totale aantal tweets van die gebruiker met *gij zijt* en *gij bent*:
+
+$$
+\frac{\text{\#attestaties `gij bent'}}{\text{\#attestaties `gij zijt' + \#attestaties `gij bent'}}
+$$
+
+Een gebruiker met in totaal 10 tweets waarin *gij bent* of *gij zijt* voorkomt die in 7 tweets *gij bent* gebruikte, heeft dus een bent-ratio van 0.7. We bekeken alleen tweets van zonder aansprekingen om interferentie van deze factor te voorkomen.
+
+```{r}
+#| echo: FALSE
+#| output: FALSE
+
+library(dplyr)
+
+compute_bent_ratio <- function(vector) {
+  table(vector)[names(table(vector)) == "bent"] / length(vector)
+}
+distribution <- df_full %>%
+  filter(gender != "") %>%
+  filter(is_reply == FALSE) %>%
+  group_by(username) %>%
+  filter(length(username) >= 10) %>%
+  summarise(
+    bent_ratio = compute_bent_ratio(construction_type),
+    # Just get the first dialect, it will be the same for all tweets
+    dialect = dialect[[1]],
+    distance_from_antwerp = distance_from_antwerp[[1]],
+    gender = gender[[1]],
+    is_reply = mean(as.numeric(is_reply)),
+    weights = length(username)
+  )
+distribution$fixed <- ifelse(distribution$bent_ratio == 0 | distribution$bent_ratio == 1, T, F)
+```
+
+Als we descriptief kijken naar de verdeling van de bent-ratio in @fig-bent-ratio, zien we dat het gebruik van *gij bent* verschilt naargelang het dialectgebied. In de Limburgse, Oost-Vlaamse en West-Vlaamse dialectgebieden is er maar één piek, namelijk rond waarde 0 (nooit *bent*), wat vanzelfsprekend is gegeven de resultaten van de regressieanalyse. In het Brabantse dialectgebied zijn er twee pieken, rond waarde 0 (nooit *bent*) en 1 (altijd *bent*), maar daartussen is er wel heel wat ruimte voor variatie.
+
+```{r #fig-bent-ratio}
+#| fig-cap: Verdeling van de bent-ratio in de vier provincies
+ggplot(distribution, aes(x = bent_ratio)) +
+  geom_histogram(bins=10) +
+  facet_wrap( ~ dialect)
+```
+
+### General Additive Model {#sec-gam}
+
+We zagen al in @sec-dialect-predictor dat het gebruik van zowel dialectgebied als afstand tot de Noorderkempen als predictoren de interpretatie van de geografische verspreiding bemoeilijkt. Ook stellen deze predictoren de geografische verspreiding van *gij bent* mogelijk te simplistisch voor. Daarom modellleerden we voor dit laatste onderdeel van de analyse het gebruik van *gij bent* rechtstreeks, op basis van de geografische coördinaten van de locaties van de plaatsers de tweets in ons corpus.
+
+Er werd gebruik gemaakt van General Additive Models (GAM's) [@hastie_generalized_1987], een moderne regressietechniek die complexe relaties kan modelleren. GAM's zijn interessant om geografische fenomenen te modelleren omdat ze (1) niet beperkt zijn tot het modelleren van lineaire relaties (2) de twee geografische assen gezamenlijk kunnen modelleren. Hierdoor kunnen geografische patronen veel nauwkeuriger worden voorgesteld in het model. We volgen hiermee @ghyselen_over_2019, die in hun onderzoek een GAM gebruikten om de verspreiding van het West-Vlaamse voornaamwoord *etwuk* te modelleren. 
+
+Om de verspreiding van *gij bent* te modelleren, werd de volgende regressieformule gebruikt:
+
+$$
+\text{constructie} \sim s(\text{lengte}) + s(\text{breedte}) + te(\text{lengte}, \text{breedte})
+$$
+
+Het gebruik van *gij bent* wordt gemodelleerd volgens een *smooth* ($s$) van zowel de lengte- als breedtegraad, alsook volgens een *tensor smooth* ($te$) van de combinatie van beide assen. Waar de smooths de complexe relaties van lengte- en breedtegraden apart vertegenwoordigen, probeert een tensor smooth hun gezamenlijke interactie te capteren. Ook hier wordt elke gebruiker maar vertegenwoordigd door één tweet.
+
+Om de interpretatie van het geografische model te vergemakkelijken, bekijken we de voorspellingen van het model in @fig-gam-map visueel op een kaart van Vlaanderen. In blauwe gebieden op de kaart is het gebruik van *gij bent* laag, in gele gebieden op de kaart is het gebruik juist hoog. De rode lijnen duiden de verschillende dialectgebieden aan (vlnr. West-Vlaams, Oost-Vlaams, Brabants en Limburgs). Bovenaan in het Brabantse dialectgebied is het Noorderkempengebied aangeduid, dat nog steeds een onderdeel is van het Brabantse dialectgebied. De witte contouren duiden gebieden aan waarin het gebruik van *gij bent* hetzelfde is.
+
+```{r #fig-gam-map}
+#| fig-cap: Een visuele voorstelling van de resultaten van het geografische model
+# todo
+```
+
+![Een visuele voorstelling van de resultaten van het geografische model TODO vervangen](heatmap.png){#fig-gam-map}
+
+Het valt meteen op dat de algemene resultaten van de mixed-effects-regressie ook terug te zien zijn in de voorspellingen van het geografische model. Het gebruik van *gij bent* is overal in Vlaanderen laag, behalve in het Brabantse dialectgebied. Verder lijkt er ook een gradiëntwerking te zijn, waarbij het gebruik van *gij bent* geleidelijk afneemt naargelang de afstand tot het Brabants vergroot.
+
+Wat beter opvalt in deze weergave van de verspreiding van *gij bent* is dat de Noorderkempen het epicentrum van de constructie lijken te zijn. Dit effect is volledig *bottom up* tot stand gekomen: er is geen predictor aanwezig in het model die de afstand tot dit punt meet. Het is ook duidelijk dat *gij bent* niet overal in het Brabantse dialectgebied gebruikt lijkt te worden: naarmate Brussel nadert, keldert het gebruik van *gij bent*. Dit zijn inzichten die met de traditionele regressieanalyse moeilijk of niet te bereiken waren.
+
+De lichtblauwe en donkerblauwe schakeringen in de andere dialectgebieden zijn slecht te interpreteren. Aangezien *gij bent* minder vaak voorkomt in deze gebieden, is het voor het model moeilijker om nuances in het gebruik te modelleren. We proberen dan ook niet om een interpretatie te verbinden aan deze schakeringen en kijken enkel naar de algemene structuur die eerder werd aangehaald.
+
+## Discussie
+
+In deze studie werd geprobeerd om het gebruik en de verspreiding van het mogelijk tussentalige *gij bent* te modelleren aan de hand van dialectgebied, afstand tot de Noorderkempen, formaliteit, gender en tijd. Uit de resultaten van zowel de mixed-effects logistische regressieanalyse als het General Additive Model blijkt dat er inderdaad een geografisch effect is dat het gebruik van *gij bent* bepaalt. Waar de West-Vlaamse, Oost-Vlaamse en Limburgse dialectgebieden veel vaker *gij zijt* gebruiken dan *gij bent*, is *gij bent* veel populairder in het Brabantse dialectgebied, wat hypothese 1 bevestigt. Uit het geografische model blijkt dan ook dat het epicentrum van *gij bent* in het Brabantse dialectgebied ligt, meer bepaald in de regio van de Noorderkempen, volledig in overeenstemming met observaties van @ooms_brabants_2022. Dit bevestigt hypothese 2. Naarmate Brussel nadert, neemt het gebruik van *gij bent* weer af in het voordeel van *gij zijt*.
+
+De geografische verspreiding van *gij bent* is interessant. De vorm is vooralsnog alleen populair in het Brabantse dialectgebied, en kent ook een epicentrum dat klassiek niet als 'toonaangevend' wordt beschouwd in de literatuur:
+
+> Als er door taalkundigen en taalbeleidsmakers geklaagd wordt over de oprukkende tussentaal, is daarmee vrijwel altijd de sterk Brabants gekleurde tussentaal bedoeld zoals die van nature tot ontwikkeling is gekomen in het **kerngebied Antwerpen en Vlaams-Brabant** [@de_caluwe_tussentaal_2009, 15, mijn nadruk]
+
+De Noorderkempen liggen noordelijker dan Vlaams-Brabant en het Antwerpse kerngebied. De vraag rijst hiermee hoe *gij bent* is kunnen 'ontsnappen' naar de rest van het Brabantse dialectgebied, en waarom de verspreiding (tot nu) nooit verder dan dit gebied is geraakt. Een mogelijke verklaring hiervoor ligt in een herinterpretatie van de formaliteit van de vorm. Omdat *bent* in *gij bent* associaties oproept met het standaardtalige *jij bent*, is het mogelijk dat de vorm meelift op het prestige en de formaliteit die typisch geassocieerd worden met de standaardtaal.
+
+Twee elementen wijzen erop dat een formaliteitsverschil tussen *gij zijt* en *gij bent* plausibel is. Allereerst zien we dat het gebruik van *gij bent* daalt wanneer er geen andere gebruikers worden aangesproken in een tweet, zoals in een gesprek. Omgekeerd is het gebruik van *gij bent* hoger in tweets zonder aansprekingen, vergelijkbaar met openbare mededelingen. Als we het verschil tussen beide soorten tweets associëren met een formaliteitsverschil, is er dus een formaliteitsverschil tussen *gij bent* en *gij zijt*, waar *gij bent* formeler aanvoelt, wat hypothese 3 bevestigt.
+
+Het tweede element dat wijst op een mogelijk formaliteitsverschil vinden we terug in het genderverschil bij het gebruik van *gij bent*. Tweets die volgens de automatische indeling toebehoren aan vrouwen, hebben meer kans om *gij bent* te bevatten dan tweets toegewezen aan mannen. Volgens @trudgill_dialect_1983 [161] zijn vrouwen geneigd om meer standaardtalige vormen te produceren dan mannen, wat erop zou wijzen dat het standaardtalige element *bent* in *gij bent* ook als dusdanig herkend wordt. Het bijhorende formaliteitsverschil is dan geen grote stap.
+
+Het mogelijke formaliteitsverschil zou de sleutel kunnen zijn die de verspreiding van *gij bent* in het Brabantse dialectgebied verklaart. Door haar overlap met de standaardtaal wordt de vorm mogelijk niet als een regionaal fenomeen herkend, maar wel als een hybride en innovatieve tussentalige vorm. Hoewel de vorm volgens het geografische model duidelijk haar oorsprong kent in de Noorderkempen, is de vorm na taalcontact dus wellicht een eigen leven gaan leiden onder een andere identiteit. Dat *gij bent* vaker voorkomt in tweets toegewezen aan vrouwen versterkt dat idee, aangezien vrouwen sneller taalkundige innovaties oppikken dan mannen [@labov_principles_2001, hoofdstuk 8].
+
+Daarmee is nog niet verklaard waarom *gij bent* geen verspreiding kent naar andere dialectgebieden. Wellicht kan de innovatieve vorm gedijen wegens het grootschalige dialectverlies in de Brabantse regio [@de_caluwe_regiolectisering_2011, 65]. Dialectverlies bestaat uiteraard ook in andere regio's, maar is niet zo uitgesproken als in de Brabantse gebieden. Het idee zou dan zijn dat naargelang dialectverlies zich voortzet, het mogelijk moet worden voor *gij bent* om door te breken in de andere dialectgebieden. Als we kijken naar de diachrone verspreiding van *gij bent*, kunnen we echter geen significante trend vaststellen. Dat kan betekenen dat de oorzaak voor de beperkte geografische verspreiding elders gevonden moet worden, of dat het tienjarige beslag van het corpus niet uitgebreid genoeg is om een diachroon effect vast te stellen. Als we per spreker kijken naar de keuze *gij bent*-*gij zijt* in het Brabantse dialectgebied, zijn er heel wat taalgebruikers die (bijna) uitsluitend *gij bent* gebruiken, maar is er ook nog veel ruimte voor variatie. Het is dus mogelijk dat dit een momentopname is van taalverandering *in progress*, maar om dit met enige zekerheid te verklaren is er momenteel niet voldoende bewijs.
+
+Ondanks de verschillende onzekerheden die er nog bestaan rond de vorm, laat dit onderzoek zien dat *gij bent* een fenomeen is dat ondertussen uit de spreekwoordelijke Noorderkempische voegen gebarsten is, mogelijk door een herinterpretatie op basis van formaliteit. De populariteit van *gij bent* leert ons dat de belangrijkste processen van tussentaal (geen dialect, aantrekking van de standaardtaal) nog steeds doorwerken. Tegelijkertijd toont dit onderzoek dat socialenetwerksites zoals Twitter een uiterst interessante bron kunnen zijn voor authentiek, informeel taalmateriaal dat anders nagenoeg onmogelijk zou zijn om te verzamelen. Daarbovenop kunnen we gebruik maken van moderne statistische technieken, zoals General Additive Models, om gedetailleerde visualisaties te maken op basis van deze data. Wellicht is het dus interessant om deze mogelijkheden in verder onderzoek nog meer uit te diepen, al dan niet voor *gij bent*.
