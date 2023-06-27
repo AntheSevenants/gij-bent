@@ -16,6 +16,7 @@ format:
       df-print: kable
    docx:
       df-print: kable
+      toc: false
 include-in-header:
   - text: |
       <style>
