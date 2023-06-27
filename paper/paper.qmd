@@ -14,6 +14,8 @@ author:
 format: 
    html:
       df-print: kable
+   docx:
+      df-print: kable
 include-in-header:
   - text: |
       <style>
@@ -650,7 +652,7 @@ fit <-
 De regressieanalyse toont de verschillen wanneer één element verandert.
 
 ```{r #tbl-regression-output}
-#| tbl-cap: "Output van de regressieanalyse" 
+#| tbl-cap: "Output van de regressieanalyse. * duidt op statistische significantie" 
 fit %>% format_table()
 ```
 
@@ -661,7 +663,7 @@ Er zijn significante verschillen in het gebruik van *gij bent* op basis van dial
 Uit de *estimated marginal means*-posthoc-testen, getoond in @tbl-posthoc-test, blijkt dat er geen significant verschil is tussen het gebruik van *gij bent* in het Limburgse en Oost-Vlaamse dialectgebied. Tussen andere paren zijn er wel significante verschillen. Op dit moment zien we dus drie verschillende gebieden: (1) het Brabantse dialectgebied, waar *gij bent* frequent wordt gebruikt, (2) de Limburgse en Oost-Vlaamse dialectgebieden, waar *gij bent* minder frequent wordt gebruikt en (3) het West-Vlaamse dialectgebied, waar volgens deze analyse nog een hoger gebruik van *gij bent* zou moeten zijn dan in het Brabantse gebied.
 
 ```{r #tbl-posthoc-test}
-#| tbl-cap: "Output van de posthocanalyse" 
+#| tbl-cap: "Output van de posthocanalyse. * duidt op statistische significantie" 
 posthoc <- emmeans(fit,
                    pairwise ~ dialect,
                    type="response",
@@ -679,7 +681,9 @@ posthoc_df$std.error <- posthoc_df$std.error %>% formatd()
 posthoc_df$statistic <- posthoc_df$statistic %>% formatd()
 posthoc_df$adj.p.value <- posthoc_df$adj.p.value %>% format_num_col()
 
-colnames(posthoc_df) <- c("contrast", "odds ratio", "standaardfout", "teststatistiek", "p-waarde")
+posthoc_df$sig <- ifelse(posthoc_df$adj.p.value <= 0.05, "*", "")
+
+colnames(posthoc_df) <- c("contrast", "odds ratio", "standaardfout", "teststatistiek", "p-waarde", "")
 
 posthoc_df
 ```
