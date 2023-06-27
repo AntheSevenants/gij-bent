@@ -1,7 +1,10 @@
 ---
 title: |
-    | *'Zijt gij dat of bent gij dat?'*
-    | Een alternantiestudie van de tweede persoon enkelvoud van *zijn* in Vlaamse tussentaal
+        '*Zijt* gij dat of *bent* gij dat?'
+subtitle: Een alternantiestudie van de tweede persoon enkelvoud van *zijn* in Vlaamse tussentaal
+abstract: |
+  In Colloquial Belgium Dutch (QBD) a special form of the second person singular of *zijn* ('to be') has appeared: *gij bent*. This construction blends the historically traditional form *gij zijt* with the more formal Standard Dutch *bent* from *jij bent*. Though the construction now appears in QBD, it is said to originate from northern Antwerp dialects. A logistic regression analysis and general additive model of colloquial Flemish tweets show that *gij bent* is popular only in the Brabant dialect area and that usage is highest in the northern Antwerp area. In addition, it is found that *gij bent* is more likely to appear in tweets with general statements rather than conversations, which hints at a formality difference. Tweets thought to come from women also feature more *gij bent*. It is plausible that *gij bent*, though it does not originate from a leading language area, was able to spread throughout the Brabant dialect area because of a formality reinterpretation. While the form likely originates from the northern Antwerp dialects, it might have been reinterpreted as an innovative, hybrid form in QBD, but only in the Brabant area. There is currently no evidence that *gij bent* has spread to other dialect areas.
+abstract-title: Abstract
 author:
   - name: Anthe Sevenants
     email: anthe.sevenants@kuleuven.be
@@ -19,6 +22,7 @@ include-in-header:
       }
       </style>
 editor: visual
+css: paper.css
 title-block-banner: true
 bibliography: references.bib
 toc: true
@@ -853,3 +857,23 @@ Het mogelijke formaliteitsverschil zou de sleutel kunnen zijn die de verspreidin
 Daarmee is nog niet verklaard waarom *gij bent* geen verspreiding kent naar andere dialectgebieden. Wellicht kan de innovatieve vorm gedijen wegens het grootschalige dialectverlies in de Brabantse regio [@de_caluwe_regiolectisering_2011, 65]. Dialectverlies bestaat uiteraard ook in andere regio's, maar is niet zo uitgesproken als in de Brabantse gebieden. Het idee zou dan zijn dat naargelang dialectverlies zich voortzet, het mogelijk moet worden voor *gij bent* om door te breken in de andere dialectgebieden. Als we kijken naar de diachrone verspreiding van *gij bent*, kunnen we echter geen significante trend vaststellen. Dat kan betekenen dat de oorzaak voor de beperkte geografische verspreiding elders gevonden moet worden, of dat het tienjarige beslag van het corpus niet uitgebreid genoeg is om een diachroon effect vast te stellen. Als we per spreker kijken naar de keuze *gij bent*-*gij zijt* in het Brabantse dialectgebied, zijn er heel wat taalgebruikers die (bijna) uitsluitend *gij bent* gebruiken, maar is er ook nog veel ruimte voor variatie. Het is dus mogelijk dat dit een momentopname is van taalverandering *in progress*, maar om dit met enige zekerheid te verklaren is er momenteel niet voldoende bewijs.
 
 Ondanks de verschillende onzekerheden die er nog bestaan rond de vorm, laat dit onderzoek zien dat *gij bent* een fenomeen is dat ondertussen uit de spreekwoordelijke Noorderkempische voegen gebarsten is, mogelijk door een herinterpretatie op basis van formaliteit. De populariteit van *gij bent* leert ons dat de belangrijkste processen van tussentaal (geen dialect, aantrekking van de standaardtaal) nog steeds doorwerken. Tegelijkertijd toont dit onderzoek dat socialenetwerksites zoals Twitter een uiterst interessante bron kunnen zijn voor authentiek, informeel taalmateriaal dat anders nagenoeg onmogelijk zou zijn om te verzamelen. Daarbovenop kunnen we gebruik maken van moderne statistische technieken, zoals General Additive Models, om gedetailleerde visualisaties te maken op basis van deze data. Wellicht is het dus interessant om deze mogelijkheden in verder onderzoek nog meer uit te diepen, al dan niet voor *gij bent*.
+
+## Appendix {#appendix .appendix}
+
+**Jaarbeperking ('YEAR_SNIPPET')**
+
+```{.code-overflow-wrap}
+since:{YEAR}-01-01 until:{YEAR}-12-31
+```
+
+**Query voor *gij bent***
+
+```{.code-overflow-wrap}
+(ge OR gij OR gy bent) OR \"bende gij\" -je -jij {YEAR_SNIPPET} lang:nl
+```
+
+**Query voor *gij zijt***
+
+```{.code-overflow-wrap}
+(ge OR gij OR gy zijt) OR (ge OR gij OR gy zyt) OR (zijde ge OR zijde gij OR zijde gy) OR (zyde ge OR zyde gij OR zyde gy) OR (zedde ge OR zedde gij OR zedde gy) {YEAR_SNIPPET} -je -jij lang:nl
+```
