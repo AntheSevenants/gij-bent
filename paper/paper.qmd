@@ -47,6 +47,9 @@ df <- df[df$gender != "",]
 
 # Remove tweets without an associated context
 df <- df[!is.na(df$context),]
+
+# Extra column for clarity
+df$distance_from_nkemp <- df$distance_from_antwerp
 ```
 
 ```{r initialisation}
@@ -259,7 +262,16 @@ thuis bent als \[sic\] ik* om de verspreiding van *gij bent* te toetsen.
 @fig-dynasand toont de resultaten voor de verschillende plaatsen waar
 enquêtes werden afgenomen.
 
-![Een overzicht van de realisatie van 'zijn' in de tweede persoon enkelvoud in de Vlaamse en Nederlandse dialecten](dynasand.png){#fig-dynasand}
+```{r dynasand-load}
+#| echo: FALSE
+#| output: FALSE
+source("../analysis/kloeke.R")
+```
+
+```{r fig-dynasand}
+#| fig-cap: Een overzicht van de realisatie van 'zijn' in de tweede persoon enkelvoud in de Vlaamse en Nederlandse dialecten voor alle vormen met minstens 10 attestaties
+dynasand_plot()
+```
 
 Het valt op dat de verspreiding van *gij bent* in dialect erg beperkt
 is: alleen in Noord-Brabant is de vorm te vinden. Frappant is dat er ook
@@ -581,7 +593,7 @@ Allereerst bekeken we met een mixed-effects logistische regressieanalyse de invl
 |predictor|mogelijke waarden|uitleg|hypothese|
 |---|---|---|---|
 |dialect|`r df$dialect %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|de dialectregio waartoe een tweet behoort|hogere kans op *gij bent* voor Brabantse dialectgebied (hypothese 1)|
-distance_from_antwerp|`r df$distance_from_antwerp %>% min %>% formatd` km - `r df$distance_from_antwerp %>% max %>% formatd` km|de afstand in km van de gerapporteerde gebruikerslocatie tot de in @sec-data-prepare gekozen locatie in de Noorderkempen|hoe dichter de gebruiker bij de Noorderkempen woont, hoe groter de kans op *gij bent* (hypothese 2)|
+distance_from_nkemp|`r df$distance_from_nkemp %>% min %>% formatd` km - `r df$distance_from_nkemp %>% max %>% formatd` km|de afstand in km van de gerapporteerde gebruikerslocatie tot de in @sec-data-prepare gekozen locatie in de Noorderkempen|hoe dichter de gebruiker bij de Noorderkempen woont, hoe groter de kans op *gij bent* (hypothese 2)|
 |is_reply|`r df$is_reply %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|of een tweet in "dialoog" gaat met anderen (en dus informeler is)|*gij bent* komt vaker voor bij tweets die géén andere gebruikers aanspreken (hypothese 3)|
 |gender|`r df$gender %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|het geschatte gender van de gebruiker die de tweet postte|exploratief (geen hypothese)|
 |year|`r df$year %>% min` - `r df$year %>% max`|het jaar waarin een tweet werd gepost|exploratief (geen hypothese)|
@@ -616,7 +628,7 @@ format_table <- function(df) {
 #| output: false
 fit <-
   glm(
-    construction_type ~ dialect + distance_from_antwerp + year +
+    construction_type ~ dialect + distance_from_nkemp + year +
       gender + is_reply,
     family = "binomial",
     data = df
@@ -672,7 +684,7 @@ We zien in de regressietabel ook dat we een correctie moeten toepassen volgens a
 
 ```{r #tbl-mean-dialect-distance}
 #| tbl-cap: "Overzicht van de gemiddelde afstand tot het punt in de Noorderkempen per dialectgebied" 
-mean_dialect_distances <- aggregate(df$distance_from_antwerp,
+mean_dialect_distances <- aggregate(df$distance_from_nkemp,
                                     list(df$dialect), FUN = mean)
 colnames(mean_dialect_distances) <-
   c("dialect", "mean_antwerp_distance")
@@ -693,7 +705,7 @@ library(ggeffects) # effect plots
 predict_args <- paste(mean_dialect_distances$mean_antwerp_distance,
                       collapse = ",")
 predict_args <-
-  paste(c("distance_from_antwerp[", predict_args, "]"),
+  paste(c("distance_from_nkemp[", predict_args, "]"),
         collapse = "")
 
 predictions <-
@@ -776,7 +788,7 @@ distribution <- df_full %>%
     bent_ratio = compute_bent_ratio(construction_type),
     # Just get the first dialect, it will be the same for all tweets
     dialect = dialect[[1]],
-    distance_from_antwerp = distance_from_antwerp[[1]],
+    distance_from_nkemp = distance_from_antwerp[[1]],
     gender = gender[[1]],
     is_reply = mean(as.numeric(is_reply)),
     weights = length(username)
