@@ -826,7 +826,7 @@ Om de interpretatie van het geografische model te vergemakkelijken, bekijken we 
 # todo
 ```
 
-![Een visuele voorstelling van de resultaten van het geografische model TODO vervangen](heatmap.png){#fig-gam-map}
+![Een visuele voorstelling van de resultaten van het geografische model](heatmap.png){#fig-gam-map}
 
 Het valt meteen op dat de algemene resultaten van de mixed-effectsregressie ook terug te zien zijn in de voorspellingen van het geografische model. Het gebruik van *gij bent* is overal in Vlaanderen laag, behalve in het Brabantse dialectgebied. Verder lijkt er ook een gradiëntwerking te zijn, waarbij het gebruik van *gij bent* geleidelijk afneemt naargelang de afstand tot het Brabants vergroot.
 
