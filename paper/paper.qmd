@@ -677,12 +677,12 @@ posthoc_df$null.value <- NULL
 posthoc_df$contrast <- gsub("[()]", "", posthoc_df$contrast)
 posthoc_df$contrast <- gsub("/", "↔", posthoc_df$contrast)
 
+posthoc_df$sig <- ifelse(posthoc_df$adj.p.value <= 0.05, "*", "")
+
 posthoc_df$odds.ratio <- posthoc_df$odds.ratio %>% formatd()
 posthoc_df$std.error <- posthoc_df$std.error %>% formatd()
 posthoc_df$statistic <- posthoc_df$statistic %>% formatd()
 posthoc_df$adj.p.value <- posthoc_df$adj.p.value %>% format_num_col()
-
-posthoc_df$sig <- ifelse(posthoc_df$adj.p.value <= 0.05, "*", "")
 
 colnames(posthoc_df) <- c("contrast", "odds ratio", "standaardfout", "teststatistiek", "p-waarde", "")
 
