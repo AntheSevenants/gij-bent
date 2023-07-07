@@ -812,7 +812,8 @@ Als we descriptief kijken naar de verdeling van de bent-ratio in @fig-bent-ratio
 #| fig-cap: Verdeling van de bent-ratio in de vier provincies
 ggplot(distribution, aes(x = bent_ratio)) +
   geom_histogram(bins=10) +
-  facet_wrap( ~ dialect)
+  facet_wrap( ~ dialect) +
+  labs(y= "Aantal attestaties", x = "bent-ratio")
 ```
 
 ### General Additive Model {#sec-gam}
