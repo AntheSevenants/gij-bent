@@ -170,8 +170,6 @@ een gelijkaardige conclusie (eigen nadruk):
 
 ### 'Gij bent'
 
-#### De alternantie 'gij bent' en 'gij zijt'
-
 De multidimensionaliteit van tussentaal vinden we ook terug in
 bijzondere talige constructies. Zo vinden we in de tussentaal naast het
 historisch traditionele *gij zijt* ook een andere vervoeging van 'zijn'
@@ -220,8 +218,6 @@ In de Hollandse dialectgebieden komt *bent* voor met het nieuwe pronomen
 *jij*, maar dat is niet verplicht. Zo vinden we *bent* met *gij* nog
 steeds terug in Oost-Brabantse dialecten in Nederland als *gij bent*
 [@swanenberg_oost-brabants_2002, 50].
-
-#### 'Gij bent' in Vlaanderen
 
 Hoewel *gij bent* dus voorkomt in Nederland bij de Oost-Brabantse
 dialecten, is de plaats van de constructie in Vlaanderen onduidelijk.
@@ -658,7 +654,7 @@ De regressieanalyse toont de verschillen wanneer één element verandert.
 fit %>% format_table()
 ```
 
-#### Dialect en afstand {#sec-dialect-predictor}
+1. Dialect en afstand
 
 Er zijn significante verschillen in het gebruik van *gij bent* op basis van dialectgebied. Zo zien we dat het verschil in gebruik in het Brabantse dialectgebied significant verschilt van zowel het Limburgse, Oost-Vlaamse als West-Vlaamse dialectgebied. In de Limburgse en Oost-Vlaamse gebieden daalt de kans op *gij bent* tegenover het Brabantse gebied, wat de eerste hypothese lijkt te bevestigen. In het West-Vlaamse gebied, daarentegen, stijgt de kans op *gij bent* juist tegenover het Brabantse gebied, wat minstens eigenaardig te noemen is. We komen zo meteen op die eigenaardigheid terug.
 
@@ -756,19 +752,19 @@ ggplot(predictions) +
   labs(y = "Kans op gij bent", x = "Dialectgebied")
 ```
 
-#### Gesprekskenmerken
+2. Gesprekskenmerken
 
 De regressietabel toont dat wanneer een tweet aansprekingen aan andere gebruikers bevat, de kans op *gij bent* daalt. Dit effect is significant. Als we ervan uitgaan dat de aanwezigheid van een aanspreking de formaliteit van een tweet beïnvloedt, bevestigt dit effect hypothese 3, die poneert dat *gij bent* formeler is dan *gij zijt*.
 
-#### Gender
+3. Gender
 
 Uit de resultaten van de regressieanalyse blijkt dat er een significant verschil is tussen tweets van gebruikers die een vrouwelijke naam toegewezen kregen en tweets van gebruikers die een mannelijke naam toegewezen kregen. Wanneer een tweet wordt toegewezen aan een vrouw, stijgt de kans op het gebruik van *gij bent*. Hoewel enige voorzichtigheid geboden is omdat het hier niet gaat om feitelijke, maar wel automatisch toegewezen genders, lijkt dit te suggereren dat vrouwen meer geneigd zijn om de *bent*-vorm te gebruiken.
 
-#### Tijd
+4. Tijd
 
 De regressieanalyse toont een negatief effect van tijd op het gebruik van *gij bent*, maar dat effect is niet significant. Op basis van de tien jaar aan data die we verzamelden kunnen we dus niet zeggen dat er een bepaalde evolutie in de tijd verbonden is aan het gebruik van *gij bent*.
 
-### Idiolectanalyse
+5. Idiolectanalyse
 
 In dit onderdeel van de analyse bekijken we het aandeel van *gij bent* in het idiolect van de plaatsers van de opgehaalde tweets. Door te kijken naar het gebruik van *gij zijt* en *gij bent* over verschillende tweets van dezelfde gebruikers, kunnen we inzicht krijgen in de mate van variatie tussen beide vormen.
 
@@ -817,7 +813,7 @@ ggplot(distribution, aes(x = bent_ratio)) +
 
 ### General Additive Model {#sec-gam}
 
-We zagen al in @sec-dialect-predictor dat het gebruik van zowel dialectgebied als afstand tot de Noorderkempen als predictoren de interpretatie van de geografische verspreiding bemoeilijkt. Ook stellen deze predictoren de geografische verspreiding van *gij bent* mogelijk te simplistisch voor. Daarom modellleerden we voor dit laatste onderdeel van de analyse het gebruik van *gij bent* rechtstreeks, op basis van de geografische coördinaten van de locaties van de plaatsers van de tweets in ons corpus.
+We zagen al dat het gebruik van zowel dialectgebied als afstand tot de Noorderkempen als predictoren de interpretatie van de geografische verspreiding bemoeilijkt. Ook stellen deze predictoren de geografische verspreiding van *gij bent* mogelijk te simplistisch voor. Daarom modellleerden we voor dit laatste onderdeel van de analyse het gebruik van *gij bent* rechtstreeks, op basis van de geografische coördinaten van de locaties van de plaatsers van de tweets in ons corpus.
 
 Er werd gebruik gemaakt van General Additive Models (GAM's) [@hastie_generalized_1987], een moderne regressietechniek die complexe relaties kan modelleren. GAM's zijn interessant om geografische fenomenen te modelleren omdat ze niet beperkt zijn tot het modelleren van lineaire relaties en de twee geografische assen gezamenlijk kunnen modelleren. Hierdoor kunnen geografische patronen veel nauwkeuriger worden voorgesteld in het model. We volgen hiermee @ghyselen_over_2019, die in hun onderzoek een GAM gebruikten om de verspreiding van het West-Vlaamse voornaamwoord *etwuk* te modelleren. 
 
