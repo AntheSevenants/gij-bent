@@ -24,6 +24,8 @@ include-in-header:
         text-align: center;
       }
       </style>
+crossref:
+  sec-prefix: "Sectie"
 editor: visual
 css: paper.css
 title-block-banner: true
@@ -592,7 +594,7 @@ Het script kan alleen maar mannelijk en vrouwelijk gender toewijzen, omdat dit d
 
 ### Mixed-effects logistische regressieanalyse
 
-Allereerst bekeken we met een mixed-effects logistische regressieanalyse de invloed van vijf verschillende predictoren op het gebruik van *gij bent* en *gij zijt*. We overlopen deze predictoren hieronder en linken ze aan de verschillende hypotheses uit @sec-hypotheses. Door het grote aantal verschillende gebruikers en tweets per gebruiker was het voor het regressiemodel onmogelijk om de variatie onder gebruikers te schatten met een *random effects*-structuur. Om de multifactoriële controle te behouden, werd ervoor gekozen om voor elke gebruiker telkens maar één tweet op te nemen. 
+Allereerst bekeken we met een mixed-effects logistische regressieanalyse de invloed van vijf verschillende predictoren op het gebruik van *gij bent* en *gij zijt*. We overlopen deze predictoren in @tbl-predictors en linken ze aan de verschillende hypotheses uit @sec-hypotheses. Door het grote aantal verschillende gebruikers en tweets per gebruiker was het voor het regressiemodel onmogelijk om de variatie onder gebruikers te schatten met een *random effects*-structuur. Om de multifactoriële controle te behouden, werd ervoor gekozen om voor elke gebruiker telkens maar één tweet op te nemen. 
 
 |predictor|mogelijke waarden|uitleg|hypothese|
 |---|---|---|---|
@@ -601,6 +603,8 @@ distance_from_nkemp|`r df$distance_from_nkemp %>% min %>% formatd` km - `r df$di
 |is_reply|`r df$is_reply %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|of een tweet in "dialoog" gaat met anderen (en dus informeler is)|*gij bent* komt vaker voor bij tweets die géén andere gebruikers aanspreken (hypothese 3)|
 |gender|`r df$gender %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|het geschatte gender van de gebruiker die de tweet postte|exploratief (geen hypothese)|
 |year|`r df$year %>% min` - `r df$year %>% max`|het jaar waarin een tweet werd gepost|exploratief (geen hypothese)|
+
+: Overzicht van alle predictoren in de logistische regressieanalyse {#tbl-predictors}
 
 ```{r table-fit}
 format_num_col <- function(p_value) {
