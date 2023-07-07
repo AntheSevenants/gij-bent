@@ -876,7 +876,7 @@ since:{YEAR}-01-01 until:{YEAR}-12-31
 **Query voor *gij bent***
 
 ```{.code-overflow-wrap}
-(ge OR gij OR gy bent) OR \"bende gij\" -je -jij {YEAR_SNIPPET} lang:nl
+(ge OR gij OR gy bent) OR "bende gij" -je -jij {YEAR_SNIPPET} lang:nl
 ```
 
 **Query voor *gij zijt***
