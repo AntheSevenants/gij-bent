@@ -592,9 +592,9 @@ Het script kan alleen maar mannelijk en vrouwelijk gender toewijzen, omdat dit d
 
 ## Analyse en resultaten
 
-### Mixed-effects logistische regressieanalyse
+### Logistische regressieanalyse
 
-Allereerst bekeken we met een mixed-effects logistische regressieanalyse de invloed van vijf verschillende predictoren op het gebruik van *gij bent* en *gij zijt*. We overlopen deze predictoren in @tbl-predictors en linken ze aan de verschillende hypotheses uit @sec-hypotheses. Door het grote aantal verschillende gebruikers en tweets per gebruiker was het voor het regressiemodel onmogelijk om de variatie onder gebruikers te schatten met een *random effects*-structuur. Om de multifactoriële controle te behouden, werd ervoor gekozen om voor elke gebruiker telkens maar één tweet op te nemen. 
+Allereerst bekeken we met een logistische regressieanalyse de invloed van vijf verschillende predictoren op het gebruik van *gij bent* en *gij zijt*. We overlopen deze predictoren in @tbl-predictors en linken ze aan de verschillende hypotheses uit @sec-hypotheses. Door het grote aantal verschillende gebruikers en tweets per gebruiker was het voor het regressiemodel onmogelijk om de variatie onder gebruikers te schatten met een *random effects*-structuur. Om de multifactoriële controle te behouden, werd ervoor gekozen om voor elke gebruiker telkens maar één tweet op te nemen. 
 
 |predictor|mogelijke waarden|uitleg|hypothese|
 |---|---|---|---|
@@ -838,7 +838,7 @@ Om de interpretatie van het geografische model te vergemakkelijken, bekijken we 
 
 ![Een visuele voorstelling van de resultaten van het geografische model](heatmap.png){#fig-gam-map}
 
-Het valt meteen op dat de algemene resultaten van de mixed-effectsregressie ook terug te zien zijn in de voorspellingen van het geografische model. Het gebruik van *gij bent* is overal in Vlaanderen laag, behalve in het Brabantse dialectgebied. Verder lijkt er ook een gradiëntwerking te zijn, waarbij het gebruik van *gij bent* geleidelijk afneemt naargelang de afstand tot het Brabants vergroot.
+Het valt meteen op dat de algemene resultaten van de regressie ook terug te zien zijn in de voorspellingen van het geografische model. Het gebruik van *gij bent* is overal in Vlaanderen laag, behalve in het Brabantse dialectgebied. Verder lijkt er ook een gradiëntwerking te zijn, waarbij het gebruik van *gij bent* geleidelijk afneemt naargelang de afstand tot het Brabants vergroot.
 
 Wat beter opvalt in deze weergave van de verspreiding van *gij bent* is dat de Noorderkempen het epicentrum van de constructie lijken te zijn. Dit effect is volledig *bottom up* tot stand gekomen: er is geen predictor aanwezig in het model die de afstand tot dit punt meet. Het is ook duidelijk dat *gij bent* niet overal in het Brabantse dialectgebied gebruikt lijkt te worden: naarmate Brussel nadert, keldert het gebruik van *gij bent*. Dit zijn inzichten die met de traditionele regressieanalyse moeilijk of niet te bereiken waren.
 
@@ -846,7 +846,7 @@ De lichtblauwe en donkerblauwe schakeringen in de andere dialectgebieden zijn sl
 
 ## Discussie
 
-In deze studie werd geprobeerd om het gebruik en de verspreiding van het mogelijk tussentalige *gij bent* te modelleren aan de hand van dialectgebied, afstand tot de Noorderkempen, formaliteit, gender en tijd. Uit de resultaten van zowel de mixed-effects logistische regressieanalyse als het General Additive Model blijkt dat er inderdaad een geografisch effect is dat het gebruik van *gij bent* bepaalt. Waar de West-Vlaamse, Oost-Vlaamse en Limburgse dialectgebieden veel vaker *gij zijt* gebruiken dan *gij bent*, is *gij bent* veel populairder in het Brabantse dialectgebied, wat hypothese 1 bevestigt. Uit het geografische model blijkt dan ook dat het epicentrum van *gij bent* in het Brabantse dialectgebied ligt, meer bepaald in de regio van de Noorderkempen, volledig in overeenstemming met observaties van @ooms_brabants_2022. Dit bevestigt hypothese 2. Naarmate Brussel nadert, neemt het gebruik van *gij bent* weer af in het voordeel van *gij zijt*.
+In deze studie werd geprobeerd om het gebruik en de verspreiding van het mogelijk tussentalige *gij bent* te modelleren aan de hand van dialectgebied, afstand tot de Noorderkempen, formaliteit, gender en tijd. Uit de resultaten van zowel de logistische regressieanalyse als het General Additive Model blijkt dat er inderdaad een geografisch effect is dat het gebruik van *gij bent* bepaalt. Waar de West-Vlaamse, Oost-Vlaamse en Limburgse dialectgebieden veel vaker *gij zijt* gebruiken dan *gij bent*, is *gij bent* veel populairder in het Brabantse dialectgebied, wat hypothese 1 bevestigt. Uit het geografische model blijkt dan ook dat het epicentrum van *gij bent* in het Brabantse dialectgebied ligt, meer bepaald in de regio van de Noorderkempen, volledig in overeenstemming met observaties van @ooms_brabants_2022. Dit bevestigt hypothese 2. Naarmate Brussel nadert, neemt het gebruik van *gij bent* weer af in het voordeel van *gij zijt*.
 
 De geografische verspreiding van *gij bent* is interessant. De vorm is vooralsnog alleen populair in het Brabantse dialectgebied, en kent ook een epicentrum dat klassiek niet als 'toonaangevend' wordt beschouwd in de literatuur:
 
