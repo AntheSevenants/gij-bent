@@ -3,7 +3,7 @@ title: |
         '*Zijt* gij dat of *bent* gij dat?'
 subtitle: Een alternantiestudie van de tweede persoon enkelvoud van *zijn* in Vlaamse tussentaal
 abstract: |
-  In Colloquial Belgium Dutch (CBD) a special form of the second person singular of *zijn* ('to be') has appeared: *gij bent*. This construction blends the historically traditional form *gij zijt* with the more formal Standard Dutch *bent* from *jij bent*. Though the construction now appears in CBD, it is said to originate from northern Antwerp dialects. A logistic regression analysis and general additive model of colloquial Flemish tweets show that *gij bent* is popular only in the Brabant dialect area and that usage is highest in the northern Antwerp area. In addition, it is found that *gij bent* is more likely to appear in tweets with general statements rather than conversations, which hints at a formality difference. Tweets thought to come from women also feature more *gij bent*. It is plausible that *gij bent*, though it does not originate from a leading language area, was able to spread throughout the Brabant dialect area because of a formality reinterpretation. While the form likely originates from the northern Antwerp dialects, it might have been reinterpreted as an innovative, hybrid form in CBD, but only in the Brabant area. There is currently no evidence that *gij bent* has spread to other dialect areas.
+  In Colloquial Belgium Dutch (CBD) a special form of the second person singular of *zijn* ('to be') has appeared: *gij bent*. This construction blends the historically traditional form *gij zijt* with the more formal Standard Dutch *bent* from *jij bent*. Though the construction now appears in CBD, it is said to originate from northern Antwerp dialects. A logistic regression analysis and general additive model of colloquial Belgian Dutch tweets show that *gij bent* is popular only in the Brabant dialect area and that usage is highest in the northern Antwerp area. In addition, it is found that *gij bent* is more likely to appear in tweets with general statements rather than conversations, which hints at a formality difference. Tweets thought to come from women also feature more *gij bent*. It is plausible that *gij bent*, though it does not originate from a leading language area, was able to spread throughout the Brabant dialect area because of a formality reinterpretation. While the form likely originates from the northern Antwerp dialects, it might have been reinterpreted as an innovative, hybrid form in CBD, but only in the Brabant area. There is currently no evidence that *gij bent* has spread to other dialect areas.
 abstract-title: Abstract
 author:
   - name: Anthe Sevenants
@@ -234,7 +234,7 @@ Wat regionale variatie betreft, is het weinig plausibel dat *gij bent*
 een algemeen-Vlaams dialectkenmerk is, waardoor het geen algemeen
 tussentalig kenmerk kan zijn. We zagen al dat een dialectkenmerk
 wijdverspreid moet zijn in Vlaanderen om als algemeen-tussentalig te
-kunnen gelden. Alleen in de beschrijving van de Brabantse dialecten door
+kunnen gelden [@taeldeman_zich_2008, 40]. Alleen in de beschrijving van de Brabantse dialecten door
 @ooms_vlaams-brabants_2005 [67] vinden we in een overzicht van de
 *zijn*-vervoeging in het Brabants zowel de constructies *gij zijt* als
 *gij bent* terug. In datzelfde overzicht komt ook de atypische
@@ -323,7 +323,7 @@ waarin het Brabantse dialect gesproken wordt. Die hypothese komt voort
 uit de aanwezigheid van de constructie in de beschrijving van de
 Brabantse dialecten door @ooms_vlaams-brabants_2005 [zie hoger]. 
 @ooms_brabants_2022 typeert het gebruik van *gij bent* als een typisch
-Noorderkempische dialectale eigenaardigheid, maar in DynaSAND-materiaal
+Noorderkempische dialectale eigenaardigheid, maar in het DynaSAND-materiaal
 [@barbiers_dynamische_2006] blijft de constructie onzichtbaar in heel
 Vlaanderen. We zetten onze spreekwoordelijke taalkundige netten hier dus
 erg breed uit en generaliseren het gebruik naar het volledige Brabantse
@@ -372,7 +372,8 @@ kenmerken van sprekers zijn terug te vinden in online gesprekken
 Hoewel er weliswaar verschillen zijn tussen gesproken
 en geschreven informele taal, bijvoorbeeld de afkortingen die gangbaar
 zijn op sociale media, verwachten we hierdoor geen invloed op het
-gebruik van *gij bent*. Tegelijkertijd moeten we de kanttekening maken
+gebruik van *gij bent*. Zo wordt de constructie bijvoorbeeld niet
+afgekort online. Tegelijkertijd moeten we de kanttekening maken
 dat Twitter ook gebruikt wordt door bv. politici om -- in de
 standaardtaal -- politieke standpunten te verspreiden. Aangezien de
 vormen *gij zijt* en *gij bent* zich echter onlosmakelijk in de
@@ -608,7 +609,7 @@ distance_from_nkemp|`r df$distance_from_nkemp %>% min %>% formatd` km - `r df$di
 ```{r table-fit}
 format_num_col <- function(p_value) {
   if (p_value < 0.01) {
-    return("<0.01")
+    return("<0,01")
   } else {
     return(formatd(p_value, 4))
   }
@@ -761,7 +762,7 @@ De regressietabel toont dat wanneer een tweet aansprekingen aan andere gebruiker
 
 #### Gender
 
-Uit de resultaten van de regressieanalyse blijkt dat er een significant verschil is tussen tweets van gebruikers die een vrouwelijke naam toegewezen kregen en tweets van gebruikers die een mannelijke naam toegewezen kregen. Wanneer wordt toegewezen aan een vrouw, stijgt de kans op het gebruik van *gij bent*. Hoewel enige voorzichtigheid geboden is omdat het hier niet gaat om feitelijke, maar wel automatisch toegewezen genders, lijkt dit te suggereren dat vrouwen meer geneigd zijn om de *bent*-vorm te gebruiken.
+Uit de resultaten van de regressieanalyse blijkt dat er een significant verschil is tussen tweets van gebruikers die een vrouwelijke naam toegewezen kregen en tweets van gebruikers die een mannelijke naam toegewezen kregen. Wanneer een tweet wordt toegewezen aan een vrouw, stijgt de kans op het gebruik van *gij bent*. Hoewel enige voorzichtigheid geboden is omdat het hier niet gaat om feitelijke, maar wel automatisch toegewezen genders, lijkt dit te suggereren dat vrouwen meer geneigd zijn om de *bent*-vorm te gebruiken.
 
 #### Tijd
 
