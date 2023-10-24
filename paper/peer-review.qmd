@@ -25,7 +25,7 @@ Dat is een goed idee. Het is inderdaad een beetje zinloos om natiegrenzen ook al
 
 Ik heb alleen nog wat detailopmerkingen:
 
-> - Er wordt gewerkt met Twitterdata en gesuggereerd dat dit soort data een interessante bron is en blijft voor dit soort onderzoek en voor vervolgonderzoek, maar moet er dan niet even vermeld worden dat Twitter vandaag niet meer Twitter heet?
+> Er wordt gewerkt met Twitterdata en gesuggereerd dat dit soort data een interessante bron is en blijft voor dit soort onderzoek en voor vervolgonderzoek, maar moet er dan niet even vermeld worden dat Twitter vandaag niet meer Twitter heet?
 
 Dit artikel werd ingestuurd toen Twitter nog gewoon 'Twitter' heette. Ik heb toegevoegd dat het platform vandaag 'X' heet. Interessant genoeg heeft de koerswijziging bij Twitter er ook voor gezorgd dat het nu onmogelijk is om efficiënt tweets van het platform te downloaden met zogenaamde 'API'-toegang. Daarom is onderzoek, zoals dat van deze studie, jammer genoeg onmogelijk geworden. Ik heb een zin toegevoegd over het belang van de beschikbaarheid van Twitter-data voor academische doeleinden.
 
