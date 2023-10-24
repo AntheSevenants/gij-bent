@@ -175,3 +175,9 @@ paper/*_files
 paper/*.html
 
 EmotioNL/*
+
+distance_viz.html
+error.json
+output/*
+retrieve-tweets.ipynb
+test.ipynb
