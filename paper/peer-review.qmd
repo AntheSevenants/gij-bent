@@ -57,4 +57,6 @@ Ja, dat klopt, maar mijn punt is dat de regressie- en posthocanalyses hier nog g
 
 Ik geef toe dat de theorie achter de GAMs niet eenvoudig is. Hoewel het denk ik nooit mogelijk zal zijn om in een kort stukje de werking volledig uit de doeken te doen, heb ik mijn uitleg wel toegankelijker gemaakt, en heb ik geprobeerd om uit te leggen *waarom* we de smooth en het tensorproduct nodig hebben. Ik hoop dat ik nu een beter idee geef van wat de techniek juist doet.
 
-- Laatste alinea: “De populariteit van gij bent leert ons dat de belangrijkste processen van tussentaal (geen dialect, aantrekking van de standaardtaal) nog steeds doorwerken.”: Lijkt me ook wat een onhandige formulering. Wat wordt bedoeld met ‘processen’? “geen dialect” is geen proces.
+> Laatste alinea: “De populariteit van gij bent leert ons dat de belangrijkste processen van tussentaal (geen dialect, aantrekking van de standaardtaal) nog steeds doorwerken.”: Lijkt me ook wat een onhandige formulering. Wat wordt bedoeld met ‘processen’? “geen dialect” is geen proces.
+
+Ja, echt 'processen' zijn het inderdaad niet. Het zijn meer twee krachten die een bepalende invloed uitoefenen op tussentaal. Ik heb de beschrijving daarom aangepast naar 'krachten' en heb 'geen dialect' vervangen door 'beweging weg van dialact'. Dat is duidelijker en correcter.
