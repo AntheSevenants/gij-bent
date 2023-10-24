@@ -18,3 +18,22 @@ Ja, ik had blind vertrouwd op de auteurs. Nu blijkt dus dat wat zij zeggen eigen
 > Voorts zou de auteur kunnen overwegen om in de conclusie iets te zeggen over 'gij bent' in Nederlands Noord-Brabant (zie de SAND-kaart), omdat dat verspreidingsgebied grenst aan de Noorderkempen
 
 Dat is een goed idee. Het is inderdaad een beetje zinloos om natiegrenzen ook als taalgrenzen te aanzien, aangezien we wéten dat het taalgebied hier eigenlijk vloeiend naar het noorden opschuift. Ik heb opmerkingen toegevoegd over de continuïteit met Nederland, met name Noord-Brabant.
+
+## Reviewer 2
+
+**Algemeen:** Aanzienlijk verbeterd t.o.v. vorige versie --> min of meer klaar voor publicatie!
+
+Ik heb alleen nog wat detailopmerkingen:
+
+> - Er wordt gewerkt met Twitterdata en gesuggereerd dat dit soort data een interessante bron is en blijft voor dit soort onderzoek en voor vervolgonderzoek, maar moet er dan niet even vermeld worden dat Twitter vandaag niet meer Twitter heet?
+
+Dit artikel werd ingestuurd toen Twitter nog gewoon 'Twitter' heette. Ik heb toegevoegd dat het platform vandaag 'X' heet. Interessant genoeg heeft de koerswijziging bij Twitter er ook voor gezorgd dat het nu onmogelijk is om efficiënt tweets van het platform te downloaden met zogenaamde 'API'-toegang. Daarom is onderzoek, zoals dat van deze studie, jammer genoeg onmogelijk geworden. Ik heb een zin toegevoegd over het belang van de beschikbaarheid van Twitter-data voor academische doeleinden.
+
+- p. 1: “Ook gesproken moest de standaardtaal de standaard worden voor alle niet-lokale communicatie": onhandige/gebrekkige formulering
+- p. 2: quote Willemyns: "onderzoekings-object": staat dat zo in de oorspronkelijke bron?
+- Ik zou voetnoot 1 weglaten, want dat lijkt me vandaag voor grote delen van West-Vlaanderen achterhaald (gaat wellicht nog op voor de westelijke periferie, maar niet meer voor centraal en oostelijk West-Vlaanderen)
+- p. 12: XXXXXX: X’en moeten weggewerkt worden - moet nog ingevuld worden
+- Tabel 1: Zorg ervoor dat de tabel op 1 blad verschijnt zodat de kolomtitels niet tweemaal verschijnen en de tekst in de kolommen niet 'onderbroken’ wordt door herhaling van de kolomtitel (wat nu het geval is)
+- p. 14: “Per km weg van de Noorderkempen zien we dat de kans op gij bent afneemt. De regressiecoëfficiënten en posthocanalyse geven daarmee een vertekend beeld.”: dat is toch wat we verwachten op basis van de hypothese: hoe verder van de Noorderkempen, hoe minder ‘gij bent’?
+- De passage op p. over de smooths en de tensor smooth is voor mij niet te volgen. Misschien geen groot probleem. Het uiteindelijke resultaat (figuur 7) is wel heel helder. Niettemin: als dit nog wat transparanter uitgelegd kan worden: graag. Indien niet, dan is dat stukje info gewoon voor de insiders. 
+- Laatste alinea: “De populariteit van gij bent leert ons dat de belangrijkste processen van tussentaal (geen dialect, aantrekking van de standaardtaal) nog steeds doorwerken.”: Lijkt me ook wat een onhandige formulering. Wat wordt bedoeld met ‘processen’? “geen dialect” is geen proces.

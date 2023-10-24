@@ -359,7 +359,7 @@ vrije variatie, of is het gebruik eerder binair in de zin dat slechts
 ### Dataverzameling
 
 Voor dit onderzoek werd gebruik gemaakt van posts van de
-microbloggingsite Twitter. De keuze voor data van een sociaal medium is
+microbloggingsite Twitter (tegenwoordig 'X'). De keuze voor data van een sociaal medium is
 om verschillende redenen opportuun. Allereerst hebben we voor dit
 onderzoek nood aan geschreven, informele taal. 
 @vandekerckhove_perception_2007 [255] bevestigen dat informele online schrijftaal
@@ -855,7 +855,7 @@ Daarmee is nog niet verklaard waarom *gij bent* geen verspreiding kent naar ande
 
 Verder is het jammer dat deze studie beperkt is tot attestaties uit Vlaanderen. Het zou interessant zijn om te zien in hoeverre *gij bent* als fenomeen doorwerkt in Nederland. Er is sowieso continuïteit met de provincie Noord-Brabant, maar de vraag is in welke mate dit het geval is. Daarnaast rijst ook de vraag hoe we fenomenen uit Vlaamse tussentaal kunnen vergelijken met de informele omgangstaal in Nederland.
 
-Ondanks de verschillende onzekerheden die er nog bestaan rond de vorm, laat dit onderzoek zien dat *gij bent* een fenomeen is dat ondertussen uit de spreekwoordelijke Noorderkempische voegen gebarsten is, mogelijk door een herinterpretatie op basis van formaliteit. De populariteit van *gij bent* leert ons dat de belangrijkste processen van tussentaal (geen dialect, aantrekking van de standaardtaal) nog steeds doorwerken. Tegelijkertijd toont dit onderzoek dat socialenetwerksites zoals Twitter een uiterst interessante bron kunnen zijn voor authentiek, informeel taalmateriaal dat anders nagenoeg onmogelijk zou zijn om te verzamelen. Daarbovenop kunnen we gebruik maken van moderne statistische technieken, zoals General Additive Models, om gedetailleerde visualisaties te maken op basis van deze data. Wellicht is het dus interessant om deze mogelijkheden in verder onderzoek nog meer uit te diepen, al dan niet voor *gij bent*.
+Ondanks de verschillende onzekerheden die er nog bestaan rond de vorm, laat dit onderzoek zien dat *gij bent* een fenomeen is dat ondertussen uit de spreekwoordelijke Noorderkempische voegen gebarsten is, mogelijk door een herinterpretatie op basis van formaliteit. De populariteit van *gij bent* leert ons dat de belangrijkste processen van tussentaal (geen dialect, aantrekking van de standaardtaal) nog steeds doorwerken. Tegelijkertijd toont dit onderzoek dat socialenetwerksites zoals Twitter, nu X, een uiterst interessante bron kunnen zijn voor authentiek, informeel taalmateriaal dat anders nagenoeg onmogelijk zou zijn om te verzamelen. Het is daarom belangrijk dat dergelijke toegang voor academisch gebruik ook in de toekomst mogelijk blijft. Daarbovenop kunnen we gebruik maken van moderne statistische technieken, zoals General Additive Models, om gedetailleerde visualisaties te maken op basis van deze data. Wellicht is het dus interessant om deze mogelijkheden in verder onderzoek nog meer uit te diepen, al dan niet voor *gij bent*.
 
 ## Appendix {#appendix .appendix}
 
