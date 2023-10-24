@@ -676,7 +676,7 @@ colnames(posthoc_df) <- c("contrast", "odds ratio", "standaardfout", "teststatis
 posthoc_df
 ```
 
-We zien in de regressietabel ook dat we een correctie moeten toepassen volgens afstand tot de Noorderkempen. Per km weg van de Noorderkempen zien we dat de kans op *gij bent* afneemt. De regressiecoëfficiënten en posthocanalyse geven daarmee een vertekend beeld. De regressie vertrekt vanuit het idee dat de afstand tot het punt in de Noorderkempen '0' is. Voor een locatie in het West-Vlaamse gebied kan zoiets helemaal niet, alsook voor de andere niet-Brabantse dialectgebieden. Om een beter beeld te krijgen van de voorspelde kansen op *gij bent* in de verschillende dialectgebieden, corrigeren we die kansen volgens de gemiddelde afstand tot de Noorderkempen voor elk dialectgebied (zie @tbl-mean-dialect-distance).
+We zien in de regressietabel ook dat we een correctie moeten toepassen volgens afstand tot de Noorderkempen. Per km weg van de Noorderkempen zien we dat de kans op *gij bent* afneemt. De regressiecoëfficiënten en posthocanalyse -- die met deze correctie nog geen rekening houden -- geven daarom een vertekend beeld. De regressie vertrekt vanuit het idee dat de afstand tot het punt in de Noorderkempen '0' is. Voor een locatie in het West-Vlaamse gebied kan zoiets helemaal niet, alsook voor de andere niet-Brabantse dialectgebieden. Om een beter beeld te krijgen van de voorspelde kansen op *gij bent* in de verschillende dialectgebieden, corrigeren we die kansen volgens de gemiddelde afstand tot de Noorderkempen voor elk dialectgebied (zie @tbl-mean-dialect-distance).
 
 ```{r #tbl-mean-dialect-distance}
 #| tbl-cap: "Overzicht van de gemiddelde afstand tot het punt in de Noorderkempen per dialectgebied" 
