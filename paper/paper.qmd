@@ -69,7 +69,7 @@ library(broom)
 library(emmeans)
 
 formatn <- function(number) {
-    format(round(as.numeric(number), 1), nsmall=0, big.mark=".")
+    format(round(as.numeric(number), 1), nsmall=0, big.mark=".", big.interval=4L)
 }
 
 formatd <- function(number, nsmall=2) {
