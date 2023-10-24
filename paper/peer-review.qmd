@@ -37,7 +37,10 @@ Ik heb de zin aangepast. Dankjewel!
 
 Ja, dat staat zo in de oorspronkelijke bron. Het kan zijn dat dit een koppelteken was om een woord af te breken over twee regels, maar de enige versie van het artikel die ik kan terugvinden is een digitale versie op een [webpagina van de dbnl](https://www.dbnl.org/tekst/_nee005200501_01/_nee005200501_01_0026.php). Ik citeer het dus 'as-is'.
 
-- Ik zou voetnoot 1 weglaten, want dat lijkt me vandaag voor grote delen van West-Vlaanderen achterhaald (gaat wellicht nog op voor de westelijke periferie, maar niet meer voor centraal en oostelijk West-Vlaanderen)
+> Ik zou voetnoot 1 weglaten, want dat lijkt me vandaag voor grote delen van West-Vlaanderen achterhaald (gaat wellicht nog op voor de westelijke periferie, maar niet meer voor centraal en oostelijk West-Vlaanderen)
+
+Dat is nieuw voor mij! Zo werd het mij geleerd tijdens mijn studies Nederlands. Ik heb de voetnoot weggehaald.
+
 - p. 12: XXXXXX: X’en moeten weggewerkt worden - moet nog ingevuld worden
 - Tabel 1: Zorg ervoor dat de tabel op 1 blad verschijnt zodat de kolomtitels niet tweemaal verschijnen en de tekst in de kolommen niet 'onderbroken’ wordt door herhaling van de kolomtitel (wat nu het geval is)
 - p. 14: “Per km weg van de Noorderkempen zien we dat de kans op gij bent afneemt. De regressiecoëfficiënten en posthocanalyse geven daarmee een vertekend beeld.”: dat is toch wat we verwachten op basis van de hypothese: hoe verder van de Noorderkempen, hoe minder ‘gij bent’?
