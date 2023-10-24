@@ -33,7 +33,10 @@ Dit artikel werd ingestuurd toen Twitter nog gewoon 'Twitter' heette. Ik heb toe
 
 Ik heb de zin aangepast. Dankjewel!
 
-- p. 2: quote Willemyns: "onderzoekings-object": staat dat zo in de oorspronkelijke bron?
+> p. 2: quote Willemyns: "onderzoekings-object": staat dat zo in de oorspronkelijke bron?
+
+Ja, dat staat zo in de oorspronkelijke bron. Het kan zijn dat dit een koppelteken was om een woord af te breken over twee regels, maar de enige versie van het artikel die ik kan terugvinden is een digitale versie op een [webpagina van de dbnl](https://www.dbnl.org/tekst/_nee005200501_01/_nee005200501_01_0026.php). Ik citeer het dus 'as-is'.
+
 - Ik zou voetnoot 1 weglaten, want dat lijkt me vandaag voor grote delen van West-Vlaanderen achterhaald (gaat wellicht nog op voor de westelijke periferie, maar niet meer voor centraal en oostelijk West-Vlaanderen)
 - p. 12: XXXXXX: X’en moeten weggewerkt worden - moet nog ingevuld worden
 - Tabel 1: Zorg ervoor dat de tabel op 1 blad verschijnt zodat de kolomtitels niet tweemaal verschijnen en de tekst in de kolommen niet 'onderbroken’ wordt door herhaling van de kolomtitel (wat nu het geval is)
