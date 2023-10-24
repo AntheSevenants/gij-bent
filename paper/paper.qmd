@@ -125,9 +125,9 @@ in een groeiend aantal domeinen, zoals op school [@delarue_contrasterende_2014].
 Nu tussentaal steeds dominanter wordt, willen taalkundigen deze
 variëteit van het Nederlands zo goed mogelijk in kaart brengen en
 beschrijven. @willemyns_verkavelingsbrabants_2005 [33] 
-waarschuwt echter dat het "vreselijk
+waarschuwt echter dat het 'vreselijk
 gecompliceerd is het onderzoekings-object \[(tussentaal)\] af te bakenen
-en te definiëren". Die complexiteit vindt haar oorzaak in de meervoudige
+en te definiëren'. Die complexiteit vindt haar oorzaak in de meervoudige
 opbouw van de variëteit, waarvoor @taeldeman_zich_2008 [27] drie
 'ingrediënten' onderscheidt: standaardtalige elementen, dia- of
 regiolectische elementen en nieuwe, typisch tussentalige elementen. Een
@@ -233,10 +233,10 @@ kunnen gelden [@taeldeman_zich_2008, 40]. Alleen in de beschrijving van de Braba
 *zijn*-vervoeging in het Brabants zowel de constructies *gij zijt* als
 *gij bent* terug. In datzelfde overzicht komt ook de atypische
 meervoudsvorm *bennen* voor (bv. *zij bennen*). Volgens de auteurs komt
-die vorm "vooral in het noorden van de provincie Antwerpen" voor
+die vorm 'vooral in het noorden van de provincie Antwerpen' voor
 [@ooms_vlaams-brabants_2005, 67]. In een artikel voor *Brabants Erfgoed*
 noemde Miet Ooms de constructie *gij bent* specifiek een
-"Brabants-Noorder-Kempens eigenaardigheidje":
+'Brabants-Noorder-Kempens eigenaardigheidje':
 
 > Ik rond hier af met een Brabants-Noorder-Kempens
 > eigenaardigheidje: de combinatie *gij bent* en, in inversie, *bent
@@ -328,7 +328,7 @@ dialectgebied.
 
 De tweede hypothese poneert dat *gij bent* haar epicentrum kent in de
 Noorderkempen [@ooms_brabants_2022]. We gaan ervan uit dat het gebruik verder weg
-hiervandaan uitdeemstert, zoals volgens een "golfmodel" [@francois_trees_2014, 168-169].
+hiervandaan uitdeemstert, zoals volgens een 'golfmodel' [@francois_trees_2014, 168-169].
 
 3.  *Gij bent* is formeler dan *gij zijt*.
 
@@ -548,7 +548,7 @@ gebruiken om toch een registeronderscheid te maken in de tweets. Twitter
 laat gebruikers naast tweets *versturen* ook *antwoorden* op tweets.
 Antwoorden op Twitter kunnen uiteindelijk hele conversaties vormen (een
 zogenaamde *Twitter thread*). We kunnen tweets waarin anderen worden
-aangesproken (bv. "\@frankdeboosere welk weer wordt het vandaag?") als
+aangesproken (bv. '\@frankdeboosere welk weer wordt het vandaag?'') als
 een vorm van een gesprek beschouwen. Dergelijke tweets zijn weliswaar
 ver verwijderd van wat we doorgaans als een gesprek zouden beschouwen,
 maar ze verschillen in se toch van 'gewone' tweets, die veeleer een
@@ -586,7 +586,7 @@ Allereerst bekeken we met een logistische regressieanalyse de invloed van vijf v
 |---|---|---|---|
 |dialect|`r df$dialect %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|de dialectregio waartoe een tweet behoort|hogere kans op *gij bent* voor Brabantse dialectgebied (hypothese 1)|
 distance_from_nkemp|`r df$distance_from_nkemp %>% min %>% formatd` km - `r df$distance_from_nkemp %>% max %>% formatd` km|de afstand in km van de gerapporteerde gebruikerslocatie tot de in @sec-data-prepare gekozen locatie in de Noorderkempen|hoe dichter de gebruiker bij de Noorderkempen woont, hoe groter de kans op *gij bent* (hypothese 2)|
-|is_reply|`r df$is_reply %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|of een tweet in "dialoog" gaat met anderen (en dus informeler is)|*gij bent* komt vaker voor bij tweets die géén andere gebruikers aanspreken (hypothese 3)|
+|is_reply|`r df$is_reply %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|of een tweet in 'dialoog' gaat met anderen (en dus informeler is)|*gij bent* komt vaker voor bij tweets die géén andere gebruikers aanspreken (hypothese 3)|
 |gender|`r df$gender %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|het geschatte gender van de gebruiker die de tweet postte|exploratief (geen hypothese)|
 |year|`r df$year %>% min` - `r df$year %>% max`|het jaar waarin een tweet werd gepost|exploratief (geen hypothese)|
 
@@ -629,7 +629,7 @@ fit <-
   )
 ```
 
-@tbl-regression-output toont de resultaten van de regressieanalyse. Die resultaten moeten worden geïnterpreteerd ten opzichte van de referentiesituatie die uitgedrukt wordt onder "Intercept". Die situatie betreft hier:
+@tbl-regression-output toont de resultaten van de regressieanalyse. Die resultaten moeten worden geïnterpreteerd ten opzichte van de referentiesituatie die uitgedrukt wordt onder 'Intercept'. Die situatie betreft hier:
 
 * een attestatie uit het Brabantse taalgebied;
 * zonder gesprekskenmerken;
