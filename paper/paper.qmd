@@ -875,4 +875,4 @@ since:{YEAR}-01-01 until:{YEAR}-12-31
 
 ## Acknowledgements {#acknowledgements .appendix}
 
-Many thanks to Stefano De Pascale for his countless suggestions on how to improve this article. My thanks also go to Manon Buysse and Julie Nys for proofreading this article. Any remaining errors are, of course, my own.
+Many thanks to Stefano De Pascale for his countless suggestions on how to improve this article. My thanks also go to Manon Buysse and Julie Nijs for proofreading this article. Any remaining errors are, of course, my own.
