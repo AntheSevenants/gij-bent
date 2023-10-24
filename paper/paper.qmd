@@ -11,6 +11,13 @@ author:
     orcid: 0000-0002-5055-770X
     affiliations:
       - name: KU Leuven
+keywords:
+  - Dutch
+  - Flemish
+  - corpus linguistics
+  - tussentaal
+  - Standard Language
+  - diaglossia
 format: 
    html:
       df-print: kable
