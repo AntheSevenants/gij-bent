@@ -444,18 +444,9 @@ werd zo voorzien van precieze GPS-coördinaten.
 Een van de hypotheses in dit onderzoek berust op een onderscheid in de
 dialectregio's in Nederlandstalig België. Daarom werd elke tweet van het
 corpus ingedeeld bij haar corresponderende dialectregio op basis van
-de GPS-coördinaten bij die tweet. Het is echter niet mogelijk om de
-Vlaamse provinciegrenzen te gebruiken als dialectgrenzen. Zo reikt het
-Brabantse dialectgebied verder dan de grenzen van de provincie
-Vlaams-Brabant en Antwerpen [@ooms_vlaams-brabants_2005, 21]. Daarnaast
-lijkt er ook geen consensus te bestaan over waar de dialectgrenzen in
-Vlaanderen precies liggen. De westgrens van het Brabantse dialect volgens
-@ooms_vlaams-brabants_2005 [21] komt bijvoorbeeld niet volledig overeen
-met de oostgrens van het Oost-Vlaams volgens @taeldeman_oost-vlaams_2005 [19].
-Daarom werd gekozen voor de algemenere dialectkaart die te vinden is in
-de inleiding van de dialectvolumes van beide auteurs 
-[@ooms_vlaams-brabants_2005; @taeldeman_oost-vlaams_2005, 9]. 
-Die inleiding is van de hand van Nicoline van der Sijs.
+de GPS-coördinaten bij die tweet. Om de afbakening van de verschillende
+dialectregio's te bepalen, werd gebruik gemaakt van de dialectkaart
+uit de inleiding van het themanummer over dialectologie in *Oostvlaamse zanten* [@keymeulen_themanummer_2002, 171].
 
 Een scan van de algemene dialectkaart werd gebruikt als basis voor een
 GeoJSON-kaart[^geojson], een kaart op basis van GPS-coördinaten. De scan werd
@@ -473,8 +464,7 @@ mogelijk imperfecties.
 [^geojson]: GeoJSON is een digitaal formaat waarin geografische data, zoals
     geografische gebieden, kunnen worden gerepresenteerd.
 
-[^transition]: Om de dialectgebieden niet verder te versplinteren werden de
-    overgangsgebieden genegeerd.
+[^transition]: De dialectkaart uit @keymeulen_themanummer_2002 bevat ook overgangsgebieden. Die werden in dit onderzoek genegeerd, omdat het voor de analyse interessanter was om strikte verdelingen tussen dialectgebieden te behouden. Een gevolg daarvan is dat de dialectgrenzen in dit onderzoek eigenlijk nagenoeg overeenkomen met de provinciegrenzen. Een attestatie uit een overgangsgebied werd dus toegewezen volgens de 'harde' grenzen zoals die te zien zijn in @fig-geojson-map.
 
 ![Een schermafbeelding van het ontwerp van de dialectkaart met
 GeoJSON](geojson-map.png){#fig-geojson-map}

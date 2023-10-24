@@ -1,0 +1,16 @@
+
+## Reviewer 1
+
+> De auteur is erin geslaagd om het artikel sterk te verbeteren. Het lijkt klaar voor publicatie.
+
+> Een opmerking toch nog over die overgangsgebieden, zoals dat tussen Oost-Vlaams en Brabants. In voetnoot 4 staat nu "Om de dialectgebieden niet verder te versplinteren werden de overgangsgebieden genegeerd." Ik vraag me dan af hoe een tweet uit zo'n overgangsgebied behandeld is, als Oost-Vlaams of Brabants bijv.?
+
+Een tweet uit een overgangsgebied werd behandeld volgens de 'harde' grenzen die te zien zijn in Figuur 2. Voor de analyse was het interessanter om strikte verdelingen tussen dialectgebieden te behouden. Ik heb extra toelichting toegevoegd aan de relevante sectie in het artikel.
+
+> En als ik vervolgens de kaarten in figuur 2, 3 en 7 bekijk, dan zie ik de provinciegrenzen, niet de grenzen van de dialectgebieden.
+
+Interessant. Dat was mij nog niet opgevallen. Het blijkt dat de 'dialectgrenzen' zoals gedefinieerd in de algemene dialectkaart waarop ik me gebaseerd heb, amper verschilt van de provinciegrenzen. Ik denk echter niet dat dat afbreuk doet aan de conclusies uit het artikel, aangezien de gebruikte gebieden wel nog steeds de verschillende taalgebieden representeren. Ik heb wel een extra opmerking toegevoegd waarin ik zeg dat het negeren van de overgangsgebieden tot gevolg heeft dat de dialectgrenzen *de facto* overeenkomen met de provinciegrenzen.
+
+> In par. 2.2 staat nochtans "Het is echter niet mogelijk om de Vlaamse provinciegrenzen te gebruiken als dialectgrenzen. Zo reikt het Brabantse dialectgebied verder dan de grenzen van de provincie Vlaams-Brabant en Antwerpen".
+
+Voorts zou de auteur kunnen overwegen om in de conclusie iets te zeggen over 'gij bent' in Nederlands Noord-Brabant (zie de SAND-kaart), omdat dat verspreidingsgebied grenst aan de Noorderkempen
