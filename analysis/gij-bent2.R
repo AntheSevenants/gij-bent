@@ -14,12 +14,6 @@ df$dialect <- factor(df$dialect)
 # Turn context into a factor
 df$context <- factor(df$context, levels=c("main", "inversion", "other"))
 
-# Turn emotion into a factor
-df$emotion <- factor(df$emotion)
-df$emotion <- df$emotion %>% 
-                fct_collapse("emotion" = c("fear", "joy", "sadness", "anger"))
-df$emotion <- factor(df$emotion, levels=c("neutral", "emotion"))
-
 # Turn gender into a factor, male = reference
 df$gender <- factor(df$gender, levels=c("male", "female", ""))
 
