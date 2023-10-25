@@ -21,9 +21,8 @@ Dat is een goed idee. Het is inderdaad een beetje zinloos om natiegrenzen ook al
 
 ## Reviewer 2
 
-**Algemeen:** Aanzienlijk verbeterd t.o.v. vorige versie --> min of meer klaar voor publicatie!
-
-Ik heb alleen nog wat detailopmerkingen:
+> **Algemeen:** Aanzienlijk verbeterd t.o.v. vorige versie --> min of meer klaar voor publicatie!
+> Ik heb alleen nog wat detailopmerkingen:
 
 > Er wordt gewerkt met Twitterdata en gesuggereerd dat dit soort data een interessante bron is en blijft voor dit soort onderzoek en voor vervolgonderzoek, maar moet er dan niet even vermeld worden dat Twitter vandaag niet meer Twitter heet?
 
