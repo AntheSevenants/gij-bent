@@ -1031,4 +1031,4 @@ since:{YEAR}-01-01 until:{YEAR}-12-31
 
 ## Dankwoord {#acknowledgements .appendix}
 
-Veel dank aan Stefano De Pasale voor zijn talloze suggesties om dit artikel te verbeteren. Mijn dank gaat ook uit naar Manon Buysse en Julie Nijs, die dit artikel hebben nagelezen. Enige resterende fouten zijn, uiteraard, die van mij.
+Veel dank aan Stefano De Pascale voor zijn talloze suggesties om dit artikel te verbeteren. Mijn dank gaat ook uit naar Manon Buysse en Julie Nijs, die dit artikel hebben nagelezen. Enige resterende fouten zijn, uiteraard, die van mij.
