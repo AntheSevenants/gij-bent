@@ -2,3 +2,7 @@
 *.docx
 *.pdf
 *.md
+
+figuren/*
+!figuren/figuur_2.png
+!figuren/figuur_4.png
