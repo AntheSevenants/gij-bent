@@ -180,3 +180,6 @@ error.json
 output/*
 retrieve-tweets.ipynb
 test.ipynb
+
+README.html
+README_files/
