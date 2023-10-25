@@ -166,7 +166,7 @@ corpus_shared.csv
 output/*.jsonl
 
 *.tsv
-*.sh
+boing.sh
 
 .Rproj.user
 
