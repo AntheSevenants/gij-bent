@@ -1,0 +1,22 @@
+---
+title: "Onderschriften voor artikel *gij bent*"
+---
+
+## Figuren
+
+1. Een overzicht van de realisatie van 'zijn' in de tweede persoon enkelvoud in de Vlaamse en Nederlandse dialecten voor alle vormen met minstens 10 attestaties.
+2. Een schermafbeelding van het ontwerp van de dialectkaart met GeoJSON.
+3. Het Noorderkempisch gebied (in het rood) zoals gedefinieerd door het Departement Omgeving van de Vlaamse Overheid. De zwarte bol duidt ons ijkpunt aan voor de analyse.
+4. Voorbeeld van een antwoord op een tweet op Twitter. In recente iteraties van Twitter wordt de tag niet meer weergegeven (hier: \@Nicole_demoor). In vorige versies van Twitter was de tag deel van de tweet zelf.
+5. Voorspelde kans op *gij bent* in de verschillende Vlaamse dialectgebieden, gecorrigeerd voor afstand.
+6. Verdeling van de bent-ratio in de vier provincies.
+7. Een visuele voorstelling van de resultaten van het geografische model.
+
+## Tabellen
+
+1. Overzicht van alle predictoren in de logistische regressieanalyse.
+2. Output van de regressieanalyse. \* duidt op statistische significantie.
+3. Output van de posthocanalyse. \* duidt op statistische significantie.
+4. Overzicht van de gemiddelde afstand tot het punt in de Noorderkempen per dialectgebied.
+
+Heel erg bedankt!
