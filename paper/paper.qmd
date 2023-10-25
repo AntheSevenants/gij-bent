@@ -4,6 +4,9 @@ title: |
 subtitle: Een alternantiestudie van de tweede persoon enkelvoud van *zijn* in Vlaamse tussentaal
 abstract: |
   In Colloquial Belgian Dutch (CBD) *gij bent*, a special form of the second person singular of *zijn* ('to be'), has appeared, which blends the historically traditional form *gij zijt* with Standard Dutch *bent* from *jij bent*. A logistic regression analysis and general additive model of CBD tweets show that *gij bent* is popular only in the Brabant dialect area and that usage is highest in the northern Antwerp area. *Gij bent* is also more likely to appear in tweets with general statements rather than conversations, which hints at a formality difference. Tweets thought to come from women also feature more *gij bent*. It is plausible that *gij bent* was able to spread throughout the Brabant dialect area because of a formality reinterpretation. While the form likely originates from the northern Antwerp dialects, it might have been reinterpreted as an innovative, hybrid form in CBD, but only in the Brabant area.
+title-eng: |
+  Flemish Flexion
+subtitle-eng: Tracing the innovative second person of 'to be' in Colloquial Belgian Dutch
 abstract-title: Abstract
 author:
   - name: Anthe Sevenants
@@ -18,6 +21,8 @@ keywords:
   - tussentaal
   - Standard Language
   - diaglossia
+keywords_j: Dutch, Flemish, corpus linguistics, tussentaal, Standard Language, diaglossia
+
 format: 
    html:
       df-print: kable
@@ -48,6 +53,7 @@ csl: chicago-author-date.csl
 execute:
   echo: false
 lang: nl
+manuscript: true
 ---
 
 ```{r load-dataset}
@@ -87,6 +93,16 @@ formatp <- function(number) {
     label_percent()(number)
 }
 ```
+
+::: {.content-visible when-meta="manuscript"}
+
+- **English title:** {{< meta title-eng >}}
+- **English subtitle:** {{< meta subtitle-eng >}}
+- **keywords:** {{< meta keywords_j >}}
+
+:::
+
+{{< var version >}}
 
 ## Literatuurstudie en hypotheses
 
@@ -276,10 +292,31 @@ enquêtes werden afgenomen.
 source("../analysis/kloeke.R")
 ```
 
-```{r fig-dynasand}
-#| fig-cap: Een overzicht van de realisatie van 'zijn' in de tweede persoon enkelvoud in de Vlaamse en Nederlandse dialecten voor alle vormen met minstens 10 attestaties
+:::: {#fig-dynasand fig-cap="Een overzicht van de realisatie van 'zijn' in de tweede persoon enkelvoud in de Vlaamse en Nederlandse dialecten voor alle vormen met minstens 10 attestaties."}
+
+::: {.content-hidden when-meta="manuscript"}
+
+```{r}
 dynasand_plot()
 ```
+
+:::
+
+::: {.content-visible when-meta="manuscript"}
+
+**FIGUUR 1 HIER PLAATSEN**
+
+```{r}
+#| echo: FALSE
+#| output: false
+tiff(filename="figuren/figuur_1.tiff", width=15, height=10, units="cm", res=300)
+dynasand_plot()
+dev.off()
+```
+
+:::
+
+::::
 
 Het valt op dat de verspreiding van *gij bent* in dialect erg beperkt
 is: alleen in Noord-Brabant is de vorm te vinden. Frappant is dat er ook
@@ -469,8 +506,21 @@ mogelijk imperfecties.
 
 [^transition]: De dialectkaart uit @keymeulen_themanummer_2002 bevat ook overgangsgebieden. Die werden in dit onderzoek genegeerd, omdat het voor de analyse interessanter was om strikte verdelingen tussen dialectgebieden te behouden. Een gevolg daarvan is dat de dialectgrenzen in dit onderzoek eigenlijk nagenoeg overeenkomen met de provinciegrenzen. Een attestatie uit een overgangsgebied werd dus toegewezen volgens de 'harde' grenzen zoals die te zien zijn in @fig-geojson-map.
 
-![Een schermafbeelding van het ontwerp van de dialectkaart met
-GeoJSON](geojson-map.png){#fig-geojson-map}
+:::: {#fig-geojson-map fig-cap="Een schermafbeelding van het ontwerp van de dialectkaart met GeoJSON."}
+
+::: {.content-hidden when-meta="manuscript"}
+
+![](figuren/figuur_2.png){}
+
+:::
+
+::: {.content-visible when-meta="manuscript"}
+
+**FIGUUR 2 HIER PLAATSEN**
+
+:::
+
+::::
 
 De digitale dialectkaart kon vervolgens worden gebruikt om tweets te
 situeren aan de hand van hun GPS-coördinaten. Het sorteerscript
@@ -511,11 +561,9 @@ noorderkempen <- st_read("../analysis/Noorderkempen/POLYGON.shp")
 noorderkempen <- st_transform(noorderkempen, 4326)
 
 diff <- st_intersection(noorderkempen, flanders)
-```
 
-```{r #fig-noorderkempen}
-#| fig-cap: Het Noorderkempisch gebied (in het rood) zoals gedefinieerd door het Departement Omgeving van de Vlaamse Overheid. De zwarte bol duidt ons ijkpunt aan voor de analyse.
-
+province_plot <- function() {
+  
 ggplot() +
   geom_sf(data = flanders$geometry) +
   geom_sf(data = provinces$geometry) +
@@ -528,12 +576,39 @@ ggplot() +
     fill = "transparent"
   ) +
   geom_point(aes(y=51.321583, x=4.780751)) +
-  annotate("text", y=51.181583, x=4.740751, label="Antwerpen", color="#4f4f4f") +
-  annotate("text", y=50.881583, x=4.740751, label="Vlaams-Brabant", color="#4f4f4f") +
-  annotate("text", y=51.0, x=5.440751, label="Limburg", color="#4f4f4f") +
-  annotate("text", y=51.03, x=3.800751, label="Oost-Vlaanderen", color="#4f4f4f") +
-  annotate("text", y=51.03, x=3.000751, label="West-Vlaanderen", color="#4f4f4f")
+  annotate("text", y=51.181583, x=4.740751, label="Antwerpen", color="#4f4f4f", size=3) +
+  annotate("text", y=50.881583, x=4.740751, label="Vlaams-Brabant", color="#4f4f4f", size=3) +
+  annotate("text", y=51.0, x=5.440751, label="Limburg", color="#4f4f4f", size=3) +
+  annotate("text", y=51.03, x=3.800751, label="Oost-Vlaanderen", color="#4f4f4f", size=3) +
+  annotate("text", y=51.03, x=3.000751, label="West-Vlaanderen", color="#4f4f4f", size=3)
+}
 ```
+
+:::: {#fig-noorderkempen fig-cap="Het Noorderkempisch gebied (in het rood) zoals gedefinieerd door het Departement Omgeving van de Vlaamse Overheid. De zwarte bol duidt ons ijkpunt aan voor de analyse."}
+
+::: {.content-hidden when-meta="manuscript"}
+
+```{r}
+province_plot()
+```
+
+:::
+
+::: {.content-visible when-meta="manuscript"}
+
+**FIGUUR 3 HIER PLAATSEN**
+
+```{r}
+#| echo: FALSE
+#| output: false
+tiff(filename="figuren/figuur_3.tiff", width=15, height=10, units="cm", res=300)
+province_plot()
+dev.off()
+```
+
+:::
+
+::::
 
 Er werd gekozen voor een punt in de Antwerpse gemeente Rijkevorsel als
 ijkpunt voor de analyse.[^coords] Dit punt ligt ongeveer even ver van de
@@ -563,10 +638,21 @@ soort openbare mededelingen zijn en daarom als formeler kunnen worden
 beschouwd. We beschouwen alle tweets waarin iemand wordt 'aangesproken'
 met een tag (@) (zie voorbeeld @fig-tweet-example) als een conversationele tweet.
 
-![Voorbeeld van een antwoord op een tweet op Twitter. In recente
-iteraties van Twitter wordt de tag niet meer weergegeven (hier:
-\@Nicole_demoor). In vorige versies van Twitter was de tag deel van de
-tweet zelf.](tweet-example.png){#fig-tweet-example}
+:::: {#fig-tweet-example fig-cap="Voorbeeld van een antwoord op een tweet op Twitter. In recente iteraties van Twitter wordt de tag niet meer weergegeven (hier: \\@Nicole_demoor). In vorige versies van Twitter was de tag deel van de tweet zelf."}
+
+::: {.content-hidden when-meta="manuscript"}
+
+![](figuren/figuur_4.png)
+
+:::
+
+::: {.content-visible when-meta="manuscript"}
+
+**FIGUUR 4 HIER PLAATSEN**
+
+:::
+
+::::
 
 6. Filteren van verkeerd ingedeelde attestaties
 
@@ -701,53 +787,81 @@ output_table
 
 @fig-dialect-predictions toont de voorspellingen voor het gebruik van *gij bent* per dialectgebied, gecorrigeerd voor afstand, en geeft een veel eenduidiger beeld. In het Brabantse dialectgebied wordt de kans op *gij bent* hoog ingeschat, terwijl de waarden voor het Limburgse, Oost-Vlaamse en West-Vlaamse gebied juist laag uitvallen. De West-Vlaamse anomalie in de regressieresultaten lijkt dus te wijten aan een conflict tussen de dialect- en afstandspredictoren. Om een beter beeld te krijgen van de geografische effecten van *gij bent* operationaliseren we die verspreiding in @sec-gam op een andere manier, maar voorlopig kunnen we hypothese 1 en 2 op basis van deze resultaten wel al bevestigen. 
 
-```{r fig-dialect-predictions}
-#| fig-cap: "Voorspelde kans op 'gij bent' in de verschillende Vlaamse dialectgebieden, gecorrigeerd voor afstand"
+:::: {#fig-dialect-predictions fig-cap="Voorspelde kans op *gij bent* in de verschillende Vlaamse dialectgebieden, gecorrigeerd voor afstand."}
+
+```{r}
+#| echo: FALSE
 library(ggeffects) # effect plots
 
-predict_args <- paste(mean_dialect_distances$mean_antwerp_distance,
-                      collapse = ",")
-predict_args <-
-  paste(c("distance_from_nkemp[", predict_args, "]"),
-        collapse = "")
+gij_bent_chance_plot <- function() {
+  predict_args <- paste(mean_dialect_distances$mean_antwerp_distance,
+                        collapse = ",")
+  predict_args <-
+    paste(c("distance_from_nkemp[", predict_args, "]"),
+          collapse = "")
 
-predictions <-
-  ggpredict(fit, terms = c("dialect", predict_args)) %>%
-  as.data.frame()
+  predictions <-
+    ggpredict(fit, terms = c("dialect", predict_args)) %>%
+    as.data.frame()
 
-# I need to cast "group" back to double type for the join
-predictions$group <-
-  as.double(as.character(predictions$group)) %>% round()
-# Also round the original mean distances
-mean_dialect_distances$mean_antwerp_distance <-
-  mean_dialect_distances$mean_antwerp_distance %>% round()
+  # I need to cast "group" back to double type for the join
+  predictions$group <-
+    as.double(as.character(predictions$group)) %>% round()
+  # Also round the original mean distances
+  mean_dialect_distances$mean_antwerp_distance <-
+    mean_dialect_distances$mean_antwerp_distance %>% round()
 
-predictions <- merge(x = predictions,
-                     y = mean_dialect_distances,
-                     by.x = "group",
-                     by.y = "mean_antwerp_distance")
+  predictions <- merge(x = predictions,
+                       y = mean_dialect_distances,
+                       by.x = "group",
+                       by.y = "mean_antwerp_distance")
 
-# Keep only corresponding rows
-predictions <-
-  predictions[predictions[["x"]] == predictions[["dialect"]], ]
+  # Keep only corresponding rows
+  predictions <-
+    predictions[predictions[["x"]] == predictions[["dialect"]], ]
 
-predictions$label <-
-  (predictions$predicted * 100) %>%
-  round(2) %>%
-  as.character() %>%
-  paste("%", sep = "")
+  predictions$label <-
+    (predictions$predicted * 100) %>%
+    round(2) %>%
+    as.character() %>%
+    paste("%", sep = "")
 
-ggplot(predictions) +
-  geom_errorbar(aes(x = x, ymin = conf.low, ymax = conf.high),
-                width = 0.1,
-                colour = "orange") +
-  geom_point(aes(x = x, y = predicted), colour = "black") +
-  geom_text(aes(x = x, y = predicted, label = label),
-            nudge_x = 0.25,
-            size = 4) +
-  scale_y_continuous(labels = scales::percent) +
-  labs(y = "Kans op gij bent", x = "Dialectgebied")
+  ggplot(predictions) +
+    geom_errorbar(aes(x = x, ymin = conf.low, ymax = conf.high),
+                  width = 0.1,
+                  colour = "orange") +
+    geom_point(aes(x = x, y = predicted), colour = "black") +
+    geom_text(aes(x = x, y = predicted, label = label),
+              nudge_x = 0.25,
+              size = 4) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(y = "Kans op gij bent", x = "Dialectgebied")
+}
 ```
+
+::: {.content-hidden when-meta="manuscript"}
+
+```{r}
+gij_bent_chance_plot()
+```
+
+:::
+
+::: {.content-visible when-meta="manuscript"}
+
+**FIGUUR 5 HIER PLAATSEN**
+
+:::
+
+```{r}
+#| echo: FALSE
+#| output: false
+tiff(filename="figuren/figuur_5.tiff", width=15, height=10, units="cm", res=300)
+gij_bent_chance_plot()
+dev.off()
+```
+
+::::
 
 2. Gesprekskenmerken
 
@@ -801,13 +915,41 @@ distribution$fixed <- ifelse(distribution$bent_ratio == 0 | distribution$bent_ra
 
 Als we descriptief kijken naar de verdeling van de bent-ratio in @fig-bent-ratio, zien we dat het gebruik van *gij bent* verschilt naargelang het dialectgebied. In de Limburgse, Oost-Vlaamse en West-Vlaamse dialectgebieden is er maar één piek, namelijk rond waarde 0 (nooit *bent*), wat vanzelfsprekend is gegeven de resultaten van de regressieanalyse. In het Brabantse dialectgebied zijn er twee pieken, rond waarde 0 (nooit *bent*) en 1 (altijd *bent*), maar daartussen is er wel heel wat ruimte voor variatie.
 
-```{r #fig-bent-ratio}
-#| fig-cap: Verdeling van de bent-ratio in de vier provincies
-ggplot(distribution, aes(x = bent_ratio)) +
+:::: {#fig-bent-ratio fig-cap="Verdeling van de bent-ratio in de vier provincies."}
+
+```{r}
+bent_ratio_plot <- function() {
+  ggplot(distribution, aes(x = bent_ratio)) +
   geom_histogram(bins=10) +
   facet_wrap( ~ dialect) +
   labs(y= "Aantal attestaties", x = "bent-ratio")
+}
 ```
+
+::: {.content-hidden when-meta="manuscript"}
+
+```{r}
+bent_ratio_plot()
+```
+
+:::
+
+::: {.content-visible when-meta="manuscript"}
+
+**FIGUUR 6 HIER PLAATSEN**
+
+```{r}
+```{r}
+#| echo: FALSE
+#| output: false
+tiff(filename="figuren/figuur_6.tiff", width=15, height=10, units="cm", res=300)
+bent_ratio_plot()
+dev.off()
+```
+
+:::
+
+::::
 
 ### General Additive Model {#sec-gam}
 
@@ -825,12 +967,21 @@ Het gebruik van *gij bent* wordt gemodelleerd volgens een *smooth* ($s$) van zow
 
 Om de interpretatie van het geografische model te vergemakkelijken, bekijken we de voorspellingen van het model in @fig-gam-map visueel op een kaart van Vlaanderen. In blauwe gebieden op de kaart is het gebruik van *gij bent* laag, in gele gebieden op de kaart is het gebruik juist hoog. De rode lijnen duiden de verschillende dialectgebieden aan (vlnr. West-Vlaams, Oost-Vlaams, Brabants en Limburgs). Bovenaan in het Brabantse dialectgebied is het Noorderkempengebied aangeduid, dat nog steeds een onderdeel is van het Brabantse dialectgebied. De witte contouren duiden gebieden aan waarin het gebruik van *gij bent* hetzelfde is.
 
-```{r #fig-gam-map}
-#| fig-cap: Een visuele voorstelling van de resultaten van het geografische model
-# todo
-```
+:::: {#fig-gam-map fig-cap="Een visuele voorstelling van de resultaten van het geografische model."}
 
-![Een visuele voorstelling van de resultaten van het geografische model](heatmap.png){#fig-gam-map}
+::: {.content-hidden when-meta="manuscript"}
+
+![](figuren/figuur_7.tiff)
+
+:::
+
+::: {.content-visible when-meta="manuscript"}
+
+**FIGUUR 7 HIER PLAATSEN**
+
+:::
+
+::::
 
 Het valt meteen op dat de algemene resultaten van de regressie ook terug te zien zijn in de voorspellingen van het geografische model. Het gebruik van *gij bent* is overal in Vlaanderen laag, behalve in het Brabantse dialectgebied. Verder lijkt er ook een gradiëntwerking te zijn, waarbij het gebruik van *gij bent* geleidelijk afneemt naargelang de afstand tot het Brabants vergroot.
 
