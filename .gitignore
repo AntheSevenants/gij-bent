@@ -164,7 +164,6 @@ corpus_original/*
 tweets/*.xml
 corpus_shared.csv
 output/*.jsonl
-analysis/*
 
 *.tsv
 *.sh
