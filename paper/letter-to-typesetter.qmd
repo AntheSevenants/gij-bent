@@ -1,0 +1,20 @@
+---
+title: Aan de zetter
+---
+
+Beste zetter,
+
+In dit zip-bestand zouden alle nodige documenten moeten zitten voor mijn artikel rond *gij bent*. Ik heb het artikel geschreven in Quarto, een programma dat van één brondocument automatisch versies kan maken in HTML, Word en PDF. Althans, dat is de bedoeling, want naar mijn ervaring schort er dan aan elke vorm van output wel iets ;-).
+
+De volgende bestanden zouden inbegrepen moeten zijn:
+
+- `paper_print.docx`: de hoofdtekst, inclusief titel en ondertitel in het Nederlands en Engels, abstract en keywords
+    - Alle figuren zijn, zoals gevraagd, vervangen door tekst met **PLAATS FIGUUR X HIER**. De captions bevinden zich in een ander bestand (zie onder).
+    - De tabellen staan wel nog in de tekst. Hun captions bevinden zich ook in een ander bestand.
+    - Er is één tabel waarin een predictor genoemd wordt, `distance_from_nkemp`. Er is sowieso al weinig plaats in die tabel, en woordafbreking met underscores is niet zo eenvoudig. Breek gerust af wanneer nodig; ik heb er zelf al mee zitten knoeien.
+- `captions.docx`: een overzicht van alle onderschriften voor bij de figuren en tabellen. De onderschriften zijn genummerd in volgorde van verschijnen (dus het eerste onderschrift is voor de eerste figuur etc.).
+- `figuren/`: in deze map staan alle figuren. Ik heb ze waar mogelijk gerenderd op 10x15cm, 300 DPI, in TIFF (héél lang geleden dat ik daar nog van had gehoord!).
+    - Er zijn twee schermafbeeldingen bij mijn figuren (figuur 2 en figuur 4). Die zijn gewoon in PNG.
+    - Mocht het nodig zijn, zijn de andere figuren ook toegevoegd als gewone PNG bestanden (die zouden ook lossless moeten zijn).
+
+Mocht er nog iets ontbreken, of heb ik nog iets verkeerd gedaan, laat het dan zeker weten via anthe.sevenants@kuleuven.be. Alvast heel erg bedankt!
