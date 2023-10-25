@@ -102,8 +102,6 @@ formatp <- function(number) {
 
 :::
 
-{{< var version >}}
-
 ## Literatuurstudie en hypotheses
 
 ### De oorsprong van tussentaal
