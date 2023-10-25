@@ -1029,6 +1029,6 @@ since:{YEAR}-01-01 until:{YEAR}-12-31
 (ge OR gij OR gy zijt) OR (ge OR gij OR gy zyt) OR (zijde ge OR zijde gij OR zijde gy) OR (zyde ge OR zyde gij OR zyde gy) OR (zedde ge OR zedde gij OR zedde gy) {YEAR_SNIPPET} -je -jij lang:nl
 ```
 
-## Acknowledgements {#acknowledgements .appendix}
+## Dankwoord {#acknowledgements .appendix}
 
-Many thanks to Stefano De Pascale for his countless suggestions on how to improve this article. My thanks also go to Manon Buysse and Julie Nijs for proofreading this article. Any remaining errors are, of course, my own.
+Veel dank aan Stefano De Pasale voor zijn talloze suggesties om dit artikel te verbeteren. Mijn dank gaat ook uit naar Manon Buysse en Julie Nijs, die dit artikel hebben nagelezen. Enige resterende fouten zijn, uiteraard, die van mij.
