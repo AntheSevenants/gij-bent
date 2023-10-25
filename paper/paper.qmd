@@ -929,7 +929,7 @@ Om de interpretatie van het geografische model te vergemakkelijken, bekijken we 
 
 ::: {.content-hidden when-meta="manuscript"}
 
-![](figuren/figuur_7.tiff)
+![](figuren/figuur_7.png)
 
 :::
 
