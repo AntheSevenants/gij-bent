@@ -681,7 +681,7 @@ distance_from_nkemp|`r df$distance_from_nkemp %>% min %>% formatd` km - `r df$di
 |gender|`r df$gender %>% unique() %>% as.character() %>% sort() %>% paste0(collapse=", ")`|het geschatte gender van de gebruiker die de tweet postte|exploratief (geen hypothese)|
 |year|`r df$year %>% min` - `r df$year %>% max`|het jaar waarin een tweet werd gepost|exploratief (geen hypothese)|
 
-: Overzicht van alle predictoren in de logistische regressieanalyse {#tbl-predictors}
+: Overzicht van alle predictoren in de logistische regressieanalyse. {#tbl-predictors}
 
 ```{r table-fit}
 format_num_col <- function(p_value) {
@@ -726,12 +726,12 @@ fit <-
 * zonder gesprekskenmerken;
 * op afstand 0 van het punt in de Noorderkempen;
 * in het virtuele jaar 0;
-* van een mannelijke plaatser
+* van een mannelijke plaatser.
 
 De regressieanalyse toont de verschillen wanneer één element verandert.
 
 ```{r #tbl-regression-output}
-#| tbl-cap: "Output van de regressieanalyse. * duidt op statistische significantie" 
+#| tbl-cap: "Output van de regressieanalyse. * duidt op statistische significantie." 
 fit %>% format_table()
 ```
 
@@ -742,7 +742,7 @@ Er zijn significante verschillen in het gebruik van *gij bent* op basis van dial
 Uit de *estimated marginal means*-posthoc-testen, getoond in @tbl-posthoc-test, blijkt dat er geen significant verschil is tussen het gebruik van *gij bent* in het Limburgse en Oost-Vlaamse dialectgebied. Tussen andere paren zijn er wel significante verschillen. Op dit moment zien we dus drie verschillende gebieden: (1) het Brabantse dialectgebied, waar *gij bent* frequent wordt gebruikt, (2) de Limburgse en Oost-Vlaamse dialectgebieden, waar *gij bent* minder frequent wordt gebruikt en (3) het West-Vlaamse dialectgebied, waar volgens deze analyse nog een hoger gebruik van *gij bent* zou moeten zijn dan in het Brabantse gebied.
 
 ```{r #tbl-posthoc-test}
-#| tbl-cap: "Output van de posthocanalyse. * duidt op statistische significantie" 
+#| tbl-cap: "Output van de posthocanalyse. * duidt op statistische significantie." 
 posthoc <- emmeans(fit,
                    pairwise ~ dialect,
                    type="response",
@@ -770,7 +770,7 @@ posthoc_df
 We zien in de regressietabel ook dat we een correctie moeten toepassen volgens afstand tot de Noorderkempen. Per km weg van de Noorderkempen zien we dat de kans op *gij bent* afneemt. De regressiecoëfficiënten en posthocanalyse -- die met deze correctie nog geen rekening houden -- geven daarom een vertekend beeld. De regressie vertrekt vanuit het idee dat de afstand tot het punt in de Noorderkempen '0' is. Voor een locatie in het West-Vlaamse gebied kan zoiets helemaal niet, alsook voor de andere niet-Brabantse dialectgebieden. Om een beter beeld te krijgen van de voorspelde kansen op *gij bent* in de verschillende dialectgebieden, corrigeren we die kansen volgens de gemiddelde afstand tot de Noorderkempen voor elk dialectgebied (zie @tbl-mean-dialect-distance).
 
 ```{r #tbl-mean-dialect-distance}
-#| tbl-cap: "Overzicht van de gemiddelde afstand tot het punt in de Noorderkempen per dialectgebied" 
+#| tbl-cap: "Overzicht van de gemiddelde afstand tot het punt in de Noorderkempen per dialectgebied." 
 mean_dialect_distances <- aggregate(df$distance_from_nkemp,
                                     list(df$dialect), FUN = mean)
 colnames(mean_dialect_distances) <-
