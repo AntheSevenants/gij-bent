@@ -911,7 +911,7 @@ dev.off()
 
 ### General Additive Model {#sec-gam}
 
-We zagen al dat het gebruik van zowel dialectgebied als afstand tot de Noorderkempen als predictoren de interpretatie van de geografische verspreiding bemoeilijkt. Ook stellen deze predictoren de geografische verspreiding van *gij bent* mogelijk te simplistisch voor. Daarom modellleerden we voor dit laatste onderdeel van de analyse het gebruik van *gij bent* rechtstreeks, op basis van de geografische coördinaten van de locaties van de plaatsers van de tweets in ons corpus.
+We zagen al dat het gebruik van zowel dialectgebied als afstand tot de Noorderkempen als predictoren de interpretatie van de geografische verspreiding bemoeilijkt. Ook stellen deze predictoren de geografische verspreiding van *gij bent* mogelijk te simplistisch voor. Daarom modelleerden we voor dit laatste onderdeel van de analyse het gebruik van *gij bent* rechtstreeks, op basis van de geografische coördinaten van de locaties van de plaatsers van de tweets in ons corpus.
 
 Er werd gebruik gemaakt van General Additive Models (GAM's) [@hastie_generalized_1987], een moderne regressietechniek die complexe relaties kan modelleren. GAM's zijn interessant om geografische fenomenen te modelleren omdat ze niet beperkt zijn tot het modelleren van lineaire relaties en de twee geografische assen gezamenlijk kunnen modelleren. Hierdoor kunnen geografische patronen veel nauwkeuriger worden voorgesteld in het model. We volgen hiermee @ghyselen_over_2019, die in hun onderzoek een GAM gebruikten om de verspreiding van het West-Vlaamse voornaamwoord *etwuk* te modelleren. 
 
