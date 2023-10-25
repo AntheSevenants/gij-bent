@@ -14,7 +14,7 @@ De volgende bestanden zouden inbegrepen moeten zijn:
     - Er is één tabel waarin een predictor genoemd wordt, `distance_from_nkemp`. Er is sowieso al weinig plaats in die tabel, en woordafbreking met underscores is niet zo eenvoudig. Breek gerust af wanneer nodig; ik heb er zelf al mee zitten knoeien.
 - `captions.docx`: een overzicht van alle onderschriften voor bij de figuren en tabellen. De onderschriften zijn genummerd in volgorde van verschijnen (dus het eerste onderschrift is voor de eerste figuur etc.).
 - `peer-review.docx`: verantwoording voor de editors. Negeren!
-- `figuren/`: in deze map staan alle figuren. Ik heb allemaal gerenderd op 10x15cm, 300 DPI, in TIFF (héél lang geleden dat ik daar nog van had gehoord!).
+- `figuren/`: in deze map staan alle figuren. Ik heb ze allemaal gerenderd op 10x15cm, 300 DPI, in TIFF (héél lang geleden dat ik daar nog van had gehoord!).
     - Er zijn twee schermafbeeldingen bij mijn figuren (figuur 2 en figuur 4). Die zijn gewoon in PNG en hebben misschien rare afmetingen.
     - Mocht het nodig zijn, zijn de andere figuren ook toegevoegd als gewone PNG bestanden (die zouden ook lossless moeten zijn).
 
