@@ -10,7 +10,12 @@ This repository houses all the scripts that were used for the analysis in my art
 
 ## Tweet retrieval and sorting
 
-All `.py` files in the root directory are used for the tweet retrieval and sorting process.
+All `.py` files in the root directory are used for the tweet retrieval and sorting process. These scripts are included for transparency purposes, since you cannot run them anymore for two reasons:
+
+1. It is no longer possible to use the Twitter API / scrape data from Twitter.
+2. I cannot share the dataset in full, because it contains personal information.
+
+These are the files:
 
 1. `1-retrieve-tweets.py`: used to query Twitter. Output is written to jsonl files in `output/`. Now defunct.
 2. `2-sort-tweets.py`: used to create a TSV dataset from the jsonl files. Outputs to TSV.
