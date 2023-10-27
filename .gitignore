@@ -166,6 +166,7 @@ corpus_shared.csv
 output/*.jsonl
 
 *.tsv
+!tweets_geo.tsv
 boing.sh
 
 .Rproj.user
