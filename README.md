@@ -18,6 +18,7 @@ All `.py` files in the root directory are used for the tweet retrieval and sorti
 4. `4-gender-detect.py`: used to guess the gender of tweet authors. Outputs to a separate gender information dataset.
 5. `5-correct.py`: used to find incorrectly retrieved tweets. Outputs a meta information dataset.
 6. `6-merge.py`: used to merge all datasets together and filter wrong tweets. Outputs a final dataset.
+7. `7-anonymise.py`: used to anonymise the dataset so it can be shared without personal data. Outputs the anonymised final dataset.
 
 ## Statistical analysis
 
