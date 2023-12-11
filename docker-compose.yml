@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  rstudio:
+    image: "anthesevenants/gijbent:rstudio"
+    ports: 
+      - "8787:8787"
+      - "8788:8788"
+    environment:
+      PASSWORD: 'gijbent'
+    volumes:
+      - .:/home/rstudio/gij-bent/

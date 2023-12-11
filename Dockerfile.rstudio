@@ -1,0 +1,8 @@
+FROM anthesevenants/gijbent:quarto
+# We start from the R Studio base
+
+# Let's set the working directory correctly (also for the R environment itself)
+RUN echo "setwd(\"/home/rstudio/gij-bent/\")" > ~/../home/rstudio/.Rprofile
+RUN mkdir -p "/home/rstudio/.local/share/rstudio/projects_settings/"
+RUN chmod -R 777 "/home/rstudio/.local/"
+RUN echo "/home/rstudio/gij-bent/analysis/analysis.Rproj" > "/home/rstudio/.local/share/rstudio/projects_settings/last-project-path"
