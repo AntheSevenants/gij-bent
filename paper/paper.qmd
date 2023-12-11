@@ -787,13 +787,14 @@ gij_bent_chance_plot <- function() {
   ggplot(predictions) +
     geom_errorbar(aes(x = x, ymin = conf.low, ymax = conf.high),
                   width = 0.1,
-                  colour = "orange") +
+                  colour = "black") +
     geom_point(aes(x = x, y = predicted), colour = "black") +
     geom_text(aes(x = x, y = predicted, label = label),
               nudge_x = 0.25,
               size = 4) +
     scale_y_continuous(labels = scales::percent) +
-    labs(y = "Kans op gij bent", x = "Dialectgebied")
+    labs(y = "Kans op gij bent", x = "Dialectgebied") +
+    theme_minimal()
 }
 ```
 
@@ -880,7 +881,8 @@ bent_ratio_plot <- function() {
   ggplot(distribution, aes(x = bent_ratio)) +
   geom_histogram(bins=10) +
   facet_wrap( ~ dialect) +
-  labs(y= "Aantal attestaties", x = "bent-ratio")
+  labs(y= "Aantal attestaties", x = "bent-ratio") +
+  theme_minimal()
 }
 ```
 
