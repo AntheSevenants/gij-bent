@@ -38,7 +38,7 @@ include-in-header:
       </style>
 crossref:
   sec-prefix: "Sectie"
-editor: visual
+editor: source
 css: paper.css
 title-block-banner: true
 bibliography: references.bib
