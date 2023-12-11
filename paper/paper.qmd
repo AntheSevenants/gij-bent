@@ -794,7 +794,7 @@ gij_bent_chance_plot <- function() {
               size = 4) +
     scale_y_continuous(labels = scales::percent) +
     labs(y = "Kans op gij bent", x = "Dialectgebied") +
-    theme_minimal()
+    theme_bw()
 }
 ```
 
@@ -882,7 +882,7 @@ bent_ratio_plot <- function() {
   geom_histogram(bins=10) +
   facet_wrap( ~ dialect) +
   labs(y= "Aantal attestaties", x = "bent-ratio") +
-  theme_minimal()
+  theme_bw()
 }
 ```
 
