@@ -40,4 +40,4 @@ I wrote the article in [Quarto](https://quarto.org/). The idea of Quarto is that
 
 ## Reproducibility
 
-As of now, I am unsure how I can distribute the dataset with tweets, since they contain personal information. You can also no longer generate the dataset yourself, since the Twitter scraper is now defunct. I am trying to think of a solution. If you are interested in the meantime, send me an email.
+I have anonymised the dataset with tweets. If you need to consult the full dataset with personal information, send me an email.
