@@ -5,6 +5,7 @@ library(ggthemes) # for map theme
 library(cowplot) # plot_grid
 library(dplyr) # group_by
 library(scales) # percent
+library(nngeo) # removing the Brussels hole
 
 source("gij-bent2.R")
 
@@ -25,51 +26,21 @@ build_gam <- function(df) {
   return(fit)
 }
 
-fit <- build_gam(df_solo)
-
-# What does the model look like?
-fit
-
-summary(fit)
-
-# Generate a preliminary heatmap
-vis.gam(
-  fit,
-  view = c("long", "lat"),
-  plot.type = "contour",
-  color = "heat"
-)
-
 # Shapefiles
 
-# == Flanders ==
+# == Flanders and Wallonia ==
 flanders <- st_read(dsn = "regions/régions_08.shp")
+brussels <- flanders[flanders$Nom == "Bruxelles-Capitale",] # Bonjour
 flanders <-
   flanders[flanders$Nom == "Vlaams Gewest", ] # Wallonia bye
-plot(flanders$geometry) # plot the geometry column (does Flanders show?)
-
-# Bounding box, needed for plotting the negative white overlay
-# The negative white overlay will be used to cover the excess data generated
-# by the GAM predictions
-bounding_box <- st_bbox(flanders)
-bounding_box["xmin"] <- bounding_box["xmin"] - 1500
-bounding_box["xmax"] <- bounding_box["xmax"] + 1500
-bounding_box["ymin"] <- bounding_box["ymin"] - 1500
-bounding_box["ymax"] <- bounding_box["ymax"] + 4000
-
-# Turn the bounding box into geometry
-bounding_box <- bounding_box %>%
-  st_as_sfc() %>%
-  st_as_sf()
-
-# Now, subtract Flanders from the bounding box
-# We end up with a box with a Flanders-shaped hole
-mask <- st_difference(bounding_box, flanders)
-mask_coords = st_transform(mask, 4326) # convert to GPS coordinates system
+flanders <- st_transform(flanders, 4326) # convert to GPS coordinates system
+brussels <- st_transform(brussels, 4326)
 
 # == Noorderkempen area ==
 noorderkempen <- st_read("Noorderkempen/POLYGON.shp")
 noorderkempen <- st_transform(noorderkempen, 4326)
+
+noorderkempen <- st_intersection(flanders, noorderkempen)
 
 # == Dialect area borders ==
 dialects <- st_read("dialects/POLYGON.shp")
@@ -78,12 +49,46 @@ dialects <- st_transform(dialects, 4326)
 # == Municipalities ==
 gemeenten <- st_read("gemeenten/Refgem.shp")
 gemeenten <- st_transform(gemeenten, 4326)
-plot(gemeenten$geometry)
+# Remove superfluous data
+keep_columns <- c("NAAM", "geometry")
+gemeenten <- subset(gemeenten, select = keep_columns)
+# Prepare Brussels for a merger
+# (lol, this is not a political statement I promise)
+brussels$NAAM <- c("Brussel")
+brussels <- subset(brussels, select = keep_columns)
+# Merger! Don't tell the Flemish nationalists
+gemeenten <- rbind(gemeenten, brussels)
 
-# == Provincies ==
+# Read the postal codes dataset
+df_zip <- read.csv("data/zipcode-belgium.csv",
+                   header=FALSE,
+                   col.names = c("zip", "name", "long", "lat"))
+df_zip$key = tolower(df_zip$name)
+
+gemeenten$key = tolower(gemeenten$NAAM)
+
+# Attach zip codes to the map
+gemeenten <- merge(x = gemeenten, y = df_zip, by="key", all.x=TRUE)
+
+# == Provinces ==
 provinces <- st_read("gemeenten/Refprv.shp")
 provinces <- st_transform(provinces, 4326)
 plot(provinces$geometry)
+provinces <- subset(provinces, select = keep_columns)
+
+brabant <- provinces[provinces$NAAM == "Vlaams Brabant",]
+plot(brabant$geometry)
+antwerpen <- provinces[provinces$NAAM == "Antwerpen",]
+plot(antwerpen$geometry)
+groot_brabant <- st_union(brabant, antwerpen)
+plot(groot_brabant$geometry)
+groot_brabant <- st_remove_holes(groot_brabant)
+groot_brabant <- subset(groot_brabant,
+                        select = keep_columns)
+groot_brabant$NAAM <- c("Brabant")
+
+provinces <- rbind(provinces, groot_brabant)
+provinces <- provinces[!(provinces$NAAM %in% c("Vlaams Brabant", "Antwerpen")),]
 
 # Predictions
 # We generate data points to make the tile plot
@@ -95,12 +100,12 @@ logit2prob <- function(logit){
   return(prob)
 }
 
-predict_coords <- function(fit) {
-  long_from <- min(df_solo$long) - 0.015
-  long_to <- max(df_solo$long) + 0.1
+predict_coords <- function(df, fit) {
+  long_from <- min(df$long) - 0.015
+  long_to <- max(df$long) + 0.1
   
-  lat_from <- min(df_solo$lat)
-  lat_to <- max(df_solo$lat) + 0.05
+  lat_from <- min(df$lat)
+  lat_to <- max(df$lat) + 0.05
   
   df_pred <- expand_grid(
     long = seq(
@@ -126,52 +131,77 @@ predict_coords <- function(fit) {
   return(df_pred)
 }
 
-plot_map <- function(df_pred) {
+plot_map <- function(df_pred, gemeenten) {
   # The mighty plot!
   # Do not be surprised if it takes around a minute to generate this plot
   # Tiling the 10.000 predictions is a tough job!
   # color=alpha(gemeenten$value, 0.4),
   ggplot() +
-    geom_sf(data = flanders$geometry) +
     theme_map() +
     #theme(legend.position = "none") +
-    geom_tile(data = df_pred, aes(x = long, y = lat, fill = prob)) +
-    scale_fill_distiller(palette = "YlGnBu", labels = scales::label_percent()) +
     geom_sf(
       data = gemeenten$geometry,
-      fill = "transparent",
-      color = alpha("#c16465", 0.2)
+      aes(fill = gemeenten$prob,
+          color = gemeenten$prob > 0.5),
     ) +
+    scale_fill_distiller(palette = "YlGnBu",
+                         labels = scales::label_percent(),
+                         limits = c(0, 1)) +
+    scale_color_manual(values = c("white", "#323232"),
+                       guide = "none") +
     #geom_sf(data=provinces$geometry, fill="transparent", color=alpha("#c16465", 0.8)) +
     geom_sf(
       data = noorderkempen$geometry,
       color = "#c16465",
-      linewidth = 1,
+      linewidth = 0.5,
       fill = "transparent"
     ) +
     geom_sf(
-      data = dialects$geometry,
+      data = provinces$geometry,
       color = "#c16465",
-      linewidth = 1,
+      linewidth = 0.5,
       fill = "transparent"
     ) +
-    geom_contour(data = df_pred,
-                 aes(x = long, y = lat, z = prob),
-                 colour = "white") +
-    geom_sf(data = mask,
-            fill = 'white',
-            color = "white") +
+    geom_sf_text(
+      data = gemeenten$geometry,
+      check_overlap=T,
+      size=2,
+      aes(label = gemeenten$zip,
+          color = gemeenten$prob > 0.5)) +
     #geom_jitter(data = df, width=0.02, height=0.02, aes(x=long, y=lat, color=df$construction_type)) +
     coord_sf(default_crs = sf::st_crs(4326)) +
     guides(fill=guide_legend(title="Kans op 'gij bent'")) +
     theme(legend.position = "bottom", legend.margin=margin(c(0,0,0,45)))
 }
 
+nearest_point <- function(df_pred, lat, long, column) {
+  # We supply the lat long coordinates to define ap point
+  point <- st_point(c(long, lat)) %>% st_sfc(crs = 4326)
+  
+  point_index <- st_nearest_feature(point, df_pred, longlat=TRUE)
+  
+  #return(point_index)
+  return(df_pred[point_index,][[column]])
+}
+
 df_to_plot <- function(df, too.far=NA) {
   df_pred <- df %>%
     one_user_one_tweet() %>%
     build_gam() %>%
-    predict_coords()
+    predict_coords(df, .)
+  
+  coords <- df_pred %>% st_as_sf(coords = c("long", "lat"), crs=4326)
+  
+  # Copy gemeenten
+  gemeenten_ <- gemeenten
+  
+  # For each town, we want to compute the closest point
+  # From that point, we can get the prediction for that town
+  # And like that, we can make a nice map :)
+  
+  gemeenten_$prob <- apply(gemeenten_, 1, function(row) {
+    nearest_point(coords, row$lat, row$long, "prob")
+  })
   
   if (!is.na(too.far)) {
     too_far <-
@@ -184,8 +214,10 @@ df_to_plot <- function(df, too.far=NA) {
   df_pred$too_far <- too_far
   df_pred <- df_pred[!df_pred$too_far,]
   
-  df_pred %>% plot_map()
+  plot_map(df_pred, gemeenten_)
 }
+
+fit <- build_gam(df_solo)
 
 tiff(filename="../paper/figuren/figuur_7.tiff", width=15, height=10, units="cm", res=300)
 df_to_plot(df_solo)
